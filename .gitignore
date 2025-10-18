@@ -1,0 +1,50 @@
+.gradle
+.idea
+build
+out
+*.iml
+
+# --- Java ---
+*.class
+*.log
+hs_err_pid*
+replay_pid*
+
+# --- Gradle builds ---
+.gradle/
+build/
+out/
+!gradle/wrapper/gradle-wrapper.jar  # keep the wrapper JAR
+# If you ever add distribution folders:
+dist/
+libs/
+
+# --- IDEs ---
+# IntelliJ / Android Studio
+.idea/
+*.iws
+*.ipr
+
+# Eclipse
+.project
+.classpath
+.settings/
+bin/
+
+# VS Code
+.vscode/
+
+# --- OS cruft ---
+.DS_Store
+Thumbs.db
+
+# --- Env / local config (optional) ---
+*.env
+.env*
+local.properties
+
+# --- Tooling caches (optional) ---
+.caches/
+.jacoco/
+.coverage/
+.sonar/

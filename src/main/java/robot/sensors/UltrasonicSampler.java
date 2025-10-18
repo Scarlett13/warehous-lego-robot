@@ -5,6 +5,8 @@ import robot.Main;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static robot.pid.PidLoop.getNext;
+
 /**
  * Owns a single ultrasonic distance mode (meters).
  * Runs a fixed-rate thread that continuously samples and publishes the latest filtered distance in cm.
@@ -55,7 +57,7 @@ public class UltrasonicSampler implements Runnable {
             latestCm = w[w.length / 2];
 
             // fixed-rate pacing
-            tNext = Main.getNext(tNext, periodNs);
+            tNext = getNext(tNext, periodNs);
         }
     }
 
@@ -66,7 +68,6 @@ public class UltrasonicSampler implements Runnable {
 
     private double sanitize(double cm) {
         if (cm <= 0) return stopCm;
-        if (cm > farCm) return farCm;
-        return cm;
+        return Math.min(cm, farCm);
     }
 }

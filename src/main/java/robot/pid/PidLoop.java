@@ -49,7 +49,21 @@ public class PidLoop implements Runnable {
             double out = kp * err + ki * integral + kd * deriv;
             outputConsumer.accept(out);
 
-            tNext = Main.getNext(tNext, periodNs);
+            tNext = getNext(tNext, periodNs);
         }
+    }
+
+    public static long getNext(long next, long periodNs) {
+        next += periodNs;
+        long sleepNs = next - System.nanoTime();
+        if (sleepNs > 1_000_000) {
+            try { Thread.sleep(sleepNs / 1_000_000, (int)(sleepNs % 1_000_000)); } catch (InterruptedException ignored) {}
+        } else if (sleepNs > 0) {
+            Thread.yield();
+        } else {
+            // overrun; real-time best-effort
+            next = System.nanoTime();
+        }
+        return next;
     }
 }

@@ -3,6 +3,7 @@ package robot.sensors;
 import lejos.robotics.SampleProvider;
 import java.util.Arrays;
 
+@Deprecated
 public class UltrasonicSync {
     private final SampleProvider mode;
     private final double farCm;

@@ -1,4 +1,4 @@
-package robot.control;
+package robot.controls;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 

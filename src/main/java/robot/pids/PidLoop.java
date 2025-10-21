@@ -1,12 +1,9 @@
-package robot.pid;
-
-import robot.Main;
+package robot.pids;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.DoubleConsumer;
 import java.util.function.DoubleSupplier;
 
-/** Generic fixed-rate PID loop. Error comes from a sensor-owned supplier. */
 public class PidLoop implements Runnable {
     private final int hz;
     private final double kp, ki, kd, iClamp;

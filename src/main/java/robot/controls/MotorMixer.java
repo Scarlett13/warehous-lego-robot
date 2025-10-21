@@ -1,8 +1,7 @@
-package robot.control;
+package robot.controls;
 
 import ev3dev.actuators.lego.motors.EV3LargeRegulatedMotor;
 
-/** Synchronous mixer: mixes forward + turn into left/right, with slew limiting. */
 public class MotorMixer {
     private final double speedMin, speedMax, turnMax, slewRate;
     private final EV3LargeRegulatedMotor left, right;
@@ -19,7 +18,6 @@ public class MotorMixer {
         this.right = right;
     }
 
-    /** Apply forward setpoint (deg/s) and turn fraction [-turnMax / +turnMax] in one step. */
     public void apply(double forwardDegPerSec, double turnFrac, double dt) {
         // clamp inputs
         double fwd  = clamp(forwardDegPerSec, 0.0, speedMax);

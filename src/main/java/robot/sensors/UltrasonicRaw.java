@@ -4,8 +4,8 @@ import lejos.robotics.SampleProvider;
 import java.util.Arrays;
 
 public class UltrasonicRaw {
-    private final SampleProvider mode;   // already in centimeters
-    private final float[] buf;           // usually size 1
+    private final SampleProvider mode;
+    private final float[] buf;
 
     public UltrasonicRaw(SampleProvider distanceMode) {
         this.mode = distanceMode;
@@ -30,7 +30,7 @@ public class UltrasonicRaw {
                 vals[k++] = v;
             }
 
-            // tiny pause (optional). remove if you want max throughput.
+            // tiny pause
             try { Thread.sleep(2); } catch (InterruptedException ignored) {}
         }
 

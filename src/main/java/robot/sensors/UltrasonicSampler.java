@@ -1,11 +1,10 @@
 package robot.sensors;
 
 import lejos.robotics.SampleProvider;
-import robot.Main;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static robot.pid.PidLoop.getNext;
+import static robot.pids.PidLoop.getNext;
 
 /**
  * Owns a single ultrasonic distance mode (meters).

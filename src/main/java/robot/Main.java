@@ -5,127 +5,133 @@ import ev3dev.sensors.ev3.EV3UltrasonicSensor;
 import lejos.hardware.port.MotorPort;
 import lejos.hardware.port.SensorPort;
 import lejos.robotics.SampleProvider;
-import robot.controls.MotorMixer;
-import robot.sensors.UltrasonicRaw;
 
-import robot.pids.CommonPid;
+import robot.utils.MotorMixer;
+import robot.utils.UltrasonicReadingUtil;
 
 import java.util.Random;
 
 public class Main {
 
+    // -------- Distances (cm) --------
+    public static final double STOP_CM    = 8.0;
+    public static final double RESUME_CM  = 12.0;
+    public static final double AVOID_CM   = 35.0;
+    public static final double FAR_CM     = 200.0;
+    public static final double MAX_CM     = 250.0;
+
+    // -------- Motor & control limits --------
+    public static final double SPEED_MIN  = 320.0;
+    public static final double SPEED_MAX  = 720.0;
+    public static final double TURN_MAX   = 0.60;
+    public static final double SLEW_RATE  = 180.0;
+
+    // -------- Loop timing --------
+    public static final int LOOP_HZ = 20;
+    public static final long PERIOD_NS = 1_000_000_000L / LOOP_HZ;
+
     public static void main(String[] args) {
 
-        // --- Sensor ---
+        // --- Hardware ---
         EV3LargeRegulatedMotor left  = new EV3LargeRegulatedMotor(MotorPort.D);
         EV3LargeRegulatedMotor right = new EV3LargeRegulatedMotor(MotorPort.A);
         EV3UltrasonicSensor usFront  = new EV3UltrasonicSensor(SensorPort.S2);
-        SampleProvider distMode      = usFront.getDistanceMode();
+        SampleProvider distMode = usFront.getDistanceMode(); // returns cm in your setup
 
-        UltrasonicRaw ultrasonic = new UltrasonicRaw(distMode);
+        // --- Median filter (cm) ---
+        UltrasonicReadingUtil ultrasonic = new UltrasonicReadingUtil(distMode);
 
-        CommonPid speedPid = new CommonPid(Constants.PSPEED, Constants.ISPEED, Constants.DSPEED);
-        speedPid.setOutputLimits(-Constants.TRIM_LIMIT, +Constants.TRIM_LIMIT);
-        speedPid.setMaxIOutput(Constants.TRIM_LIMIT * 0.8);
-        speedPid.setSetpointRange(Constants.SETPOINT_RANGE_CM);
-        speedPid.setOutputRampRate(Constants.PID_RAMP_PER_STEP);
-        speedPid.setOutputFilter(Constants.PID_OUTPUT_FILTER);
-        // refer to: https://github.com/tekdemo/MiniPID-Java/blob/master/src/com/stormbots/MiniPID.java
-        // speedPid.setDirection(true);
+        // --- Mixer (forward, turn) -> (left, right) with slew limiting ---
+        MotorMixer mixer = new MotorMixer(SPEED_MIN, SPEED_MAX, TURN_MAX, SLEW_RATE, left, right);
 
-        // --- Mixer (forward, turn) ---
-        MotorMixer mixer = new MotorMixer(Constants.SPEED_MIN, Constants.SPEED_MAX, Constants.TURN_MAX, Constants.SLEW_RATE, left, right);
-
-        // Motor comfort
+        // motor comfort
         left.setAcceleration(300);
         right.setAcceleration(300);
 
         // --- State ---
-        boolean halted   = false;
-        boolean inAvoid  = false;
-        int avoidSide    = 0;
+        boolean halted = false;
+        boolean inAvoid = false;
+        int avoidSide = 0; // -1 = left, +1 = right
         final Random rng = new Random();
 
-        double forwardTarget = 0.0;
-        double turnFrac      = 0.0;
+        double forwardTarget = 0.0; // deg/s
+        double turnFrac = 0.0;      // [-TURN_MAX..+TURN_MAX]
 
         long next = System.nanoTime();
         long prevTick = next;
 
         try {
             while (true) {
-                long now = System.nanoTime();
-                double dt = Math.max(1.0 / Constants.LOOP_HZ, (now - prevTick) / 1e9);
-                prevTick = now;
+//                long now = System.nanoTime();
+//                double dt = Math.max(1.0 / LOOP_HZ, (now - prevTick) / 1e9);
+//                prevTick = now;
+//
+//                // 1) Distance read from ultrasonic sensor
+//                double d = ultrasonic.readRaw();
+//
+//                // 2) Halt / Resume
+//                if (d > 0 && d <= STOP_CM) {
+//                    halted = true;
+//                } else if (halted && d >= RESUME_CM) {
+//                    halted = false;
+//                }
+//
+//                // 3) Avoidance band detection (non-deterministic side selection)
+//                if (!halted && d > STOP_CM && d <= AVOID_CM) {
+//                    if (!inAvoid) {
+//                        // choose a side randomly when entering avoidance
+//                        avoidSide = (rng.nextBoolean() ? +1 : -1);
+//                        inAvoid = true;
+//                    }
+//                } else {
+//                    inAvoid = false;
+//                    avoidSide = 0;
+//                }
+//
+//                // 4) Map distance -> targets (forward & turn)
+//                if (halted || d == 0.0) {
+//                    // d==0 means "no echo" from the filter: be safe and stop
+//                    forwardTarget = 0.0;
+//                    turnFrac = 0.0;
+//                } else {
+//                    // Forward: linear between SPEED_MIN..SPEED_MAX over [RESUME_CM..FAR_CM]
+//                    double dForSpeed = clamp(d, RESUME_CM, FAR_CM);
+//                    double alpha = (dForSpeed - RESUME_CM) / (FAR_CM - RESUME_CM); // 0..1
+//                    forwardTarget = SPEED_MIN + alpha * (SPEED_MAX - SPEED_MIN) * 2;
+//
+//                    // Turn: only inside avoidance band, proportional to "closeness"
+//                    if (inAvoid) {
+//                        // closeness grows from 0 at AVOID_CM to 1 near STOP_CM
+//                        double closeness = (AVOID_CM - clamp(d, STOP_CM, AVOID_CM)) / (AVOID_CM - STOP_CM);
+//                        turnFrac = avoidSide * (closeness * TURN_MAX);
+//                    } else {
+//                        turnFrac = 0.0;
+//                    }
+//                }
+//
+//                // 5) Apply to motors (slew handled by mixer)
+//                if (halted) {
+//                    mixer.apply(0.0, 0.0, dt);
+//                } else {
+//                    mixer.apply(forwardTarget, turnFrac, dt);
+//                }
+//
+//                // 6) Keep ~20 Hz
+//                next += PERIOD_NS;
+//                long sleepNs = next - System.nanoTime();
+//                if (sleepNs > 1_000_000) {
+//                    try { Thread.sleep(sleepNs / 1_000_000, (int)(sleepNs % 1_000_000)); }
+//                    catch (InterruptedException ignored) {}
+//                } else if (sleepNs > 0) {
+//                    Thread.yield();
+//                } else {
+//                    next = System.nanoTime();
+//                }
+                left.setSpeed(300);
+                right.setSpeed(300);
 
-                // 1) Distance
-                double d = ultrasonic.readRaw();
-                if (d == 0.0) d = Constants.FAR_CM;
-
-                // 2) Halt / Resume (reset PID on transitions)
-                if (d >= 0 && d <= Constants.STOP_CM) {
-                    if (!halted) {
-                        halted = true;
-                        speedPid.reset(); // clear I/D, align internal state
-                    }
-                } else if (halted && d >= Constants.RESUME_CM) {
-                    halted = false;
-                    speedPid.reset(); // avoid kick on release
-                }
-
-                // 3) Avoidance band detection (random side, held while in band)
-                if (!halted && d > Constants.STOP_CM && d <= Constants.AVOID_CM) {
-                    if (!inAvoid) {
-                        avoidSide = (rng.nextBoolean() ? +1 : -1);
-                        inAvoid = true;
-                    }
-                } else {
-                    inAvoid = false;
-                    avoidSide = 0;
-                }
-
-                // 4) Forward speed = base (distance map) + PID trim; Turn = simple proportional (no PID)
-                if (halted) {
-                    forwardTarget = 0.0;
-                    turnFrac = 0.0;
-                } else {
-                    // ---- Base speed
-                    double alpha = (clamp(d, Constants.RESUME_CM, Constants.FAR_CM) - Constants.RESUME_CM) / (Constants.FAR_CM - Constants.RESUME_CM); // 0..1
-                    double base  = Constants.SPEED_MIN + alpha * (Constants.SPEED_MAX - Constants.SPEED_MIN);
-
-                    // CommonPid takes (sensor, target) = (d, TARGET_CM)
-                    double trim = speedPid.getOutput(d, Constants.TARGET_CM);
-
-                    forwardTarget = clamp(base + trim, 0.0, Constants.SPEED_MAX);
-
-                    if (inAvoid) {
-                        double closeness = (Constants.AVOID_CM - clamp(d, Constants.STOP_CM, Constants.AVOID_CM)) / (Constants.AVOID_CM - Constants.STOP_CM);
-                        turnFrac = avoidSide * (closeness * Constants.TURN_MAX);
-
-                        forwardTarget = Math.max(forwardTarget, Constants.SPEED_MIN);
-                    } else {
-                        turnFrac = 0.0;
-                    }
-                }
-
-                // 5) Apply to motors
-                if (halted) {
-                    mixer.apply(0.0, 0.0, dt);
-                } else {
-                    mixer.apply(forwardTarget, turnFrac, dt);
-                }
-
-                // 6) Keep ~20 Hz
-                next += Constants.PERIOD_NS;
-                long sleepNs = next - System.nanoTime();
-                if (sleepNs > 1_000_000) {
-                    try { Thread.sleep(sleepNs / 1_000_000, (int)(sleepNs % 1_000_000)); }
-                    catch (InterruptedException ignored) {}
-                } else if (sleepNs > 0) {
-                    Thread.yield();
-                } else {
-                    next = System.nanoTime(); // overrun; resync
-                }
+                left.backward();
+                right.backward();
             }
         } finally {
             try { left.stop(true); right.stop(true); } catch (Exception ignored) {}

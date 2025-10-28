@@ -1,0 +1,48 @@
+package robot.sims;
+
+import jade.core.AID;
+import jade.core.Agent;
+import jade.core.behaviours.Behaviour;
+import jade.core.behaviours.CyclicBehaviour;
+import jade.lang.acl.ACLMessage;
+import jade.lang.acl.MessageTemplate;
+import robot.Constants;
+import robot.RobotContext;
+import robot.dto.DistanceDTO;
+import robot.utils.JsonUtil;
+import robot.utils.TopicHelper;
+
+public class DummyCyclicBehaviour extends CyclicBehaviour {
+    private final AID topic;
+    private final MessageTemplate mt;
+    private final RobotContext ctx;
+
+    public DummyCyclicBehaviour(Agent a, RobotContext ctx) {
+        super(a);
+        this.ctx = ctx;
+        this.topic = TopicHelper.topic(a, Constants.US_DISTANCE_TOPIC);
+
+        MessageTemplate t = MessageTemplate.MatchTopic(topic);
+        t = MessageTemplate.and(t, MessageTemplate.MatchOntology("teletubbies-agent"));
+        t = MessageTemplate.and(t, MessageTemplate.MatchLanguage("json"));
+        this.mt = t;
+    }
+
+    @Override
+    public void onStart() {
+        TopicHelper.subscribe(myAgent, topic);
+    }
+
+    @Override
+    public void action() {
+        ACLMessage msg = myAgent.receive(mt);
+        if (msg != null) {
+            DistanceDTO contentmessage = JsonUtil.fromJson(msg.getContent(), DistanceDTO.class);
+            DistanceDTO latestvalue = ctx.getDistance();
+            System.out.println("from message: " + contentmessage);
+            System.out.println("latest value: " + latestvalue);
+        } else {
+            block();
+        }
+    }
+}

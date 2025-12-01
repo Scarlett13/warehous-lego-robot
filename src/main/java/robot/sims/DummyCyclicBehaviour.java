@@ -2,15 +2,14 @@ package robot.sims;
 
 import jade.core.AID;
 import jade.core.Agent;
-import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
-import robot.Constants;
 import robot.RobotContext;
-import robot.dto.DistanceDTO;
-import robot.utils.JsonUtil;
-import robot.utils.TopicHelper;
+import shared.dto.DistanceDTO;
+import shared.messaging.MessagingConstants;
+import shared.utils.JsonUtil;
+import shared.messaging.TopicHelper;
 
 public class DummyCyclicBehaviour extends CyclicBehaviour {
     private final AID topic;
@@ -20,7 +19,7 @@ public class DummyCyclicBehaviour extends CyclicBehaviour {
     public DummyCyclicBehaviour(Agent a, RobotContext ctx) {
         super(a);
         this.ctx = ctx;
-        this.topic = TopicHelper.topic(a, Constants.US_DISTANCE_TOPIC);
+        this.topic = TopicHelper.topic(a, MessagingConstants.ROBOT_ULTRASONIC_PID_TOPIC);
 
         MessageTemplate t = MessageTemplate.MatchTopic(topic);
         t = MessageTemplate.and(t, MessageTemplate.MatchOntology("teletubbies-agent"));

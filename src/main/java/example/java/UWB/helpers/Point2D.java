@@ -32,6 +32,9 @@ public class Point2D {
     public String toString() {
         return "{x: " + x + ", y:" + y + "}";
     }
+    public String toOpcUa(){
+        return x + ";" + y + ";0.000";
+    }
 
     public static double getAngle(Point2D a, Point2D b, Point2D c) {
         /*

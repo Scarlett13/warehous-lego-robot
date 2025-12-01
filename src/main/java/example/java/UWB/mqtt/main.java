@@ -8,14 +8,16 @@ public class main {
 
     public static void main(String[] args) throws MqttException, InterruptedException {
 
-        UWB.mqtt.TagIdMqtt tag = new UWB.mqtt.TagIdMqtt("685C");
+        TagIdMqtt tag = new TagIdMqtt("682E");
+        System.out.println("sanity check 2");
 
         while (true)
         {
-            TimeUnit.SECONDS.sleep(1);
-            System.out.println("tag location = " + tag.getLocation());
+            TimeUnit.SECONDS.sleep(3);
+            System.out.println("data = " + tag.getData());
+            System.out.println("sanity check");
             // the angle should be set on the default direction
-            System.out.println("tag angle = " + tag.getAngle());
+//            System.out.println("tag angle = " + tag.getAngle());
 
     }
     }

@@ -5,7 +5,7 @@ import jade.core.Agent;
 import jade.core.behaviours.TickerBehaviour;
 import jade.core.messaging.TopicManagementHelper;
 import robot.RobotContext;
-import robot.acl.Acl;
+import shared.messaging.acl.Acl;
 
 public class DummyBehaviour extends TickerBehaviour {
     private final RobotContext ctx;

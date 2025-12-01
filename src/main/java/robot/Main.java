@@ -6,7 +6,7 @@ import lejos.hardware.port.MotorPort;
 import lejos.hardware.port.SensorPort;
 import lejos.robotics.SampleProvider;
 
-import robot.utils.MotorMixer;
+import robot.hardware.MotorMixer;
 import robot.utils.UltrasonicReadingUtil;
 
 import java.util.Random;

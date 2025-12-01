@@ -2,24 +2,21 @@ package robot.agents;
 
 import jade.core.AID;
 import jade.core.Agent;
-import jade.lang.acl.ACLMessage;
-import robot.Constants;
+import robot.RobotConstants;
 import robot.RobotContext;
-import robot.acl.Acl;
-import robot.behaviours.command.DestinationReceiverBehaviour;
-import robot.behaviours.command.PozyxPositionBehaviour;
-import robot.behaviours.motor.MotorActuatorBehaviour;
-import robot.behaviours.pid.SpeedPidBehaviour;
-import robot.behaviours.ultrasonic.UltrasonicReadingBehaviour;
-import robot.dto.DestinationDTO;
-import robot.utils.JsonUtil;
-import robot.utils.MqttUtil;
-import robot.utils.TopicHelper;
+import robot.behaviours.PozyxPositionBehaviour;
+import shared.messaging.acl.Acl;
+import robot.behaviours.MotorActuatorBehaviour;
+import robot.behaviours.UltrasonicReadingBehaviour;
+import shared.dto.old.DestinationDTO;
+import shared.utils.JsonUtil;
+import shared.utils.MqttUtil;
+import shared.messaging.TopicHelper;
 
 import javax.swing.*;
 import java.awt.*;
 
-import static robot.Constants.DESTINATION_TOPIC;
+import static shared.messaging.MessagingConstants.ROBOT_DESTINATION_TOPIC;
 
 
 public class TeletubbiesAgent extends Agent {
@@ -36,20 +33,14 @@ public class TeletubbiesAgent extends Agent {
         ctx.instantiatePid();
 
         try {
-            mqttUtil = new MqttUtil(Constants.MQTT_TAG);
-            topicAID = TopicHelper.topic(this, DESTINATION_TOPIC );
+            mqttUtil = new MqttUtil(RobotConstants.MQTT_TAG);
+            topicAID = TopicHelper.topic(this, ROBOT_DESTINATION_TOPIC);
 
-            addBehaviour(new DestinationReceiverBehaviour(this, ctx));
-            addBehaviour(new PozyxPositionBehaviour(this, 1000 / Constants.LOOP_HZ, ctx, mqttUtil));
-            addBehaviour(new UltrasonicReadingBehaviour(this, 1000 / Constants.LOOP_HZ, ctx));
-//            addBehaviour(new DummyBehaviour(this, 1000 / Constants.LOOP_HZ, ctx, topicHelper));
-//            addBehaviour(new DummyCyclicBehaviour(this, ctx));
-            addBehaviour(new SpeedPidBehaviour(this, 1000/Constants.LOOP_HZ, ctx));
-            addBehaviour(new MotorActuatorBehaviour(this, 1000/Constants.LOOP_HZ, ctx));
+            addBehaviour(new UltrasonicReadingBehaviour(this, 1000 / RobotConstants.LOOP_HZ, ctx));
+            addBehaviour(new PozyxPositionBehaviour(this, 1000/ RobotConstants.LOOP_HZ, ctx, mqttUtil));
+            addBehaviour(new MotorActuatorBehaviour(this, 1000/ RobotConstants.LOOP_HZ, ctx));
 
-//            buildUi();
         } catch (Exception e) {
-//            System.err.println(getLocalName()+" topic setup error: "+e.getMessage());
             e.printStackTrace();
         }
 

@@ -1,6 +1,8 @@
 package robot.utils;
 
-import static robot.Constants.*;
+import shared.utils.CommonPid;
+
+import static robot.RobotConstants.*;
 
 public final class PidUtil {
     public static final class ControlResult {
@@ -58,31 +60,36 @@ public final class PidUtil {
         final double dy = goalYmm - robotYmm;
         final double goalDistanceMm = Math.hypot(dx, dy);
 
+        float target_angle = (float) Math.toDegrees(Math.atan2((double)(dy), (double)(dx)));
+        float diff_angle = target_angle - angle;
+        diff_angle = (float) (((diff_angle + 540.0) % 360.0) - 180.0);
+
         // --- logic to control the robot to stop ---
         final boolean mustStopForObstacle = (obstacleDistCm <= STOP_DISTANCE);
-        final boolean reachedGoal = goalDistanceMm <= DEST_GOAL_STOP;
-
-        System.out.println("x: "+robotXmm+", y: "+robotYmm + ", goalx: "+goalXmm+", goaly: "+goalYmm);
-        System.out.println("dx: "+dx+", dy: "+dy+", goaldistance: "+goalDistanceMm);
-
+        final boolean reachedGoal = (Math.abs(dx) < DEST_GOAL_STOP && Math.abs(dy) < DEST_GOAL_STOP);
         final boolean canResumeObstacle = (obstacleDistCm >= RESUME_DISTANCE);
-        boolean isHalted;
-        if (mustStopForObstacle || reachedGoal) {
-            isHalted = true;
-        } else if (wasHalted && canResumeObstacle && !reachedGoal) {
-            isHalted = false;
-        } else {
-            isHalted = wasHalted;
-        }
+
+        System.out.println("robotx: " + robotXmm+", roboty: " + robotYmm+", goalx: " + goalXmm+", goaly: " + goalYmm);
+        System.out.println("goal distance: " + goalDistanceMm + ", reached goal: " + reachedGoal + ", dx: " + dx + ", dy: " + dy);
+        System.out.println("mustStopForObstacle: " + mustStopForObstacle + ", washalted: "+ wasHalted +", canResumeObstacle: " + canResumeObstacle);
+
+
+        boolean isHalted = reachedGoal
+                || mustStopForObstacle
+                || (wasHalted && !canResumeObstacle);
 
         // --- logic to control the robot turn ---
         boolean isAvoiding = false;
-        int avoidDirection = 0; // -1 = turn left, +1 = turn right, 0 = none
+        int avoidDirection = 0; // -1 = tu rn left, +1 = turn right, 0 = none
+
         final boolean inObstacleBand =  (obstacleDistCm >= STOP_DISTANCE && obstacleDistCm <= AVOID_DISTANCE);
-        final boolean nearGoalTurnBand = goalDistanceMm < DEST_GOAL_TURN;
+        final boolean nearGoalTurnBand = Math.abs(diff_angle) > DEST_GOAL_TURN_ANGLE;
+        System.out.println("inObstacleBand: " + inObstacleBand+", nearGoalTurnBand: " + nearGoalTurnBand);
+        System.out.println("angle: " + angle+", diff_angle: " + diff_angle+", target_angle: " + target_angle);
+
         if (!isHalted && (inObstacleBand || nearGoalTurnBand)) {
             isAvoiding = true;
-            avoidDirection = destinationIsLeft(robotXmm, robotYmm, goalXmm, goalYmm) ? -1 : +1;
+            avoidDirection = diff_angle < (DEST_GOAL_TURN_ANGLE * -1) ? -1 : +1;
         }
 
         // --- logic to calculate the speed factor of the motor  ---
@@ -98,8 +105,8 @@ public final class PidUtil {
         double desiredSpeed = lerp(SPEED_MIN, SPEED_MAX, speedFactor);
 
         // Hard stops at near edges
-        if (goalDistanceMm <= DEST_GOAL_STOP) desiredSpeed = 0.0;
-        if (isAvoiding) desiredSpeed = 0.0;
+//        if (goalDistanceMm <= DEST_GOAL_STOP) desiredSpeed = 0.0;
+//        if (isAvoiding) desiredSpeed = 0.0;
 
         // --- apply the speed factor to the PID to get desired speed---
         speedPid.setSetpoint(desiredSpeed);
@@ -127,8 +134,8 @@ public final class PidUtil {
         if (isAvoiding) {
             double intensity;
             if (nearGoalTurnBand) {
-                // turn whe near the goal
-                intensity = clamp01(1.0 - (goalDistanceMm / DEST_GOAL_TURN));
+                // turn when near the goal
+                intensity = clamp01(1.0 - Math.abs((diff_angle / DEST_GOAL_TURN_ANGLE)));
             } else {
                 // turn when near obstacle
                 double d = clamp(obstacleDistCm, STOP_DISTANCE, AVOID_DISTANCE);
@@ -141,6 +148,7 @@ public final class PidUtil {
         if (isHalted) {
             newSpeedCmd = 0.0;
             turnFraction = 0.0;
+            speedPid.reset();
         }
 
         return new ControlResult(newSpeedCmd, turnFraction, isHalted, isAvoiding, avoidDirection, reachedGoal);
@@ -148,14 +156,14 @@ public final class PidUtil {
 
     // ----------------- small helpers -----------------
 
-    private static double toUnitInterval(double value, double near, double far) {
+    public static double toUnitInterval(double value, double near, double far) {
         if (Double.isNaN(value)) return 0.5; // neutral if unknown
         if (far <= near) return 0.0;
         double t = (value - near) / (far - near);
         return clamp01(t);
     }
 
-    private static double clamp01(double v) {
+    public static double clamp01(double v) {
         return (v < 0.0) ? 0.0 : Math.min(v, 1.0);
     }
 
@@ -165,11 +173,11 @@ public final class PidUtil {
         return (dy - ry) > 0.0;
     }
 
-    private static double clamp(double v, double lo, double hi) {
+    public static double clamp(double v, double lo, double hi) {
         return Math.max(lo, Math.min(hi, v));
     }
 
-    private static double lerp(double a, double b, double t) {
+    public static double lerp(double a, double b, double t) {
         return a + (b - a) * t;
     }
 

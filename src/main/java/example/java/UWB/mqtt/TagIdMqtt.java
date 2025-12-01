@@ -1,4 +1,4 @@
-package UWB.mqtt;
+package example.java.UWB.mqtt;
 
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
@@ -11,13 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-public class TagIdMqtt {
-    // Address of online pozyx broker
-    private final String host = "wss://mqtt.cloud.pozyxlabs.com:443";
-    private final String topic = "61d730870295a7f3798fdb31";
-    private final String username = "61d730870295a7f3798fdb31";
-    private final String password = "1d761f94-6fe7-4549-aaa5-73a4ffecc2ee";
+import static robot.RobotConstants.*;
 
+public class TagIdMqtt {
     private MqttClient client;
     private final String tagId;
     private final Object lock = new Object();
@@ -26,6 +22,7 @@ public class TagIdMqtt {
     volatile Point2D notSmoothened;
     public final List<Point2D> locations = new ArrayList<>();
     private float angle;
+    private JSONObject data = new JSONObject();
 
     public TagIdMqtt(String tagId) throws MqttException {
         this.tagId = tagId;
@@ -49,6 +46,10 @@ public class TagIdMqtt {
 
     public boolean isNewMessage() {
         return new_message;
+    }
+
+    public JSONObject getData(){
+        return data;
     }
 
     public Point2D getSmoothenedLocation(int window) {
@@ -78,7 +79,7 @@ public class TagIdMqtt {
     }
 
     private MqttClient create_client() throws MqttException {
-        return create_client(host, topic, username, password);
+        return create_client(MQTT_HOST, MQTT_TOPIC, MQTT_USERNAME, MQTT_PASSWORD);
     }
 
     private MqttClient create_client(String host, String topic, String username, String password) throws MqttException {
@@ -144,6 +145,7 @@ public class TagIdMqtt {
                             if (Integer.parseInt(tagId, 16) == json.getInt("tagId")) {
                                 if (json.getBoolean("success")) {
                                     new_message = true;
+                                    data = json.getJSONObject("data");
                                     JSONObject coordinates = json.getJSONObject("data").getJSONObject("coordinates");
                                     JSONObject orientation = json.getJSONObject("data").getJSONObject("orientation");
                                     locations.add(new Point2D(coordinates.getInt("x"), coordinates.getInt("y")));

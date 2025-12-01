@@ -3,14 +3,14 @@ package robot.sims;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.lang.acl.ACLMessage;
-import robot.dto.DestinationDTO;
-import robot.utils.JsonUtil;
-import robot.utils.TopicHelper;
+import shared.dto.old.DestinationDTO;
+import shared.utils.JsonUtil;
+import shared.messaging.TopicHelper;
 
 import javax.swing.*;
 import java.awt.*;
 
-import static robot.Constants.DESTINATION_TOPIC;
+import static shared.messaging.MessagingConstants.ROBOT_DESTINATION_TOPIC;
 
 public class DestinationSenderSim extends Agent {
 
@@ -23,7 +23,7 @@ public class DestinationSenderSim extends Agent {
         System.out.println(getLocalName() + " starting…");
         try {
             // For a publisher you only need the AID; no register() needed
-            topicAID = TopicHelper.topic(this, DESTINATION_TOPIC );
+            topicAID = TopicHelper.topic(this, ROBOT_DESTINATION_TOPIC);
         } catch (Exception e) {
             e.printStackTrace();
             doDelete();

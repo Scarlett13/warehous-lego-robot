@@ -2,6 +2,7 @@ package robot.utils;
 
 import lejos.robotics.SampleProvider;
 
+@Deprecated
 public class UltrasonicReadingUtil {
     private final SampleProvider mode;
     private final float[] buf;

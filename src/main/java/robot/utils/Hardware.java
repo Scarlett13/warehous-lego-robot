@@ -2,14 +2,11 @@ package robot.utils;
 
 import ev3dev.actuators.lego.motors.EV3LargeRegulatedMotor;
 import ev3dev.sensors.ev3.EV3UltrasonicSensor;
-import lejos.hardware.port.MotorPort;
-import lejos.hardware.port.SensorPort;
-import lejos.robotics.SampleProvider;
-import robot.Constants;
+import robot.RobotConstants;
+import robot.hardware.MotorMixer;
 import robot.sims.UltrasonicReadingUtilDummy;
 
-import static robot.Constants.*;
-
+@Deprecated
 public final class Hardware {
     private static final Hardware INSTANCE = new Hardware();
 
@@ -63,12 +60,12 @@ public final class Hardware {
 
     // Guard getters so they’re not used in sim
     public EV3LargeRegulatedMotor left() {
-        if (Constants.IS_SIMS) throw new IllegalStateException("left() not available in SIM mode");
+        if (RobotConstants.IS_SIMS) throw new IllegalStateException("left() not available in SIM mode");
         return left;
     }
 
     public EV3LargeRegulatedMotor right() {
-        if (Constants.IS_SIMS) throw new IllegalStateException("right() not available in SIM mode");
+        if (RobotConstants.IS_SIMS) throw new IllegalStateException("right() not available in SIM mode");
         return right;
     }
 

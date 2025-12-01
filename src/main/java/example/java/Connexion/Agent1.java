@@ -1,6 +1,6 @@
 package example.java.Connexion;
 
-import UWB.mqtt.TagIdMqtt;
+import example.java.UWB.mqtt.TagIdMqtt;
 import jade.core.Agent;
 import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.CyclicBehaviour;
@@ -11,8 +11,7 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import java.awt.geom.Point2D;
 
 public class Agent1 extends Agent {
-    int[] path = new int[]{8645, 14758, 11319, 15157, 12684,
-                        14234, 12706, 14870, 14005, 15059};
+    int[] path = new int[]{};
     int path_iterator = 0;
 
     static int ultra_front =0;
@@ -41,7 +40,7 @@ public class Agent1 extends Agent {
 
     static {
         try {
-            tag = new TagIdMqtt("682E");
+            tag = new TagIdMqtt("685C");
         } catch (MqttException e) {
             e.printStackTrace();
         }
@@ -159,6 +158,7 @@ public class Agent1 extends Agent {
 
                 loc = tag.getSmoothenedLocation(10);
                 if (loc == null || (loc.x == 0 && loc.y == 0)) {
+                    System.out.println("Esperant fix Pozyx vàlid per al tag 685C...");
                     block(500);
                     return;
                 }
@@ -207,7 +207,10 @@ public class Agent1 extends Agent {
 
 
                     if (Math.abs(target_x - x) < 100 && Math.abs(target_y - y) < 100) {    // old params diff_angle > 10 && diff_angle <= 180, diff_angle < 350 && diff_angle > 180
-                        path_iterator += 2;
+//                        if (path_iterator >= path.length - 1) {}
+//                        path_iterator += 2;
+                        Device2.setSpeed(0);
+                        addBehaviour(stop);
                     } else if (diff_angle > 10) {
                         Device2.setSpeed(250);
                         addBehaviour(turn_right);
@@ -224,7 +227,7 @@ public class Agent1 extends Agent {
                 }
 
             } catch (Exception e) {
-                e.printStackTrace();
+                System.out.println(e);
             }
         }
 

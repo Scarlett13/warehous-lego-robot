@@ -1,6 +1,6 @@
 package robot.sims;
 
-import robot.utils.CommonPid;
+import shared.utils.CommonPid;
 
 public class PidTest {
 

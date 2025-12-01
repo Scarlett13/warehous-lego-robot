@@ -1,10 +1,5 @@
 package robot.sims;
 
-import lejos.robotics.SampleProvider;
-import robot.Constants;
-
-import java.util.concurrent.ThreadLocalRandom;
-
 public class UltrasonicReadingUtilDummy {
     private static final int MAX = 200;     // start & max
     private static final int HOLD_SEC = 5;  // 0..4 → 200

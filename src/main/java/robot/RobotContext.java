@@ -1,30 +1,34 @@
 package robot;
 
-import robot.dto.*;
+import shared.DistancePidResultDTO;
+import shared.dto.*;
 import robot.sims.UltrasonicReadingUtilDummy;
-import robot.utils.CommonPid;
+import shared.dto.old.DestinationDTO;
+import shared.dto.old.PositionDTO;
+import shared.utils.CommonPid;
 import robot.utils.RobotState;
 
-import static robot.Constants.*;
+import static robot.RobotConstants.*;
 
 
 public class RobotContext {
-    private volatile RobotState state               = RobotState.STANDBY;
+    private volatile RobotState state                            = RobotState.STANDBY;
 
-    private volatile DistanceDTO lastDistance       = new DistanceDTO(0,0);
-    private volatile PositionDTO lastPosition       = new PositionDTO(0, 0,0,0);
-    private volatile DestinationDTO lastDestination = new DestinationDTO(0, 0, 0);
-    private volatile SpeedDTO lastMotorSpeed        = new SpeedDTO(0, 0);
-    private volatile TurnDTO lastTurnSpeed          = new TurnDTO(0, 0);
-    private volatile MotorStateDTO lastMotorState   = new MotorStateDTO(0, true, false);
-    private static final CommonPid speedPid         = new CommonPid(PSPEED, ISPEED, DSPEED);
+    private volatile DistanceDTO lastDistance                    = new DistanceDTO(0,0);
+    private volatile DistancePidResultDTO lastDistancePidResult  = new DistancePidResultDTO(0, 0, false, false);
+    private volatile PositionDTO lastPosition                    = new PositionDTO(0, 0,0,0);
+
+    private volatile DestinationDTO lastDestination              = new DestinationDTO(0, 0, 0);
+
+    private static final CommonPid distancePid                   = new CommonPid(PSPEED, ISPEED, DSPEED);
+
     private final UltrasonicReadingUtilDummy dummyUltrasonic = new UltrasonicReadingUtilDummy();
 
     public void instantiatePid(){
-        speedPid.setOutputLimits(200);
-        speedPid.setSetpoint(0);
-        speedPid.setSetpoint(SPEED_MAX);
-        speedPid.setSetpointRange(SPEED_MIN);
+        distancePid.setOutputLimits(200);
+        distancePid.setSetpoint(0);
+        distancePid.setSetpoint(SPEED_MAX);
+        distancePid.setSetpointRange(SPEED_MIN);
 
     }
 
@@ -44,51 +48,45 @@ public class RobotContext {
         lastDistance = d;
     }
 
-    public PositionDTO getPosition() {
-        return lastPosition;
-    }
-
-    public void setPosition(PositionDTO p) {
-        lastPosition = p;
-    }
-
-    public DestinationDTO getDestination() {
-        return lastDestination;
-    }
-
-    public void setDestination(DestinationDTO d) {
-        lastDestination = d;
-    }
-
-    public MotorStateDTO getLastMotorState() {
-        return lastMotorState;
-    }
-
-    public void setLastMotorState(MotorStateDTO lastMotorState) {
-        this.lastMotorState = lastMotorState;
-    }
-
-    public TurnDTO getLastTurnSpeed() {
-        return lastTurnSpeed;
-    }
-
-    public void setLastTurnSpeed(TurnDTO lastTurnSpeed) {
-        this.lastTurnSpeed = lastTurnSpeed;
-    }
-
-    public SpeedDTO getLastMotorSpeed() {
-        return lastMotorSpeed;
-    }
-
-    public void setLastMotorSpeed(SpeedDTO lastMotorSpeed) {
-        this.lastMotorSpeed = lastMotorSpeed;
-    }
-
-    public CommonPid getSpeedPid() {
-        return speedPid;
+    public CommonPid getDistancePid() {
+        return distancePid;
     }
 
     public UltrasonicReadingUtilDummy getDummyUltrasonic() {
         return this.dummyUltrasonic;
+    }
+
+
+
+    public DistancePidResultDTO getLastDistancePidResult() {
+        return lastDistancePidResult;
+    }
+
+    public void setLastDistancePidResult(DistancePidResultDTO lastDistancePidResult) {
+        this.lastDistancePidResult = lastDistancePidResult;
+    }
+
+    public DistanceDTO getLastDistance() {
+        return lastDistance;
+    }
+
+    public void setLastDistance(DistanceDTO lastDistance) {
+        this.lastDistance = lastDistance;
+    }
+
+    public PositionDTO getLastPosition() {
+        return lastPosition;
+    }
+
+    public void setLastPosition(PositionDTO lastPosition) {
+        this.lastPosition = lastPosition;
+    }
+
+    public DestinationDTO getLastDestination() {
+        return lastDestination;
+    }
+
+    public void setLastDestination(DestinationDTO lastDestination) {
+        this.lastDestination = lastDestination;
     }
 }

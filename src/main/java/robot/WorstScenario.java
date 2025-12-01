@@ -6,10 +6,9 @@ import lejos.hardware.port.MotorPort;
 import lejos.hardware.port.SensorPort;
 import lejos.robotics.SampleProvider;
 import org.eclipse.paho.client.mqttv3.MqttException;
-import robot.dto.PozyxPointDTO;
-import robot.utils.MotorMixer;
-import robot.utils.MqttUtil;
-import robot.utils.PidUtil;
+import shared.dto.old.PozyxPointDTO;
+import robot.hardware.MotorMixer;
+import shared.utils.MqttUtil;
 import robot.utils.UltrasonicReadingUtil;
 
 import java.util.Random;
@@ -39,7 +38,7 @@ public class WorstScenario {
 
     static {
         try {
-            mqttUtil = new MqttUtil(Constants.MQTT_TAG);
+            mqttUtil = new MqttUtil(RobotConstants.MQTT_TAG);
         } catch (MqttException e) {
             throw new RuntimeException(e);
         }
@@ -75,7 +74,7 @@ public class WorstScenario {
     long prevTick = next;
 
         try {
-            mqttUtil = new MqttUtil(Constants.MQTT_TAG);
+            mqttUtil = new MqttUtil(RobotConstants.MQTT_TAG);
         while (true) {
             long now = System.nanoTime();
             double dt = Math.max(1.0 / LOOP_HZ, (now - prevTick) / 1e9);

@@ -1,4 +1,4 @@
-package robot.control;
+package server.control;
 
 import shared.DistancePidResultDTO;
 import shared.utils.CommonPid;
@@ -12,7 +12,7 @@ import static robot.RobotConstants.STOP_DISTANCE;
 import static robot.utils.PidUtil.*;
 import static robot.utils.PidUtil.clamp;
 
-public class DistancePidControl {
+public class UltrasonicPidControl {
     
     public static DistancePidResultDTO computeControl(
             long millis,

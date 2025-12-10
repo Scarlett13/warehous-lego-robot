@@ -33,7 +33,7 @@ public class BootRobot {
                     agentArgs
             );
 
-            Device2.init();
+//            Device2.init();
 
             agent.start();
 

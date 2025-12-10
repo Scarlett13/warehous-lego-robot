@@ -32,6 +32,24 @@ public class MotorHardware {
         }));
     }
 
+    public static void applyCommand(long dt, double targetSpeed, double turnCorrection){
+        double appliedSpeed =clamp(targetSpeed, speedMin, speedMax);
+
+        // mix
+        double leftCmd  = appliedSpeed + turnCorrection;
+        double rightCmd = appliedSpeed - turnCorrection;
+
+        // slew limit
+        leftCmd  = slew(prevLeft,  leftCmd,  slewRate, dt);
+        rightCmd = slew(prevRight, rightCmd, slewRate, dt);
+        prevLeft = leftCmd;
+        prevRight = rightCmd;
+
+        // apply
+        applyMotor(motorLeft,  leftCmd);
+        applyMotor(motorRight, rightCmd);
+    }
+
     public static void apply(double forwardDegPerSec, double turnFrac, double dt) {
         // clamp inputs
         double fwd  = clamp(forwardDegPerSec, 0.0, speedMax);

@@ -2,6 +2,8 @@ package shared.messaging;
 
 public class MessagingConstants {
     public static final String ONTOLOGY = "teletubbies-mas";
+    public static final String UI_ONTOLOGY = "teletubbies-mas-ui";
+
     // Topics
     public static final String ROBOT_ULTRASONIC_PID_TOPIC = "_ultrasonic_pid";
     public static final String ROBOT_POSITION_TOPIC = "_position";
@@ -10,10 +12,11 @@ public class MessagingConstants {
     public static final String ROBOT_EVENTS_TOPIC = "robot_events";
     public static final String CONVEYOR_EVENTS_TOPIC = "conveyor_events";
     public static final String ROBOT_TURN_TOPIC     = "_turn";
+    public static final String UI_TOPICS    = "ui-command";
 
-    //conversation for robot
-    public static final String ROBOT_STATE = "robot_state";
-    public static final String ROBOT_TARGET_DESTINATION = "robot_target_destination";
+    //topics for robot
+    public static final String ROBOT_STATE_TOPICS = "robot_state";
+    public static final String ROBOT_COMMAND_TOPICS = "robot_commands";
 
 
     //conversation for conveyor

@@ -171,6 +171,7 @@ public class SimpleNamespace extends ManagedNamespace {
     
     public static void setRobotTarget(String robotName, double[] coordinates) {
         AgentRegistry.RobotNodes nodes = AgentRegistry.getRobot(robotName);
+        System.out.println("receiving target: " + coordinates);
         if (nodes != null) {
             // Send coordinates as semicolon-separated string: "x;y;z" (avoid comma conflict with decimal separator)
             String coordString = String.format(java.util.Locale.US, "%.3f;%.3f;%.3f", coordinates[0], coordinates[1], coordinates[2]);

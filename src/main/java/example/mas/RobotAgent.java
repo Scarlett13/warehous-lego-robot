@@ -155,7 +155,6 @@ public class RobotAgent extends Agent {
                         
                         isBusy = true;
                         targetLocation = coords.replace(";", ",");
-                        System.out.println("testtargetlocation: " + targetLocation);
 
                         assignedConveyor = conveyorName;
                         ASSIGNED_CONVEYORS.add(conveyorName);
@@ -185,12 +184,6 @@ public class RobotAgent extends Agent {
     private void tick() {
         // Read current location from OPC-UA (updated by VC)
         readLocationFromOPCUA();
-
-        if(!targetLocation.isEmpty()) {
-            List<String> coordtargetloc = Arrays.asList(targetLocation.replaceAll(";",",").split(","));
-            System.out.println("coordtargetloc: " + coordtargetloc.get(0));
-            System.out.println("double x: "+Double.parseDouble(coordtargetloc.get(0)));
-        }
 
 
         synchronized (MESSAGE_LOCK) {
@@ -295,7 +288,7 @@ public class RobotAgent extends Agent {
         // Update OPC-UA (send to VC)
         updateOPCUA();
         if(!IS_SIMS) {
-            addBehaviour(move);
+//            addBehaviour(move);
         }
     }
     
@@ -603,7 +596,7 @@ public class RobotAgent extends Agent {
         public void action() {
             try {
                 Device2.forward();
-                System.out.println("Forward");
+//                System.out.println("Forward");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -615,7 +608,7 @@ public class RobotAgent extends Agent {
         public void action() {
             try {
                 Device2.backward();
-                System.out.println("Backward");
+//                System.out.println("Backward");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -627,7 +620,7 @@ public class RobotAgent extends Agent {
         public void action() {
             try {
                 Device2.turnRight();
-                System.out.println("Right");
+//                System.out.println("Right");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -639,7 +632,7 @@ public class RobotAgent extends Agent {
         public void action() {
             try {
                 Device2.turnLeft();
-                System.out.println("Left");
+//                System.out.println("Left");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -662,8 +655,9 @@ public class RobotAgent extends Agent {
     Behaviour move = new Behaviour() {
         @Override
         public void action() {
+//            System.out.println("targetLocation: "+targetLocation);
             try {
-                System.out.println("Entering move.action()");
+//                System.out.println("Entering move.action()");
 
                 loc = tag.getSmoothenedLocation(10);
                 currentLocation = loc.toOpcUa();
@@ -671,17 +665,17 @@ public class RobotAgent extends Agent {
                     block(500);
                     return;
                 }
-                System.out.println("Tag returned: x=" + loc.x + ", y=" + loc.y);
+//                System.out.println("Tag returned: x=" + loc.x + ", y=" + loc.y);
                 int x = loc.x;
                 int y = loc.y;
 
                 if (x != 0 && y != 0) {
                     List<String> coordtargetloc = Arrays.asList(targetLocation.replaceAll(";",",").split(","));
-                    System.out.println();
+//                    System.out.println();
                     double target_x =  Double.parseDouble(coordtargetloc.get(0));
                     double target_y = Double.parseDouble(coordtargetloc.get(1));
 
-                    System.out.println("x: " + x + ", y: " + y + ", target x: " + target_x + ", target y: " + target_y);
+//                    System.out.println("x: " + x + ", y: " + y + ", target x: " + target_x + ", target y: " + target_y);
 
                     float yaw = tag.getAngle();
                     // yaw = (float) (yaw-301.5);
@@ -716,25 +710,25 @@ public class RobotAgent extends Agent {
 //                        if (path_iterator >= path.length - 1) {}
 //                        path_iterator += 2;
                         Device2.setSpeed(0);
-                        System.out.println("STOP");
+//                        System.out.println("STOP");
                         addBehaviour(stop);
-                    } else if (diff_angle > 10) {
-                        Device2.setSpeed(250);
+                    } else if (diff_angle > 30) {
+                        Device2.setSpeed(550);
                         addBehaviour(turn_right);
-                        System.out.println("RIGHT");
-                    } else if (diff_angle < -10) {
-                        Device2.setSpeed(250);
+//                        System.out.println("RIGHT");
+                    } else if (diff_angle < -30) {
+                        Device2.setSpeed(550);
                         addBehaviour(turn_left);
-                        System.out.println("LEFT");
+//                        System.out.println("LEFT");
                     } else {
-                        Device2.setSpeed(200);
+                        Device2.setSpeed(500);
                         addBehaviour(go_forward);
-                        System.out.println("FORWARD");
+//                        System.out.println("FORWARD");
                     }
                 }
 
             } catch (Exception e) {
-                System.out.println(e);
+//                System.out.println(e);
             }
         }
 

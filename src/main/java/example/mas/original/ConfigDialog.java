@@ -1,10 +1,10 @@
-package server.opcua;
-
-import example.mas.Config;
+package example.mas.original;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ConfigDialog extends JDialog {
     

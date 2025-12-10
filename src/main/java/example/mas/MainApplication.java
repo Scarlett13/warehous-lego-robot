@@ -1,9 +1,12 @@
 package example.mas;
 
+import jade.core.Profile;
 import jade.core.ProfileImpl;
 import jade.core.Runtime;
 import jade.wrapper.AgentContainer;
 import jade.wrapper.AgentController;
+import jade.wrapper.ContainerController;
+
 import javax.swing.SwingUtilities;
 
 import static robot.RobotConstants.IS_SIMS;
@@ -66,10 +69,14 @@ public class MainApplication {
             System.out.println("\n Starting JADE Multi-Agent System...");
             Runtime runtime = Runtime.instance();
             ProfileImpl profile = new ProfileImpl();
-            profile.setParameter(ProfileImpl.MAIN_HOST, "localhost");
+//            profile.setParameter(ProfileImpl.MAIN_HOST, "localhost");
+            profile.setParameter(ProfileImpl.MAIN, "true");
+            profile.setParameter(Profile.LOCAL_PORT, "1099");
             profile.setParameter(ProfileImpl.GUI, "true"); // Show JADE GUI
-            
-            AgentContainer container = runtime.createMainContainer(profile);
+            profile.setParameter(Profile.SERVICES,
+                    "jade.core.event.NotificationService;jade.core.messaging.TopicManagementService");
+
+            ContainerController container = runtime.createMainContainer(profile);
             
             // Step 5: Create agent for each robot
             System.out.println("\n Spawning robot agents...");

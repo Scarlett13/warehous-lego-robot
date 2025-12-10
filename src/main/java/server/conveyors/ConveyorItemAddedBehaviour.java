@@ -5,6 +5,8 @@ import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
+import server.opcua.SimpleNamespace;
+import shared.dto.ConveyorDTO;
 import shared.dto.FruitItemDTO;
 import shared.messaging.MessagingConstants;
 import shared.messaging.TopicHelper;
@@ -25,7 +27,7 @@ public class ConveyorItemAddedBehaviour extends CyclicBehaviour {
         MessageTemplate t = MessageTemplate.MatchTopic(topic);
         t = MessageTemplate.and(t, MessageTemplate.MatchOntology(MessagingConstants.ONTOLOGY));
         t = MessageTemplate.and(t, MessageTemplate.MatchLanguage("json"));
-        t = MessageTemplate.and(t, MessageTemplate.MatchConversationId(MessagingConstants.CONVEYOR_ITEMS_ADDED));
+        t = MessageTemplate.and(t, MessageTemplate.MatchConversationId(conveyorAgent.getConveyorData().getConveyorName()));
 
         this.mt = t;
     }
@@ -43,15 +45,17 @@ public class ConveyorItemAddedBehaviour extends CyclicBehaviour {
             return;
         }
 
-        System.out.println(msg.getContent());
+//        System.out.println(msg.getContent());
 
         FruitItemDTO newFruit = JsonUtil.fromJson(msg.getContent(), FruitItemDTO.class);
+        ConveyorDTO conveyorData = conveyorAgent.getConveyorData();
 
         if(newFruit.getConveyorName().equals(conveyorAgent.getName())) {
             conveyorAgent.getConveyorData().addFruitItem(newFruit);
             setPriority();
-            //TODO: only add the first index
-
+            //TODO: only add the first index to opcua
+            SimpleNamespace.setConveyorTotalItems(conveyorData.getConveyorName(), conveyorData.getConveyorItems().size());
+            SimpleNamespace.setConveyorNextItemId(conveyorData.getConveyorName(), conveyorData.getConveyorItems().get(0).getItemId());
         }
 
     }

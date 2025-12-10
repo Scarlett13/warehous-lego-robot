@@ -6,6 +6,7 @@ public class RobotConstants {
     }
 
     public static final String ROBOT_NAME = "TinkyWinky";
+    public static final String JADE_HOST_ADDRESS = "localhost";
     // -------- MQTT --------
     public static final String MQTT_HOST = "wss://mqtt.cloud.pozyxlabs.com:443";
     public static final String MQTT_TOPIC = "61d730870295a7f3798fdb31";
@@ -36,11 +37,14 @@ public class RobotConstants {
     public static final double DEST_GOAL_FAST  = 500.0;  // 2) speed up window
 
     // -------- CommonPid gains (base + trim pattern) --------
-    public static final double PSPEED = 0.4;
-    public static final double ISPEED = 0.05;
-    public static final double DSPEED = 0.4;
+    public static final double ULTRASONIC_P = 0.4;
+    public static final double ULTRASONIC_I = 0.05;
+    public static final double ULTRASONIC_D = 0.4;
+
+    public static final double LOCALISATION_P = 0.4;
+    public static final double LOCALISATION_I = 0.05;
+    public static final double LOCALISATION_D = 0.4;
 
     // -------- Loop timing --------
-    public static final int LOOP_HZ = 5;
-
+    public static final int LOOP_HZ = 1;
 }

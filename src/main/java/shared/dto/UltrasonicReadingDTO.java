@@ -1,14 +1,16 @@
 package shared.dto;
 
-public class DistanceDTO {
+public class UltrasonicReadingDTO {
     private long timestamp;
     private int distance;
+    private long dtsec;
 
-    public DistanceDTO() {}
+    public UltrasonicReadingDTO() {}
 
-    public DistanceDTO(long timestamp, int distance) {
+    public UltrasonicReadingDTO(long timestamp, int distance, long dtsec) {
         this.timestamp = timestamp;
         this.distance = distance;
+        this.dtsec = dtsec;
     }
 
     public long getTimestamp() {
@@ -29,7 +31,19 @@ public class DistanceDTO {
 
     @Override
     public String toString() {
-        return "DistanceDTO{" + "timestamp=" + timestamp + ", distance=" + distance + '}';
+        return "UltrasonicDTO{" +
+                "timestamp=" + timestamp +
+                ", distance=" + distance +
+                ", dtsec=" + dtsec +
+                '}';
     }
 
+
+    public long getDtsec() {
+        return dtsec;
+    }
+
+    public void setDtsec(long dtsec) {
+        this.dtsec = dtsec;
+    }
 }

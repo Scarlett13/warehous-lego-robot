@@ -59,8 +59,9 @@ public class ServerConfig {
     public static final int UPDATE_INTERVAL = 1000;
 
     // JADE Service Names
-    public static final String YELLOW_PAGES_SERVICE = "warehouse-robot";
-    public static final String COORDINATOR_SERVICE = "warehouse-coordinator";
+    public static final String ROBOT_YELLOW_PAGES_SERVICE = "warehouse-robot";
+    public static final String CONVEYOR_YELLOW_PAGES_SERVICE = "warehouse-conveyor";
+
 
     // Dynamic Configuration Methods
     public static void addRobot(String robotName) {

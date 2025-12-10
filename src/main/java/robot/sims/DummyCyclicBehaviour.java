@@ -6,7 +6,7 @@ import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import robot.RobotContext;
-import shared.dto.DistanceDTO;
+import shared.dto.UltrasonicReadingDTO;
 import shared.messaging.MessagingConstants;
 import shared.utils.JsonUtil;
 import shared.messaging.TopicHelper;
@@ -36,8 +36,8 @@ public class DummyCyclicBehaviour extends CyclicBehaviour {
     public void action() {
         ACLMessage msg = myAgent.receive(mt);
         if (msg != null) {
-            DistanceDTO contentmessage = JsonUtil.fromJson(msg.getContent(), DistanceDTO.class);
-            DistanceDTO latestvalue = ctx.getDistance();
+            UltrasonicReadingDTO contentmessage = JsonUtil.fromJson(msg.getContent(), UltrasonicReadingDTO.class);
+            UltrasonicReadingDTO latestvalue = ctx.getLastUltrasonicReading();
             System.out.println("from message: " + contentmessage);
             System.out.println("latest value: " + latestvalue);
         } else {

@@ -11,6 +11,7 @@ import robot.utils.UltrasonicReadingUtil;
 
 import java.util.Random;
 
+@Deprecated
 public class Main {
 
     // -------- Distances (cm) --------

@@ -1,4 +1,4 @@
-package robot.control;
+package server.control;
 
 import shared.dto.PositionSpeedPidDTO;
 import shared.utils.CommonPid;
@@ -6,7 +6,7 @@ import shared.utils.CommonPid;
 import static robot.RobotConstants.*;
 import static robot.utils.PidUtil.*;
 
-public class PositionSpeedPidControl {
+public class LocalisationPidControl {
     public static PositionSpeedPidDTO computeControl(
             long millis,
             int posX,

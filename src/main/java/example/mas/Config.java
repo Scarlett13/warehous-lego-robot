@@ -24,10 +24,10 @@ public class Config {
     }};
     
     // Location Coordinates (X, Y, Z in mm)
-    public static final double[] LOC_A = {9130, 15182, 0};
-    public static final double[] LOC_B = {9159, 1459, 0};
-    public static final double[] LOC_OUTPUT = {11940, 15440, 0};
-    public static final double[] LOC_CS1 = {11196, 15901, 0};
+    public static final double[] LOC_A = {-9050, 5262, 0};
+    public static final double[] LOC_B = {-8631, 9577, 0};
+    public static final double[] LOC_OUTPUT = {10866, 6169, 0};
+    public static final double[] LOC_CS1 = {5250, 11178, 0};
     public static final double[] LOC_CS2 = {-1187.116, 5050.898, 0};
     public static final double[] LOC_IDLE = {1000, 0, 0};
     

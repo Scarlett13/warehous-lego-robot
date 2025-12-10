@@ -9,18 +9,21 @@ import shared.utils.CommonPid;
 import robot.utils.RobotState;
 
 import static robot.RobotConstants.*;
+import static shared.SharedConstants.MAX_BATTERY;
 
 
 public class RobotContext {
     private volatile RobotState state                            = RobotState.STANDBY;
+    private volatile String workId                               = null;
+    private volatile int robotBatteryPercentage                  = MAX_BATTERY;
 
-    private volatile DistanceDTO lastDistance                    = new DistanceDTO(0,0);
+    private volatile UltrasonicReadingDTO lastUltrasonicReading  = new UltrasonicReadingDTO(0, 0, 0);
     private volatile DistancePidResultDTO lastDistancePidResult  = new DistancePidResultDTO(0, 0, false, false);
-    private volatile PositionDTO lastPosition                    = new PositionDTO(0, 0,0,0);
+    private volatile PositionDTO lastPosition                    = new PositionDTO(0, 0,0,0, 0);
 
     private volatile DestinationDTO lastDestination              = new DestinationDTO(0, 0, 0);
 
-    private static final CommonPid distancePid                   = new CommonPid(PSPEED, ISPEED, DSPEED);
+    private static final CommonPid distancePid                   = new CommonPid(ULTRASONIC_P, ULTRASONIC_I, ULTRASONIC_D);
 
     private final UltrasonicReadingUtilDummy dummyUltrasonic = new UltrasonicReadingUtilDummy();
 
@@ -38,14 +41,6 @@ public class RobotContext {
 
     public void setState(RobotState s) {
         state = s;
-    }
-
-    public DistanceDTO getDistance() {
-        return lastDistance;
-    }
-
-    public void setDistance(DistanceDTO d) {
-        lastDistance = d;
     }
 
     public CommonPid getDistancePid() {
@@ -66,12 +61,12 @@ public class RobotContext {
         this.lastDistancePidResult = lastDistancePidResult;
     }
 
-    public DistanceDTO getLastDistance() {
-        return lastDistance;
+    public UltrasonicReadingDTO getLastUltrasonicReading() {
+        return lastUltrasonicReading;
     }
 
-    public void setLastDistance(DistanceDTO lastDistance) {
-        this.lastDistance = lastDistance;
+    public void setLastUltrasonicReading(UltrasonicReadingDTO lastUltrasonicReading) {
+        this.lastUltrasonicReading = lastUltrasonicReading;
     }
 
     public PositionDTO getLastPosition() {
@@ -88,5 +83,21 @@ public class RobotContext {
 
     public void setLastDestination(DestinationDTO lastDestination) {
         this.lastDestination = lastDestination;
+    }
+
+    public String getWorkId() {
+        return workId;
+    }
+
+    public void setWorkId(String workId) {
+        this.workId = workId;
+    }
+
+    public int getRobotBatteryPercentage() {
+        return robotBatteryPercentage;
+    }
+
+    public void setRobotBatteryPercentage(int robotBatteryPercentage) {
+        this.robotBatteryPercentage = robotBatteryPercentage;
     }
 }

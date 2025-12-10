@@ -3,6 +3,7 @@ package server;
 import java.util.HashMap;
 import java.util.Map;
 
+@Deprecated
 public class AgentRegistry<T extends NamedInterface> {
     private final Map<String, T> agents = new HashMap<>();
 

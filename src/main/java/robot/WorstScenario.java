@@ -13,6 +13,7 @@ import robot.utils.UltrasonicReadingUtil;
 
 import java.util.Random;
 
+@Deprecated
 public class WorstScenario {
     // -------- Distances (cm) --------
     public static final double STOP_CM    = 8.0;

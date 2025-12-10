@@ -1,6 +1,5 @@
 package server.opcua;
 
-import example.mas.AgentRegistry;
 import org.eclipse.milo.opcua.sdk.core.AccessLevel;
 import org.eclipse.milo.opcua.sdk.server.OpcUaServer;
 import org.eclipse.milo.opcua.sdk.server.api.DataItem;
@@ -16,6 +15,7 @@ import org.eclipse.milo.opcua.stack.core.types.builtin.DataValue;
 import org.eclipse.milo.opcua.stack.core.types.builtin.LocalizedText;
 import org.eclipse.milo.opcua.stack.core.types.builtin.Variant;
 import server.ServerConfig;
+import shared.dto.RobotStatusDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,8 +32,8 @@ public class SimpleNamespace extends ManagedNamespace {
     /**
      * Register a new robot and create its OPC-UA variables
      */
-    public void registerRobot(String robotName) throws Exception {
-        if (AgentRegistry.hasRobot(robotName)) {
+    public void registerRobot(String robotName, RobotStatusDTO robotStatus) throws Exception {
+        if (OpcuaNodeRegistry.hasRobot(robotName)) {
             System.out.println("⚠️  Robot " + robotName + " already registered");
             return;
         }
@@ -60,14 +60,24 @@ public class SimpleNamespace extends ManagedNamespace {
         objectsFolder.ifPresent(node -> ((FolderTypeNode) node).addComponent(robotFolder));
         
         // Create variables for this robot
-        UaVariableNode location = createVariable(robotFolder, "Location", "");
-        UaVariableNode target = createVariable(robotFolder, "Target", "");
-        UaVariableNode battery = createVariable(robotFolder, "BatteryLevel", ServerConfig.INITIAL_BATTERY);
-        UaVariableNode hasProduct = createVariable(robotFolder, "HasProduct", false);
+        UaVariableNode currentBatteryPercentage = createVariable(robotFolder, "currentBatteryPercentage", robotStatus.getBatteryPct());
+        UaVariableNode currentWorkId = createVariable(robotFolder, "currentWorkId", robotStatus.getCurrentWorkId());
+        UaVariableNode currentPath = createVariable(robotFolder, "currentPath", "");
+        UaVariableNode targetPath = createVariable(robotFolder, "targetPath", "");
+        UaVariableNode currentSpeed = createVariable(robotFolder, "currentSpeed", 0);
+        UaVariableNode currentState = createVariable(robotFolder, "currentState", "STANDBY");
+
         
         // Register in registry
-        AgentRegistry.RobotNodes nodes = new AgentRegistry.RobotNodes(location, target, battery, hasProduct);
-        AgentRegistry.registerRobot(robotName, nodes);
+        OpcuaNodeRegistry.RobotNodes nodes = new OpcuaNodeRegistry.RobotNodes(
+                currentBatteryPercentage,
+                currentWorkId,
+                currentPath,
+                targetPath,
+                currentSpeed,
+                currentState
+        );
+        OpcuaNodeRegistry.registerRobot(robotName, nodes);
         
         System.out.println(" " + robotName + " ready (ns=2;s=" + robotName + "/*)");
     }
@@ -76,7 +86,7 @@ public class SimpleNamespace extends ManagedNamespace {
      * Register a new conveyor and create its OPC-UA variables
      */
     public void registerConveyor(String conveyorName) throws Exception {
-        if (AgentRegistry.hasConveyor(conveyorName)) {
+        if (OpcuaNodeRegistry.hasConveyor(conveyorName)) {
             System.out.println("️  Conveyor " + conveyorName + " already registered");
             return;
         }
@@ -103,11 +113,12 @@ public class SimpleNamespace extends ManagedNamespace {
         objectsFolder.ifPresent(node -> ((FolderTypeNode) node).addComponent(conveyorFolder));
         
         // Create variables for this conveyor
-        UaVariableNode produced = createVariable(conveyorFolder, "Produced", false);
+        UaVariableNode totalItems = createVariable(conveyorFolder, "totalItems", 0);
+        UaVariableNode nextWorkId = createVariable(conveyorFolder, "nextWorkId", "");
         
         // Register in registry
-//        AgentRegistry.ConveyorNodes nodes = new AgentRegistry.ConveyorNodes(produced);
-//        AgentRegistry.registerConveyor(conveyorName, nodes);
+        OpcuaNodeRegistry.ConveyorNodes nodes = new OpcuaNodeRegistry.ConveyorNodes(nextWorkId, totalItems);
+        OpcuaNodeRegistry.registerConveyor(conveyorName, nodes);
         
         System.out.println(" " + conveyorName + " ready (ns=2;s=" + conveyorName + "/*)");
     }
@@ -161,101 +172,185 @@ public class SimpleNamespace extends ManagedNamespace {
     }
     
     // Static helper methods for agents to access robot data
-    
-    public static void setRobotLocation(String robotName, String location) {
-        AgentRegistry.RobotNodes nodes = AgentRegistry.getRobot(robotName);
+
+    public static void setRobotCurrentBatteryPercentage(String robotName, int batteryPct) {
+        OpcuaNodeRegistry.RobotNodes nodes = OpcuaNodeRegistry.getRobot(robotName);
         if (nodes != null) {
-            nodes.location.setValue(new DataValue(new Variant(location)));
+            nodes.currentBatteryPercentage.setValue(new DataValue(new Variant(batteryPct)));
         }
     }
-    
-    public static void setRobotTarget(String robotName, double[] coordinates) {
-        AgentRegistry.RobotNodes nodes = AgentRegistry.getRobot(robotName);
+
+    public static void setRobotCurrentWorkId(String robotName, String workId) {
+        OpcuaNodeRegistry.RobotNodes nodes = OpcuaNodeRegistry.getRobot(robotName);
         if (nodes != null) {
-            // Send coordinates as semicolon-separated string: "x;y;z" (avoid comma conflict with decimal separator)
-            String coordString = String.format(java.util.Locale.US, "%.3f;%.3f;%.3f", coordinates[0], coordinates[1], coordinates[2]);
-            nodes.target.setValue(new DataValue(new Variant(coordString)));
+            nodes.currentWorkId.setValue(new DataValue(new Variant(workId)));
         }
     }
-    
-    public static void setRobotBattery(String robotName, int battery) {
-        AgentRegistry.RobotNodes nodes = AgentRegistry.getRobot(robotName);
+
+    public static void setRobotCurrentPath(String robotName, String path) {
+        OpcuaNodeRegistry.RobotNodes nodes = OpcuaNodeRegistry.getRobot(robotName);
         if (nodes != null) {
-            nodes.battery.setValue(new DataValue(new Variant(battery)));
+            nodes.currentPath.setValue(new DataValue(new Variant(path)));
         }
     }
-    
-    public static void setRobotHasProduct(String robotName, boolean hasProduct) {
-        AgentRegistry.RobotNodes nodes = AgentRegistry.getRobot(robotName);
+
+    public static void setRobotTargetPath(String robotName, String path) {
+        OpcuaNodeRegistry.RobotNodes nodes = OpcuaNodeRegistry.getRobot(robotName);
         if (nodes != null) {
-            nodes.hasProduct.setValue(new DataValue(new Variant(hasProduct)));
+            nodes.targetPath.setValue(new DataValue(new Variant(path)));
         }
     }
-    
-    public static String getRobotLocation(String robotName) {
-        AgentRegistry.RobotNodes nodes = AgentRegistry.getRobot(robotName);
+
+    public static void setRobotCurrentSpeed(String robotName, double speed) {
+        OpcuaNodeRegistry.RobotNodes nodes = OpcuaNodeRegistry.getRobot(robotName);
+        if (nodes != null) {
+            nodes.currentSpeed.setValue(new DataValue(new Variant(speed)));
+        }
+    }
+
+    public static void setRobotCurrentState(String robotName, String state) {
+        OpcuaNodeRegistry.RobotNodes nodes = OpcuaNodeRegistry.getRobot(robotName);
+        if (nodes != null) {
+            nodes.currentState.setValue(new DataValue(new Variant(state)));
+        }
+    }
+
+
+    // ==== GETTERS ==== //
+
+    public static int getRobotCurrentBatteryPercentage(String robotName) {
+        OpcuaNodeRegistry.RobotNodes nodes = OpcuaNodeRegistry.getRobot(robotName);
         if (nodes != null) {
             try {
-                return (String) nodes.location.getValue().getValue().getValue();
-            } catch (Exception e) {
-                return "";
-            }
-        }
-        return "";
-    }
-    
-    public static int getRobotBattery(String robotName) {
-        AgentRegistry.RobotNodes nodes = AgentRegistry.getRobot(robotName);
-        if (nodes != null) {
-            try {
-                return (Integer) nodes.battery.getValue().getValue().getValue();
+                return (Integer) nodes.currentBatteryPercentage
+                        .getValue().getValue().getValue();
             } catch (Exception e) {
                 return ServerConfig.INITIAL_BATTERY;
             }
         }
         return ServerConfig.INITIAL_BATTERY;
     }
-    
-    public static boolean getRobotHasProduct(String robotName) {
-        AgentRegistry.RobotNodes nodes = AgentRegistry.getRobot(robotName);
+
+    public static String getRobotCurrentWorkId(String robotName) {
+        OpcuaNodeRegistry.RobotNodes nodes = OpcuaNodeRegistry.getRobot(robotName);
         if (nodes != null) {
             try {
-                return (Boolean) nodes.hasProduct.getValue().getValue().getValue();
+                Object v = nodes.currentWorkId.getValue().getValue().getValue();
+                return v != null ? (String) v : "";
             } catch (Exception e) {
-                return false;
+                return "";
             }
         }
-        return false;
+        return "";
     }
-    
-    // Conveyor access methods
-    
-    public static Boolean getConveyorProduced(String conveyorName) {
-        AgentRegistry.ConveyorNodes nodes = AgentRegistry.getConveyor(conveyorName);
+
+    public static String getRobotCurrentPath(String robotName) {
+        OpcuaNodeRegistry.RobotNodes nodes = OpcuaNodeRegistry.getRobot(robotName);
         if (nodes != null) {
             try {
-                Object rawValue = nodes.produced.getValue().getValue().getValue();
-                
-                // Handle both Boolean and String types from Visual Components
-                if (rawValue instanceof Boolean) {
-                    return (Boolean) rawValue;
-                } else if (rawValue instanceof String) {
-                    return Boolean.parseBoolean((String) rawValue);
+                Object v = nodes.currentPath.getValue().getValue().getValue();
+                return v != null ? (String) v : "";
+            } catch (Exception e) {
+                return "";
+            }
+        }
+        return "";
+    }
+
+    public static String getRobotTargetPath(String robotName) {
+        OpcuaNodeRegistry.RobotNodes nodes = OpcuaNodeRegistry.getRobot(robotName);
+        if (nodes != null) {
+            try {
+                Object v = nodes.targetPath.getValue().getValue().getValue();
+                return v != null ? (String) v : "";
+            } catch (Exception e) {
+                return "";
+            }
+        }
+        return "";
+    }
+
+    public static double getRobotCurrentSpeed(String robotName) {
+        OpcuaNodeRegistry.RobotNodes nodes = OpcuaNodeRegistry.getRobot(robotName);
+        if (nodes != null) {
+            try {
+                return (Double) nodes.currentSpeed.getValue().getValue().getValue();
+            } catch (Exception e) {
+                return 0.0;
+            }
+        }
+        return 0.0;
+    }
+
+    public static String getRobotCurrentState(String robotName) {
+        OpcuaNodeRegistry.RobotNodes nodes = OpcuaNodeRegistry.getRobot(robotName);
+        if (nodes != null) {
+            try {
+                Object v = nodes.currentState.getValue().getValue().getValue();
+                return v != null ? (String) v : "";
+            } catch (Exception e) {
+                return "";
+            }
+        }
+        return "";
+    }
+
+
+    // Conveyor access methods
+
+    // nextitemid: ID/index of the next item on the conveyor
+    public static String getConveyorNextItemId(String conveyorName) {
+        OpcuaNodeRegistry.ConveyorNodes nodes = OpcuaNodeRegistry.getConveyor(conveyorName);
+        if (nodes != null) {
+            try {
+                try {
+                    Object v = nodes.nextitemid.getValue().getValue().getValue();
+                    return v != null ? (String) v : "";
+                } catch (Exception e) {
+                    return "";
                 }
             } catch (Exception e) {
-                return false;
+                return ""; // default if anything goes wrong
             }
         }
-        return false;
+        return "";
     }
-    
-    public static void setConveyorProduced(String conveyorName, boolean produced) {
-        AgentRegistry.ConveyorNodes nodes = AgentRegistry.getConveyor(conveyorName);
+
+    public static void setConveyorNextItemId(String conveyorName, String nextItemId) {
+        OpcuaNodeRegistry.ConveyorNodes nodes = OpcuaNodeRegistry.getConveyor(conveyorName);
         if (nodes != null) {
-            nodes.produced.setValue(new DataValue(new Variant(produced)));
+            nodes.nextitemid.setValue(new DataValue(new Variant(nextItemId)));
         }
     }
-    
+
+
+    // totalitems: total number of items processed/seen by this conveyor
+    public static int getConveyorTotalItems(String conveyorName) {
+        OpcuaNodeRegistry.ConveyorNodes nodes = OpcuaNodeRegistry.getConveyor(conveyorName);
+        if (nodes != null) {
+            try {
+                Object rawValue = nodes.totalitems.getValue().getValue().getValue();
+
+                if (rawValue instanceof Number) {
+                    return ((Number) rawValue).intValue();
+                } else if (rawValue instanceof String) {
+                    return Integer.parseInt((String) rawValue);
+                }
+            } catch (Exception e) {
+                return 0; // default
+            }
+        }
+        return 0;
+    }
+
+    public static void setConveyorTotalItems(String conveyorName, int totalItems) {
+        OpcuaNodeRegistry.ConveyorNodes nodes = OpcuaNodeRegistry.getConveyor(conveyorName);
+        if (nodes != null) {
+            nodes.totalitems.setValue(new DataValue(new Variant(totalItems)));
+        }
+    }
+
+
     // Required abstract methods from ManagedNamespace
     @Override
     public void onDataItemsCreated(List<DataItem> dataItems) {}

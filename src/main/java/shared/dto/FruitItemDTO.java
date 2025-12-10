@@ -24,6 +24,7 @@ public class FruitItemDTO implements Serializable {
         this.itemId = itemId;
         this.lastDeliveryMillis = lastDeliveryMillis;
         this.freshness = freshness;
+        this.status = FruitItemWorkStatusEnum.READY;
     }
 
     public String getItemId() {

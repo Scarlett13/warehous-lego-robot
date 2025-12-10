@@ -1,7 +1,6 @@
 package server.opcua;
 
 import example.mas.Config;
-import example.mas.SimpleNamespace;
 import org.eclipse.milo.opcua.sdk.server.OpcUaServer;
 import org.eclipse.milo.opcua.sdk.server.api.config.OpcUaServerConfig;
 import org.eclipse.milo.opcua.sdk.server.api.config.OpcUaServerConfigBuilder;

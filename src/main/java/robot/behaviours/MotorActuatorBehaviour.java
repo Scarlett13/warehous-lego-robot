@@ -23,10 +23,10 @@ public class MotorActuatorBehaviour extends TickerBehaviour {
         double deltaTime = (now - prevTimestamp)/1e9;
         prevTimestamp = now;
 
-        if(ctx.getState() != RobotState.WORKING){
-            MotorHardware.apply(0, 0, 0);
-            return;
-        }
+//        if(ctx.getState() != RobotState.WORKING){
+//            MotorHardware.apply(0, 0, 0);
+//            return;
+//        }
 
         if(RobotConstants.IS_SIMS){
             System.out.println("Simulating motor speed: "+0+", Turn speed: "+0);

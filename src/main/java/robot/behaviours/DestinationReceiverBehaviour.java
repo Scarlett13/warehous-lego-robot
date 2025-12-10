@@ -21,12 +21,12 @@ public class DestinationReceiverBehaviour extends CyclicBehaviour {
         super(a);
         this.ctx = ctx;
 
-        this.topic = TopicHelper.topic(a, MessagingConstants.ROBOT_EVENTS_TOPIC);
+        this.topic = TopicHelper.topic(a, "teletubbies_destination");
 
         MessageTemplate t = MessageTemplate.MatchTopic(topic);
         t = MessageTemplate.and(t, MessageTemplate.MatchOntology(MessagingConstants.ONTOLOGY));
         t = MessageTemplate.and(t, MessageTemplate.MatchLanguage("json"));
-        t = MessageTemplate.and(t, MessageTemplate.MatchConversationId(MessagingConstants.ROBOT_TARGET_DESTINATION));
+//        t = MessageTemplate.and(t, MessageTemplate.MatchConversationId(MessagingConstants.ROBOT_EVENTS_TOPIC));
         this.mt = t;
     }
 
@@ -41,12 +41,12 @@ public class DestinationReceiverBehaviour extends CyclicBehaviour {
         System.out.println(msg == null ? "sininull" : msg.getContent());
 //        System.out.println(topic.toString());
 
-        if (msg != null && ctx.getState() != RobotState.WORKING) {
-            DestinationDTO contentmessage = JsonUtil.fromJson(msg.getContent(), DestinationDTO.class);
-            ctx.setLastDestination(contentmessage);
-            ctx.setState(RobotState.WORKING);
-        } else {
-            block();
-        }
+//        if (msg != null && ctx.getState() != RobotState.WORKING) {
+//            DestinationDTO contentmessage = JsonUtil.fromJson(msg.getContent(), DestinationDTO.class);
+//            ctx.setLastDestination(contentmessage);
+//            ctx.setState(RobotState.WORKING);
+//        } else {
+//            block();
+//        }
     }
 }

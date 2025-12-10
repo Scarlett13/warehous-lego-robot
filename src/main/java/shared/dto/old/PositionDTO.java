@@ -5,14 +5,16 @@ public class PositionDTO {
     private int x;
     private int y;
     private float angleDeg;
+    private long dtsec;
 
     public PositionDTO() {}
 
-    public PositionDTO(long timestamp, int x, int y, float angleDeg) {
+    public PositionDTO(long timestamp, int x, int y, float angleDeg, long  dtsec) {
         this.timestamp = timestamp;
         this.x = x;
         this.y = y;
         this.angleDeg = angleDeg;
+        this.dtsec = dtsec;
     }
 
     public int getX() {
@@ -47,8 +49,23 @@ public class PositionDTO {
         this.timestamp = timestamp;
     }
 
+    public long getDtsec() {
+        return dtsec;
+    }
+
+    public void setDtsec(long dtsec) {
+        this.dtsec = dtsec;
+    }
+
     @Override
     public String toString() {
-        return "PositionDTO{" + "timestamp=" + timestamp + ", x=" + x + ", y=" + y + ", angle(yaw):"+ angleDeg + '}';
+        return "PositionDTO{" +
+                "timestamp=" + timestamp +
+                ", x=" + x +
+                ", y=" + y +
+                ", angle(yaw):" + angleDeg +
+                ", dtsec=" + dtsec +
+                '}';
     }
+
 }

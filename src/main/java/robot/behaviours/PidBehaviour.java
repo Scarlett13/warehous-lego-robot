@@ -4,7 +4,7 @@
 //import jade.core.Agent;
 //import jade.core.behaviours.TickerBehaviour;
 //import robot.RobotContext;
-//import robot.control.DistancePidControl;
+//import server.control.DistancePidControl;
 //import shared.dto.old.*;
 //import shared.messaging.TopicConstants;
 //import shared.messaging.acl.Acl;

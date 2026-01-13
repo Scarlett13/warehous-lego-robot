@@ -1,0 +1,63 @@
+robot-fleet/
+  common/
+    src/main/java/shared/
+      dto/
+        RobotStatusDTO.java
+        RobotPoseDTO.java
+        WorkOrderDTO.java
+        VelocityCommandDTO.java
+      messaging/
+        Topics.java           // JADE topic names, ontology strings
+        MessageFactory.java   // helper to build ACL messages
+
+  robot-agent/
+    src/main/java/robot/
+      RobotAgent.java
+
+      behaviours/
+        UltrasonicReaderBehaviour.java
+        BatteryReporterBehaviour.java
+        WorkOrderReceiverBehaviour.java
+        MotionCommandReceiverBehaviour.java
+        MotorApplierBehaviour.java
+        StateReporterBehaviour.java
+
+      hardware/
+        UltrasonicSensor.java
+        BatterySensor.java
+        MotorController.java
+        RobotHardwareConfig.java
+
+      control/
+        UltrasonicSpeedPid.java
+        AvoidanceLogic.java   // inAvoid state, thresholds
+
+  server-main/
+    src/main/java/server/
+      ServerMain.java         // starts JADE, creates agents, etc.
+
+      bdi/
+        FleetManagerBDIAgent.java
+        beliefs/
+          RobotBeliefs.java
+          WorkQueueBeliefs.java
+        goals/
+          ManageWorkQueueGoal.java
+          MaintainBatteryGoal.java
+        plans/
+          AssignWorkPlan.java
+          AbortWorkAndChargePlan.java
+          UpdateWorkStatusPlan.java
+
+      control/
+        MotionControllerAgent.java
+        PositionPidController.java
+        HeadingController.java   // P or PID for yaw
+        TargetManager.java       // match workId → pose / path
+
+      integration/
+        MqttPositionAgent.java   // subscribes to UWB MQTT
+        VcAdapterAgent.java      // talks to Visual Components
+        ItemSourceAgent.java     // receives new items → pushes WorkOrder into BDI
+
+  README.md

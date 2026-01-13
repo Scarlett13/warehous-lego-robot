@@ -25,7 +25,13 @@ dependencies {
     implementation group: 'org.locationtech.jts', name: 'jts-core', version: '1.19.0'
     implementation group: 'org.locationtech.jts', name: 'jts-core', version: '1.19.0', ext: 'pom'
     implementation fileTree (dir: 'lib', include: ['*.jar'])
-
+    implementation 'com.google.code.gson:gson:2.11.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
+    implementation group: 'org.eclipse.paho', name: 'org.eclipse.paho.client.mqttv3', version: '1.2.5'
+    implementation('org.json:json:20210307')
+    implementation group: 'com.google.code.gson', name: 'gson', version: '2.7'
+    implementation 'org.eclipse.milo:sdk-server:0.6.9'
 }
 
 compileJava.options.encoding = 'UTF-8'

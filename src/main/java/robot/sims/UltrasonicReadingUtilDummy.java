@@ -1,5 +1,7 @@
 package robot.sims;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 public class UltrasonicReadingUtilDummy {
     private static final int MAX = 200;     // start & max
     private static final int HOLD_SEC = 5;  // 0..4 → 200
@@ -40,13 +42,13 @@ public class UltrasonicReadingUtilDummy {
 
 
     public int readRawSim(){
-//        double r = ThreadLocalRandom.current().nextDouble();
-//        if (r < 0.85) return 200.0;
-//        else if (r < 0.95) return 15.0;
-//        else return 20.0;
-//        return 20.0;
+        double r = ThreadLocalRandom.current().nextDouble();
+        if (r < 0.85) return 200;
+        else if (r < 0.95) return 15;
+        else return 20;
+//        return 20;
 //        return distanceSim;
-        return distanceAt();
+//        return distanceAt();
     }
 
     private static double clamp(double v, double lo, double hi) {

@@ -1,12 +1,12 @@
 package server.ui;
 
-
 import jade.core.Agent;
 import server.ServerConfig;
 import server.opcua.OpcuaNodeRegistry;
 import server.opcua.SimpleNamespace;
 import shared.SharedConstants;
 import shared.dto.FruitItemDTO;
+import shared.utils.JsonUtil;
 import shared.utils.RandomUtils;
 
 import javax.swing.*;
@@ -14,8 +14,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.util.*;
+import java.util.List;
 import java.util.Timer;
-
 
 public class MonitorUI extends JFrame {
 
@@ -27,7 +27,7 @@ public class MonitorUI extends JFrame {
     private final Agent uiAgent;
 
     public MonitorUI() {
-        //empty constructor
+        // empty constructor
         this.uiAgent = null;
     }
 
@@ -88,12 +88,11 @@ public class MonitorUI extends JFrame {
         JPanel panel = new JPanel(new BorderLayout(5, 5));
         panel.setBackground(bgColor);
         panel.setBorder(BorderFactory.createTitledBorder(
-            BorderFactory.createLineBorder(new Color(200, 200, 200), 1),
-            title,
-            TitledBorder.LEFT,
-            TitledBorder.TOP,
-            new Font("Segoe UI", Font.BOLD, 16)
-        ));
+                BorderFactory.createLineBorder(new Color(200, 200, 200), 1),
+                title,
+                TitledBorder.LEFT,
+                TitledBorder.TOP,
+                new Font("Segoe UI", Font.BOLD, 16)));
         return panel;
     }
 
@@ -134,7 +133,6 @@ public class MonitorUI extends JFrame {
         robotsContainer.revalidate();
         robotsContainer.repaint();
     }
-
 
     private void initializeAgents() {
         // Add conveyor panels
@@ -181,9 +179,8 @@ public class MonitorUI extends JFrame {
             setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
             setBackground(Color.WHITE);
             setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(200, 200, 200), 1),
-                new EmptyBorder(8, 10, 8, 10)
-            ));
+                    BorderFactory.createLineBorder(new Color(200, 200, 200), 1),
+                    new EmptyBorder(8, 10, 8, 10)));
 
             // Header
             JLabel nameLabel = new JLabel("" + robotName);
@@ -209,12 +206,29 @@ public class MonitorUI extends JFrame {
 
             add(infoPanel, BorderLayout.CENTER);
 
+            // Controls Panel
+            JPanel controlsPanel = new JPanel(new BorderLayout(5, 5));
+            controlsPanel.setBackground(Color.WHITE);
+
             // Battery bar
             batteryBar = new JProgressBar(0, ServerConfig.INITIAL_BATTERY);
             batteryBar.setValue(ServerConfig.INITIAL_BATTERY);
             batteryBar.setStringPainted(true);
             batteryBar.setForeground(new Color(76, 175, 80));
-            add(batteryBar, BorderLayout.SOUTH);
+            controlsPanel.add(batteryBar, BorderLayout.NORTH);
+
+            // Force Arrive Button
+            JButton forceArriveBtn = new JButton("Force Arrive");
+            forceArriveBtn.setFocusPainted(false);
+            forceArriveBtn.setBackground(new Color(255, 193, 7));
+            forceArriveBtn.addActionListener(e -> {
+                SimpleNamespace.setRobotForceArrival(robotName, true);
+                // System.out.println("Force Arrival Signal Sent to " + robotName); // Optional
+                // log
+            });
+            controlsPanel.add(forceArriveBtn, BorderLayout.SOUTH);
+
+            add(controlsPanel, BorderLayout.SOUTH);
         }
 
         public void updateStatus() {
@@ -224,7 +238,8 @@ public class MonitorUI extends JFrame {
             double currentSpeed = SimpleNamespace.getRobotCurrentSpeed(robotName);
 
             // Update labels
-            locationLabel.setText("Assigned Item ID: " + (currentWorkId != null && !currentWorkId.isEmpty() ? currentWorkId : "-"));
+            locationLabel.setText(
+                    "Assigned Item ID: " + (currentWorkId != null && !currentWorkId.isEmpty() ? currentWorkId : "-"));
             batteryLabel.setText("Battery: " + batteryPercentage + " %");
 
             statusLabel.setText("Status: " + robotState);
@@ -239,7 +254,8 @@ public class MonitorUI extends JFrame {
                 batteryBar.setForeground(new Color(76, 175, 80));
             }
         }
-//
+
+        //
         private String formatCoords(String coords) {
             try {
                 String[] parts = coords.split(";");
@@ -256,131 +272,84 @@ public class MonitorUI extends JFrame {
     class ConveyorPanel extends JPanel {
         private String conveyorName;
         private JLabel statusLabel;
-        private JButton produceButton;
-        private JCheckBox autoCheckBox;
-        private JSpinner intervalSpinner;
-        private Timer autoTimer;
+        private JTextArea itemsArea;
 
         public ConveyorPanel(String conveyorName) {
             this.conveyorName = conveyorName;
             setLayout(new BorderLayout(5, 5));
-            setMaximumSize(new Dimension(Integer.MAX_VALUE, 120));
+            // Increased height to show items
+            setMaximumSize(new Dimension(Integer.MAX_VALUE, 150));
             setBackground(Color.WHITE);
             setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(200, 200, 200), 1),
-                new EmptyBorder(8, 10, 8, 10)
-            ));
+                    BorderFactory.createLineBorder(new Color(200, 200, 200), 1),
+                    new EmptyBorder(8, 10, 8, 10)));
 
             // Header
             JLabel nameLabel = new JLabel("" + conveyorName);
             nameLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
             add(nameLabel, BorderLayout.NORTH);
 
-            // Status
-            JPanel statusPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            statusPanel.setBackground(Color.WHITE);
-            statusLabel = new JLabel("Status: Empty");
+            // Status Panel
+            JPanel centerPanel = new JPanel(new BorderLayout());
+            centerPanel.setBackground(Color.WHITE);
+
+            statusLabel = new JLabel("Status: Initializing...");
             statusLabel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-            statusPanel.add(statusLabel);
+            statusLabel.setBorder(new EmptyBorder(0, 0, 5, 0));
+            centerPanel.add(statusLabel, BorderLayout.NORTH);
 
-            // Manual produce button
-            produceButton = new JButton("Produce");
-            produceButton.setBackground(new Color(33, 150, 243));
-            produceButton.setForeground(Color.WHITE);
-            produceButton.setFocusPainted(false);
-            produceButton.addActionListener(e -> manualProduce());
-            statusPanel.add(produceButton);
+            // Items List Area
+            itemsArea = new JTextArea();
+            itemsArea.setEditable(false);
+            itemsArea.setFont(new Font("Monospaced", Font.PLAIN, 11));
 
-            add(statusPanel, BorderLayout.CENTER);
+            // Fix auto-scrolling issue
+            javax.swing.text.DefaultCaret caret = (javax.swing.text.DefaultCaret) itemsArea.getCaret();
+            caret.setUpdatePolicy(javax.swing.text.DefaultCaret.NEVER_UPDATE);
 
-            // Auto produce controls
-            JPanel autoPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
-            autoPanel.setBackground(Color.WHITE);
+            JScrollPane scrollPane = new JScrollPane(itemsArea);
+            scrollPane.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+            centerPanel.add(scrollPane, BorderLayout.CENTER);
 
-            autoCheckBox = new JCheckBox("Auto-produce every");
-            autoCheckBox.setBackground(Color.WHITE);
-            autoCheckBox.addActionListener(e -> {
-                /*
-                * TODO:
-                *  implement auto toggle, count total item in array for each conveyor, if its reaching max item, stop creating new item
-                *  otherwise, produce
-                * */
-            });
-
-            intervalSpinner = new JSpinner(new SpinnerNumberModel(5, 1, 60, 1));
-            intervalSpinner.setPreferredSize(new Dimension(60, 25));
-            intervalSpinner.setEnabled(false);
-
-            JLabel secondsLabel = new JLabel("seconds");
-
-            autoPanel.add(autoCheckBox);
-            autoPanel.add(intervalSpinner);
-            autoPanel.add(secondsLabel);
-
-            add(autoPanel, BorderLayout.SOUTH);
-        }
-
-        private void manualProduce() {
-            String randomItemId = UUID.randomUUID().toString();
-            long latestDelivery = RandomUtils.randomFutureMillis(5, 10);
-            int freshness = RandomUtils.randomFreshness();
-
-            FruitItemDTO newFruit = new FruitItemDTO(conveyorName, randomItemId, latestDelivery, freshness);
-            OpcuaNodeRegistry.ConveyorNodes conveyorNodes = OpcuaNodeRegistry.getConveyor(conveyorName);
-
-
-            produceButton.setEnabled(false);
-        }
-
-//        private void toggleAuto() {
-//            if (autoCheckBox.isSelected()) {
-//                intervalSpinner.setEnabled(true);
-//                produceButton.setEnabled(false);
-//                startAutoProduction();
-//            } else {
-//                intervalSpinner.setEnabled(false);
-//                produceButton.setEnabled(true);
-//                stopAutoProduction();
-//            }
-//        }
-//
-//        private void startAutoProduction() {
-//            stopAutoProduction(); // Clear any existing timer
-//            int interval = (Integer) intervalSpinner.getValue();
-//            autoTimer = new Timer(true);
-//            autoTimer.scheduleAtFixedRate(new TimerTask() {
-//                @Override
-//                public void run() {
-//                    boolean produced = SimpleNamespace.getConveyorProduced(conveyorName);
-//                    if (!produced) {
-//                        SimpleNamespace.setConveyorProduced(conveyorName, true);
-//                    }
-//                }
-//            }, 0, interval * 1000);
-//        }
-
-        private void stopAutoProduction() {
-            if (autoTimer != null) {
-                autoTimer.cancel();
-                autoTimer = null;
-            }
+            add(centerPanel, BorderLayout.CENTER);
         }
 
         public void updateStatus() {
-            boolean produced = false;//SimpleNamespace.getConveyorProduced(conveyorName);
+            int availableItems = SimpleNamespace.getConveyorTotalItems(conveyorName);
+            String itemsJson = SimpleNamespace.getConveyorItemsJson(conveyorName);
 
-            if (produced) {
-                statusLabel.setText("Status:Product Ready");
-                statusLabel.setForeground(new Color(255, 152, 0));
-                if (!autoCheckBox.isSelected()) {
-                    produceButton.setEnabled(false);
+            // Update items list
+            StringBuilder sb = new StringBuilder();
+            try {
+                if (itemsJson != null && !itemsJson.isEmpty() && !itemsJson.equals("[]")) {
+                    FruitItemDTO[] items = JsonUtil.fromJson(itemsJson, FruitItemDTO[].class);
+                    if (items != null) {
+                        for (FruitItemDTO item : items) {
+                            sb.append(String.format("[%s] %s (Fresh: %d)\n",
+                                    item.getStatus(), item.getItemId(), item.getFreshness()));
+                        }
+                    }
+                } else {
+                    sb.append("No items.");
+                }
+            } catch (Exception e) {
+                sb.append("Error parsing items.");
+            }
+            itemsArea.setText(sb.toString());
+
+            // Status Label Logic
+            if (conveyorName.equals("Input Location")) {
+                if (availableItems > 0) {
+                    statusLabel.setText("Status: " + availableItems + " Items Available");
+                    statusLabel.setForeground(new Color(255, 152, 0));
+                } else {
+                    statusLabel.setText("Status: Empty");
+                    statusLabel.setForeground(new Color(76, 175, 80));
                 }
             } else {
-                statusLabel.setText("Status: Empty");
+                String outputMessage = "Status: Ready to Receive Items";
+                statusLabel.setText(outputMessage);
                 statusLabel.setForeground(new Color(76, 175, 80));
-                if (!autoCheckBox.isSelected()) {
-                    produceButton.setEnabled(true);
-                }
             }
         }
     }

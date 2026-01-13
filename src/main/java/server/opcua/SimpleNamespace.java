@@ -20,15 +20,14 @@ import shared.dto.RobotStatusDTO;
 import java.util.List;
 import java.util.Optional;
 
-
 public class SimpleNamespace extends ManagedNamespace {
-    
+
     public static final String URI = ServerConfig.NAMESPACE_URI;
-    
+
     public SimpleNamespace(OpcUaServer server) throws Exception {
         super(server, URI);
     }
-    
+
     /**
      * Register a new robot and create its OPC-UA variables
      */
@@ -37,37 +36,49 @@ public class SimpleNamespace extends ManagedNamespace {
             System.out.println("⚠️  Robot " + robotName + " already registered");
             return;
         }
-        
+
         System.out.println(" Creating OPC-UA variables for " + robotName);
-        
+
         UaNodeContext context = getNodeContext();
-        
+
         // Create folder for this robot (e.g., "Robot1", "Robot2")
         UaFolderNode robotFolder = new UaFolderNode(
-            context,
-            newNodeId(robotName),
-            newQualifiedName(robotName),
-            LocalizedText.english(robotName)
-        );
-        
+                context,
+                newNodeId(robotName),
+                newQualifiedName(robotName),
+                LocalizedText.english(robotName));
+
         // Register folder
         context.getNodeManager().addNode(robotFolder);
-        
+
         // Add to Objects folder
         Optional<UaNode> objectsFolder = context.getServer()
-            .getAddressSpaceManager()
-            .getManagedNode(Identifiers.ObjectsFolder);
+                .getAddressSpaceManager()
+                .getManagedNode(Identifiers.ObjectsFolder);
         objectsFolder.ifPresent(node -> ((FolderTypeNode) node).addComponent(robotFolder));
-        
-        // Create variables for this robot
-        UaVariableNode currentBatteryPercentage = createVariable(robotFolder, "currentBatteryPercentage", robotStatus.getBatteryPct());
-        UaVariableNode currentWorkId = createVariable(robotFolder, "currentWorkId", robotStatus.getCurrentWorkId());
-        UaVariableNode currentPath = createVariable(robotFolder, "currentPath", "");
-        UaVariableNode targetPath = createVariable(robotFolder, "targetPath", "");
-        UaVariableNode currentSpeed = createVariable(robotFolder, "currentSpeed", 0);
-        UaVariableNode currentState = createVariable(robotFolder, "currentState", "STANDBY");
 
-        
+        // Create variables for this robot
+        UaVariableNode currentTrajectory = createVariable(robotFolder, robotName + "currentTrajectory", "");
+        UaVariableNode currentBatteryPercentage = createVariable(robotFolder, robotName + "currentBatteryPercentage",
+                robotStatus.getBatteryPct());
+        UaVariableNode currentWorkId = createVariable(robotFolder, robotName + "currentWorkId",
+                robotStatus.getCurrentWorkId());
+        UaVariableNode currentPath = createVariable(robotFolder, robotName + "currentPath", "");
+        UaVariableNode targetPath = createVariable(robotFolder, robotName + "targetPath", "");
+        UaVariableNode currentSpeed = createVariable(robotFolder, robotName + "currentSpeed", 0);
+        UaVariableNode currentState = createVariable(robotFolder, robotName + "currentState",
+                robotStatus.getRobotState());
+        UaVariableNode ultrasonicSensorReading = createVariable(robotFolder, robotName + "ultrasonicSensorReading",
+                robotStatus.getUltrasonicReading() != null ? robotStatus.getUltrasonicReading().getDistance() : 0.0);
+        UaVariableNode posX = createVariable(robotFolder, robotName + "posX",
+                robotStatus.getRobotPosition() != null ? robotStatus.getRobotPosition().getX() : 0.0);
+        UaVariableNode posY = createVariable(robotFolder, robotName + "posY",
+                robotStatus.getRobotPosition() != null ? robotStatus.getRobotPosition().getY() : 0.0);
+        UaVariableNode yawAngle = createVariable(robotFolder, robotName + "yawAngle",
+                robotStatus.getRobotPosition() != null ? (double) robotStatus.getRobotPosition().getAngleDeg() : 0.0);
+        UaVariableNode robotNameNode = createVariable(robotFolder, "robotName", robotName);
+        UaVariableNode forceArrival = createVariable(robotFolder, "forceArrival", false);
+
         // Register in registry
         OpcuaNodeRegistry.RobotNodes nodes = new OpcuaNodeRegistry.RobotNodes(
                 currentBatteryPercentage,
@@ -75,13 +86,19 @@ public class SimpleNamespace extends ManagedNamespace {
                 currentPath,
                 targetPath,
                 currentSpeed,
-                currentState
-        );
+                currentState,
+                ultrasonicSensorReading,
+                posX,
+                posY,
+                yawAngle,
+                robotNameNode,
+                currentTrajectory,
+                forceArrival);
         OpcuaNodeRegistry.registerRobot(robotName, nodes);
-        
+
         System.out.println(" " + robotName + " ready (ns=2;s=" + robotName + "/*)");
     }
-    
+
     /**
      * Register a new conveyor and create its OPC-UA variables
      */
@@ -90,53 +107,106 @@ public class SimpleNamespace extends ManagedNamespace {
             System.out.println("️  Conveyor " + conveyorName + " already registered");
             return;
         }
-        
+
         System.out.println(" Creating OPC-UA variables for " + conveyorName);
-        
+
         UaNodeContext context = getNodeContext();
-        
+
         // Create folder for this conveyor
         UaFolderNode conveyorFolder = new UaFolderNode(
-            context,
-            newNodeId(conveyorName),
-            newQualifiedName(conveyorName),
-            LocalizedText.english(conveyorName)
-        );
-        
+                context,
+                newNodeId(conveyorName),
+                newQualifiedName(conveyorName),
+                LocalizedText.english(conveyorName));
+
         // Register folder
         context.getNodeManager().addNode(conveyorFolder);
-        
+
         // Add to Objects folder
         Optional<UaNode> objectsFolder = context.getServer()
-            .getAddressSpaceManager()
-            .getManagedNode(Identifiers.ObjectsFolder);
+                .getAddressSpaceManager()
+                .getManagedNode(Identifiers.ObjectsFolder);
         objectsFolder.ifPresent(node -> ((FolderTypeNode) node).addComponent(conveyorFolder));
-        
+
         // Create variables for this conveyor
         UaVariableNode totalItems = createVariable(conveyorFolder, "totalItems", 0);
         UaVariableNode nextWorkId = createVariable(conveyorFolder, "nextWorkId", "");
-        
+        UaVariableNode conveyorItems = createVariable(conveyorFolder, "conveyorItems", "[]");
+
         // Register in registry
-        OpcuaNodeRegistry.ConveyorNodes nodes = new OpcuaNodeRegistry.ConveyorNodes(nextWorkId, totalItems);
+        OpcuaNodeRegistry.ConveyorNodes nodes = new OpcuaNodeRegistry.ConveyorNodes(nextWorkId, totalItems,
+                conveyorItems);
         OpcuaNodeRegistry.registerConveyor(conveyorName, nodes);
-        
+
         System.out.println(" " + conveyorName + " ready (ns=2;s=" + conveyorName + "/*)");
     }
-    
+
+    /**
+     * Register global Graph Configuration node
+     */
+    public void registerGraphConfig() throws Exception {
+        UaNodeContext context = getNodeContext();
+
+        Optional<UaNode> objectsFolder = context.getServer()
+                .getAddressSpaceManager()
+                .getManagedNode(Identifiers.ObjectsFolder);
+
+        if (objectsFolder.isPresent()) {
+            // Fix: Cast to FolderTypeNode instead of UaFolderNode
+            FolderTypeNode root = (FolderTypeNode) objectsFolder.get();
+
+            // Create variable directly under Objects folder
+            // ns=2;s=GraphConfiguration
+            UaVariableNode graphConfig = new UaVariableNode.UaVariableNodeBuilder(getNodeContext())
+                    .setNodeId(newNodeId("GraphConfiguration"))
+                    .setAccessLevel(AccessLevel.READ_WRITE)
+                    .setUserAccessLevel(AccessLevel.READ_WRITE)
+                    .setBrowseName(newQualifiedName("GraphConfiguration"))
+                    .setDisplayName(LocalizedText.english("GraphConfiguration"))
+                    .setDataType(Identifiers.String)
+                    .setTypeDefinition(Identifiers.BaseDataVariableType)
+                    .build();
+
+            graphConfig.setValue(new DataValue(new Variant("")));
+
+            root.addComponent(graphConfig);
+            getNodeManager().addNode(graphConfig);
+            graphConfigNode = graphConfig;
+
+            // OccupancyState node
+            UaVariableNode occupancyState = new UaVariableNode.UaVariableNodeBuilder(getNodeContext())
+                    .setNodeId(newNodeId("OccupancyState"))
+                    .setAccessLevel(AccessLevel.READ_WRITE)
+                    .setUserAccessLevel(AccessLevel.READ_WRITE)
+                    .setBrowseName(newQualifiedName("OccupancyState"))
+                    .setDisplayName(LocalizedText.english("OccupancyState"))
+                    .setDataType(Identifiers.String)
+                    .setTypeDefinition(Identifiers.BaseDataVariableType)
+                    .build();
+
+            occupancyState.setValue(new DataValue(new Variant("[]")));
+            root.addComponent(occupancyState);
+            getNodeManager().addNode(occupancyState);
+            occupancyStateNode = occupancyState;
+
+            System.out.println("✅ Registered Global nodes (GraphConfig, OccupancyState)");
+        }
+    }
+
     /**
      * Helper method to create a variable node
      */
     private UaVariableNode createVariable(UaFolderNode folder, String name, Object initialValue) {
         UaVariableNode variable = new UaVariableNode.UaVariableNodeBuilder(getNodeContext())
-            .setNodeId(newNodeId(folder.getBrowseName().getName() + "/" + name))
-            .setAccessLevel(AccessLevel.READ_WRITE)
-            .setUserAccessLevel(AccessLevel.READ_WRITE)
-            .setBrowseName(newQualifiedName(name))
-            .setDisplayName(LocalizedText.english(name))
-            .setDataType(getDataTypeIdentifier(initialValue))
-            .setTypeDefinition(Identifiers.BaseDataVariableType)
-            .build();
-        
+                .setNodeId(newNodeId(folder.getBrowseName().getName() + "/" + name))
+                .setAccessLevel(AccessLevel.READ_WRITE)
+                .setUserAccessLevel(AccessLevel.READ_WRITE)
+                .setBrowseName(newQualifiedName(name))
+                .setDisplayName(LocalizedText.english(name))
+                .setDataType(getDataTypeIdentifier(initialValue))
+                .setTypeDefinition(Identifiers.BaseDataVariableType)
+                .build();
+
         // Set initial value
         if (initialValue instanceof String) {
             variable.setValue(new DataValue(new Variant((String) initialValue)));
@@ -147,14 +217,14 @@ public class SimpleNamespace extends ManagedNamespace {
         } else if (initialValue instanceof Double) {
             variable.setValue(new DataValue(new Variant((Double) initialValue)));
         }
-        
+
         // Add to folder
         folder.addComponent(variable);
         getNodeManager().addNode(variable);
-        
+
         return variable;
     }
-    
+
     /**
      * Get the correct OPC-UA data type identifier based on the value type
      */
@@ -170,7 +240,7 @@ public class SimpleNamespace extends ManagedNamespace {
         }
         return Identifiers.String;
     }
-    
+
     // Static helper methods for agents to access robot data
 
     public static void setRobotCurrentBatteryPercentage(String robotName, int batteryPct) {
@@ -215,6 +285,47 @@ public class SimpleNamespace extends ManagedNamespace {
         }
     }
 
+    public static void setRobotUltrasonicSensorReading(String robotName, double distance) {
+        OpcuaNodeRegistry.RobotNodes nodes = OpcuaNodeRegistry.getRobot(robotName);
+        if (nodes != null) {
+            nodes.ultrasonicSensorReading.setValue(new DataValue(new Variant(distance)));
+        }
+    }
+
+    public static void setRobotPosition(String robotName, double x, double y, double yaw) {
+        OpcuaNodeRegistry.RobotNodes nodes = OpcuaNodeRegistry.getRobot(robotName);
+        if (nodes != null) {
+            nodes.posX.setValue(new DataValue(new Variant(x)));
+            nodes.posY.setValue(new DataValue(new Variant(y)));
+            nodes.yawAngle.setValue(new DataValue(new Variant(yaw)));
+        }
+    }
+
+    public static void setRobotCurrentTrajectory(String robotName, String trajectory) {
+        OpcuaNodeRegistry.RobotNodes nodes = OpcuaNodeRegistry.getRobot(robotName);
+        if (nodes != null) {
+            nodes.currentTrajectory.setValue(new DataValue(new Variant(trajectory)));
+        }
+    }
+
+    public static void setRobotForceArrival(String robotName, boolean force) {
+        OpcuaNodeRegistry.RobotNodes nodes = OpcuaNodeRegistry.getRobot(robotName);
+        if (nodes != null) {
+            nodes.forceArrival.setValue(new DataValue(new Variant(force)));
+        }
+    }
+
+    public static boolean getRobotForceArrival(String robotName) {
+        OpcuaNodeRegistry.RobotNodes nodes = OpcuaNodeRegistry.getRobot(robotName);
+        if (nodes != null) {
+            try {
+                return (Boolean) nodes.forceArrival.getValue().getValue().getValue();
+            } catch (Exception e) {
+                return false;
+            }
+        }
+        return false;
+    }
 
     // ==== GETTERS ==== //
 
@@ -295,7 +406,6 @@ public class SimpleNamespace extends ManagedNamespace {
         return "";
     }
 
-
     // Conveyor access methods
 
     // nextitemid: ID/index of the next item on the conveyor
@@ -323,7 +433,6 @@ public class SimpleNamespace extends ManagedNamespace {
         }
     }
 
-
     // totalitems: total number of items processed/seen by this conveyor
     public static int getConveyorTotalItems(String conveyorName) {
         OpcuaNodeRegistry.ConveyorNodes nodes = OpcuaNodeRegistry.getConveyor(conveyorName);
@@ -350,17 +459,100 @@ public class SimpleNamespace extends ManagedNamespace {
         }
     }
 
+    public static String getConveyorItemsJson(String conveyorName) {
+        OpcuaNodeRegistry.ConveyorNodes nodes = OpcuaNodeRegistry.getConveyor(conveyorName);
+        if (nodes != null) {
+            try {
+                Object v = nodes.conveyorItems.getValue().getValue().getValue();
+                return v != null ? (String) v : "[]";
+            } catch (Exception e) {
+                return "[]";
+            }
+        }
+        return "[]";
+    }
 
-    // Required abstract methods from ManagedNamespace
+    public static void setConveyorItemsJson(String conveyorName, String json) {
+        OpcuaNodeRegistry.ConveyorNodes nodes = OpcuaNodeRegistry.getConveyor(conveyorName);
+        if (nodes != null) {
+            nodes.conveyorItems.setValue(new DataValue(new Variant(json)));
+        }
+    }
+
+    private static UaVariableNode graphConfigNode;
+    private static UaVariableNode occupancyStateNode;
+
+    public static String getGraphConfiguration() {
+        if (graphConfigNode != null) {
+            try {
+                return (String) graphConfigNode.getValue().getValue().getValue();
+            } catch (Exception e) {
+                return "";
+            }
+        }
+        return "";
+    }
+
+    public static String getOccupancyState() {
+        if (occupancyStateNode != null) {
+            try {
+                return (String) occupancyStateNode.getValue().getValue().getValue();
+            } catch (Exception e) {
+                return "[]";
+            }
+        }
+        return "[]";
+    }
+
+    public static double getRobotPositionX(String robotName) {
+        OpcuaNodeRegistry.RobotNodes nodes = OpcuaNodeRegistry.getRobot(robotName);
+        if (nodes != null) {
+            try {
+                return (Double) nodes.posX.getValue().getValue().getValue();
+            } catch (Exception e) {
+                return 0.0;
+            }
+        }
+        return 0.0;
+    }
+
+    public static double getRobotPositionY(String robotName) {
+        OpcuaNodeRegistry.RobotNodes nodes = OpcuaNodeRegistry.getRobot(robotName);
+        if (nodes != null) {
+            try {
+                return (Double) nodes.posY.getValue().getValue().getValue();
+            } catch (Exception e) {
+                return 0.0;
+            }
+        }
+        return 0.0;
+    }
+
+    public static double getRobotYawAngle(String robotName) {
+        OpcuaNodeRegistry.RobotNodes nodes = OpcuaNodeRegistry.getRobot(robotName);
+        if (nodes != null) {
+            try {
+                return (Double) nodes.yawAngle.getValue().getValue().getValue();
+            } catch (Exception e) {
+                return 0.0;
+            }
+        }
+        return 0.0;
+    }
+
     @Override
-    public void onDataItemsCreated(List<DataItem> dataItems) {}
-    
+    public void onDataItemsCreated(List<DataItem> dataItems) {
+    }
+
     @Override
-    public void onDataItemsModified(List<DataItem> dataItems) {}
-    
+    public void onDataItemsModified(List<DataItem> dataItems) {
+    }
+
     @Override
-    public void onDataItemsDeleted(List<DataItem> dataItems) {}
-    
+    public void onDataItemsDeleted(List<DataItem> dataItems) {
+    }
+
     @Override
-    public void onMonitoringModeChanged(List<MonitoredItem> monitoredItems) {}
+    public void onMonitoringModeChanged(List<MonitoredItem> monitoredItems) {
+    }
 }

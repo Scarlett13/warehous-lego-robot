@@ -6,7 +6,7 @@ public class FruitItemDTO implements Serializable {
     public enum FruitItemWorkStatusEnum {
         READY,
         PICKED_UP,
-        COMPLETED,
+        DELIVERED,
         POSTPONED,
         SCHEDULED
     }
@@ -67,9 +67,20 @@ public class FruitItemDTO implements Serializable {
         this.conveyorName = conveyorName;
     }
 
-    public void updateFruitJobStatus(String robotId, FruitItemWorkStatusEnum status){
+    private Long statusChangeTimestamp;
+
+    public void updateFruitJobStatus(String robotId, FruitItemWorkStatusEnum status) {
         this.robotId = robotId;
         this.status = status;
+        this.statusChangeTimestamp = System.currentTimeMillis();
+    }
+
+    public Long getStatusChangeTimestamp() {
+        return statusChangeTimestamp;
+    }
+
+    public void setStatusChangeTimestamp(Long statusChangeTimestamp) {
+        this.statusChangeTimestamp = statusChangeTimestamp;
     }
 
     public String getRobotId() {

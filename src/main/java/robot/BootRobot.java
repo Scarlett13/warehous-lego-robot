@@ -21,10 +21,11 @@ public class BootRobot {
             p.setParameter(ProfileImpl.MAIN, "false");   // explicit
             p.setParameter(ProfileImpl.GUI,  "true");   // optional GUI
             p.setParameter(Profile.LOCAL_PORT, "1100");
+            p.setParameter(Profile.LOCAL_HOST, "127.0.0.1");
             p.setParameter(Profile.SERVICES,
                     "jade.core.event.NotificationService;jade.core.messaging.TopicManagementService");
             p.setParameter(Profile.MAIN_PORT, "1099");
-            p.setParameter(Profile.MAIN_HOST, JADE_HOST_ADDRESS);
+            p.setParameter(Profile.MAIN_HOST, "127.0.0.1");
 
 //            p.setParameter(Profile.MAIN_HOST, "192.168.0.116");
             System.out.println("[Boot] SERVICES=" + p.getParameter(Profile.SERVICES, null));

@@ -48,4 +48,24 @@ public class ConveyorDTO implements Serializable {
                 .findFirst()
                 .orElse(null);
     }
+
+    public void sortItems() {
+        conveyorItems.sort(
+                java.util.Comparator
+                        // 4 and below means rotten, set priority to 1
+                        // 5 - 10 freshness means not rotten, set priority to 0
+                        .comparingInt((FruitItemDTO f) -> f.getFreshness() <= 4 ? 1 : 0)
+
+                        // for each group of 0 and 1 from previous comparator,
+                        // sort the priority in ascending order,
+                        // means the freshness priority would be like:
+                        // 5,6,7,8,9,10,1,2,3,4
+                        .thenComparingInt(FruitItemDTO::getFreshness)
+
+                        // sort by last delivery time (ascending)
+                        .thenComparingLong(f -> {
+                            Long t = f.getLastDeliveryMillis();
+                            return t != null ? t : Long.MAX_VALUE;
+                        }));
+    }
 }

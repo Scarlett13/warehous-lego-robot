@@ -14,7 +14,9 @@ import shared.utils.JsonUtil;
 
 import java.util.Comparator;
 
-public class ConveyorItemAddedBehaviour extends CyclicBehaviour {
+public class
+
+ConveyorItemAddedBehaviour extends CyclicBehaviour {
     private ConveyorAgent conveyorAgent;
     private final AID topic;
     private final MessageTemplate mt;
@@ -27,7 +29,8 @@ public class ConveyorItemAddedBehaviour extends CyclicBehaviour {
         MessageTemplate t = MessageTemplate.MatchTopic(topic);
         t = MessageTemplate.and(t, MessageTemplate.MatchOntology(MessagingConstants.ONTOLOGY));
         t = MessageTemplate.and(t, MessageTemplate.MatchLanguage("json"));
-        t = MessageTemplate.and(t, MessageTemplate.MatchConversationId(conveyorAgent.getConveyorData().getConveyorName()));
+        t = MessageTemplate.and(t,
+                MessageTemplate.MatchConversationId(conveyorAgent.getConveyorData().getConveyorName()));
 
         this.mt = t;
     }
@@ -45,17 +48,15 @@ public class ConveyorItemAddedBehaviour extends CyclicBehaviour {
             return;
         }
 
-//        System.out.println(msg.getContent());
+        // System.out.println(msg.getContent());
 
         FruitItemDTO newFruit = JsonUtil.fromJson(msg.getContent(), FruitItemDTO.class);
-        ConveyorDTO conveyorData = conveyorAgent.getConveyorData();
 
-        if(newFruit.getConveyorName().equals(conveyorAgent.getName())) {
+        if (newFruit.getConveyorName().equals(conveyorAgent.getName())) {
             conveyorAgent.getConveyorData().addFruitItem(newFruit);
             setPriority();
-            //TODO: only add the first index to opcua
-            SimpleNamespace.setConveyorTotalItems(conveyorData.getConveyorName(), conveyorData.getConveyorItems().size());
-            SimpleNamespace.setConveyorNextItemId(conveyorData.getConveyorName(), conveyorData.getConveyorItems().get(0).getItemId());
+            // Update OPC UA
+            conveyorAgent.updateOpcuaStatus();
         }
 
     }
@@ -80,7 +81,6 @@ public class ConveyorItemAddedBehaviour extends CyclicBehaviour {
                             Long t = f.getLastDeliveryMillis();
                             // put nulls last if any
                             return t != null ? t : Long.MAX_VALUE;
-                        })
-        );
+                        }));
     }
 }

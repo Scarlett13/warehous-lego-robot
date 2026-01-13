@@ -5,26 +5,30 @@ import shared.dto.old.PositionDTO;
 
 import java.io.Serializable;
 
-
 public class RobotStatusDTO implements Serializable {
     private long timestampMillis;
 
     private RobotState robotState;
-    private double batteryPct;      // [0..100]
-    private String currentWorkId = null;   // null if none
+    private double batteryPct; // [0..100]
+    private String currentWorkId = null; // null if none
 
     private PositionDTO robotPosition;
     private UltrasonicReadingDTO ultrasonicReading;
 
+    private String assignedChargingStation = null;
+
     public RobotStatusDTO() {
+        this.robotPosition = new PositionDTO();
+        this.ultrasonicReading = new UltrasonicReadingDTO();
+        this.robotState = RobotState.STANDBY;
     }
 
     public RobotStatusDTO(long timestampMillis,
-                          double batteryPct,
-                          PositionDTO robotPosition,
-                          String currentWorkId,
-                          UltrasonicReadingDTO ultrasonicReading,
-                          RobotState robotState) {
+            double batteryPct,
+            PositionDTO robotPosition,
+            String currentWorkId,
+            UltrasonicReadingDTO ultrasonicReading,
+            RobotState robotState) {
         this.timestampMillis = timestampMillis;
         this.batteryPct = batteryPct;
         this.currentWorkId = currentWorkId;
@@ -75,6 +79,14 @@ public class RobotStatusDTO implements Serializable {
 
     public RobotState getRobotState() {
         return robotState;
+    }
+
+    public String getAssignedChargingStation() {
+        return assignedChargingStation;
+    }
+
+    public void setAssignedChargingStation(String assignedChargingStation) {
+        this.assignedChargingStation = assignedChargingStation;
     }
 
     public void setRobotState(RobotState robotState) {

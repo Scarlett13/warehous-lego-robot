@@ -1,4 +1,4 @@
-package server.digitaltwin;
+package server.digitaltwin.teletubbies;
 
 import jade.core.AID;
 import jade.core.Agent;
@@ -12,21 +12,26 @@ import server.ServerConfig;
 import server.opcua.OPCUAServer;
 import server.opcua.SimpleNamespace;
 import shared.DistancePidResultDTO;
+import shared.dto.FruitItemDTO;
+import shared.dto.Point2D;
 import shared.dto.RobotStatusDTO;
 import shared.messaging.MessagingConstants;
 import shared.utils.CommonPid;
 
 import static robot.RobotConstants.*;
 
-public class DigitalTwinAgent extends Agent {
+public class TeletubbiesDTAgent extends Agent {
 
     private String robotName;
-    private static final CommonPid ultrasonicPid                   = new CommonPid(ULTRASONIC_P, ULTRASONIC_I, ULTRASONIC_D);
-    private static final CommonPid localisationPid                   = new CommonPid(LOCALISATION_P, LOCALISATION_I, LOCALISATION_D);
+    private static final CommonPid localisationPid = new CommonPid(LOCALISATION_P, LOCALISATION_I, LOCALISATION_D);
 
-    private volatile RobotStatusDTO  robotStatus = new  RobotStatusDTO();
-    private volatile DistancePidResultDTO lastUltrasonicPidResult = new DistancePidResultDTO(0, 0, false, false);
+    private volatile RobotStatusDTO robotStatus = new RobotStatusDTO();
     private volatile DistancePidResultDTO lastLocalisationPidResult = new DistancePidResultDTO(0, 0, false, false);
+
+    // Assigned Work from Conveyor
+    private String assignedWorkId;
+    private String assignedTarget;
+    private FruitItemDTO assignedFruitItem;
 
     @Override
     protected void setup() {
@@ -37,8 +42,7 @@ public class DigitalTwinAgent extends Agent {
         SimpleNamespace namespace = OPCUAServer.getNamespace();
 
         try {
-            TopicManagementHelper tmh =
-                    (TopicManagementHelper) getHelper(TopicManagementHelper.SERVICE_NAME);
+            TopicManagementHelper tmh = (TopicManagementHelper) getHelper(TopicManagementHelper.SERVICE_NAME);
 
             AID topic = tmh.createTopic(MessagingConstants.ROBOT_STATE_TOPICS);
             tmh.register(topic);
@@ -50,19 +54,16 @@ public class DigitalTwinAgent extends Agent {
             e.printStackTrace();
         }
 
-        addBehaviour(new DigitalTwinCommandBehaviour(this, this, robotName));
+        addBehaviour(new TeletubbiesDTCommandBehaviour(this, this, robotName));
+        addBehaviour(new RobotItemNegotiationBehaviour(this));
+        addBehaviour(new server.digitaltwin.RobotPathPlanning(this, 1000, robotName)); // Check every 1s
     }
 
     public String getRobotName() {
         return robotName;
     }
 
-    public void instantiatePid(){
-        ultrasonicPid.setOutputLimits(200);
-        ultrasonicPid.setSetpoint(0);
-        ultrasonicPid.setSetpoint(SPEED_MAX);
-        ultrasonicPid.setSetpointRange(SPEED_MIN);
-
+    public void instantiatePid() {
         localisationPid.setOutputLimits(200);
         localisationPid.setSetpoint(0);
         localisationPid.setSetpoint(SPEED_MAX);
@@ -97,10 +98,6 @@ public class DigitalTwinAgent extends Agent {
         }
     }
 
-    public CommonPid getUltrasonicPid() {
-        return ultrasonicPid;
-    }
-
     public static CommonPid getLocalisationPid() {
         return localisationPid;
     }
@@ -113,14 +110,6 @@ public class DigitalTwinAgent extends Agent {
         this.robotStatus = robotStatus;
     }
 
-    public DistancePidResultDTO getLastUltrasonicPidResult() {
-        return lastUltrasonicPidResult;
-    }
-
-    public void setLastUltrasonicPidResult(DistancePidResultDTO lastUltrasonicPidResult) {
-        this.lastUltrasonicPidResult = lastUltrasonicPidResult;
-    }
-
     public DistancePidResultDTO getLastLocalisationPidResult() {
         return lastLocalisationPidResult;
     }
@@ -128,5 +117,28 @@ public class DigitalTwinAgent extends Agent {
     public void setLastLocalisationPidResult(DistancePidResultDTO lastLocalisationPidResult) {
         this.lastLocalisationPidResult = lastLocalisationPidResult;
     }
-}
 
+    public String getAssignedWorkId() {
+        return assignedWorkId;
+    }
+
+    public void setAssignedWorkId(String assignedWorkId) {
+        this.assignedWorkId = assignedWorkId;
+    }
+
+    public String getAssignedTarget() {
+        return assignedTarget;
+    }
+
+    public void setAssignedTarget(String assignedTarget) {
+        this.assignedTarget = assignedTarget;
+    }
+
+    public FruitItemDTO getAssignedFruitItem() {
+        return assignedFruitItem;
+    }
+
+    public void setAssignedFruitItem(FruitItemDTO assignedFruitItem) {
+        this.assignedFruitItem = assignedFruitItem;
+    }
+}

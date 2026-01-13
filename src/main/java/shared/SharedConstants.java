@@ -1,8 +1,8 @@
 package shared;
 
 public class SharedConstants {
-    private SharedConstants()
-    {}
+    private SharedConstants() {
+    }
 
     // -------- Battery percentage --------
     public static final int MAX_BATTERY = 100;
@@ -13,4 +13,8 @@ public class SharedConstants {
     public static final double MIN_Y = 0.0;
     public static final double MAX_X = 10000.0;
     public static final double MAX_Y = 10000.0;
+
+    // Simulation Config
+    public static final boolean IS_SIMS = true;
+    public static final long SIM_DURATION_MS = 10000;
 }

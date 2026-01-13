@@ -18,20 +18,20 @@ public class RobotContext {
     private volatile int robotBatteryPercentage                  = MAX_BATTERY;
 
     private volatile UltrasonicReadingDTO lastUltrasonicReading  = new UltrasonicReadingDTO(0, 0, 0);
-    private volatile DistancePidResultDTO lastDistancePidResult  = new DistancePidResultDTO(0, 0, false, false);
+    private volatile DistancePidResultDTO ultrasonicPidResult = new DistancePidResultDTO(0, 0, false, false);
     private volatile PositionDTO lastPosition                    = new PositionDTO(0, 0,0,0, 0);
 
     private volatile DestinationDTO lastDestination              = new DestinationDTO(0, 0, 0);
 
-    private static final CommonPid distancePid                   = new CommonPid(ULTRASONIC_P, ULTRASONIC_I, ULTRASONIC_D);
+    private static final CommonPid ultrasonicPid = new CommonPid(ULTRASONIC_P, ULTRASONIC_I, ULTRASONIC_D);
 
     private final UltrasonicReadingUtilDummy dummyUltrasonic = new UltrasonicReadingUtilDummy();
 
     public void instantiatePid(){
-        distancePid.setOutputLimits(200);
-        distancePid.setSetpoint(0);
-        distancePid.setSetpoint(SPEED_MAX);
-        distancePid.setSetpointRange(SPEED_MIN);
+        ultrasonicPid.setOutputLimits(200);
+        ultrasonicPid.setSetpoint(0);
+        ultrasonicPid.setSetpoint(SPEED_MAX);
+        ultrasonicPid.setSetpointRange(SPEED_MIN);
 
     }
 
@@ -44,7 +44,7 @@ public class RobotContext {
     }
 
     public CommonPid getDistancePid() {
-        return distancePid;
+        return ultrasonicPid;
     }
 
     public UltrasonicReadingUtilDummy getDummyUltrasonic() {
@@ -53,12 +53,12 @@ public class RobotContext {
 
 
 
-    public DistancePidResultDTO getLastDistancePidResult() {
-        return lastDistancePidResult;
+    public DistancePidResultDTO getUltrasonicPidResult() {
+        return ultrasonicPidResult;
     }
 
-    public void setLastDistancePidResult(DistancePidResultDTO lastDistancePidResult) {
-        this.lastDistancePidResult = lastDistancePidResult;
+    public void setUltrasonicPidResult(DistancePidResultDTO ultrasonicPidResult) {
+        this.ultrasonicPidResult = ultrasonicPidResult;
     }
 
     public UltrasonicReadingDTO getLastUltrasonicReading() {

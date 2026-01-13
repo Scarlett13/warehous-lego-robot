@@ -25,51 +25,54 @@ import static org.eclipse.milo.opcua.stack.core.types.builtin.LocalizedText.engl
  * OPC-UA SERVER for Multi-Robot System
  */
 public class OPCUAServer {
-    
+
     private static OpcUaServer server;
     private static SimpleNamespace namespace;
-    
+
     public static void start() throws Exception {
         OpcUaServerConfigBuilder builder = new OpcUaServerConfigBuilder();
-        
+
         builder.setIdentityValidator(new CompositeValidator(
-            AnonymousIdentityValidator.INSTANCE
-        ));
-        
+                AnonymousIdentityValidator.INSTANCE));
+
         EndpointConfiguration.Builder endpointBuilder = new EndpointConfiguration.Builder();
         endpointBuilder.addTokenPolicies(OpcUaServerConfig.USER_TOKEN_POLICY_ANONYMOUS);
         endpointBuilder.setSecurityPolicy(SecurityPolicy.None);
         endpointBuilder.setBindPort(Config.SERVER_PORT);
         builder.setEndpoints(singleton(endpointBuilder.build()));
-        
+
         builder.setApplicationName(english(Config.SERVER_NAME));
-        builder.setApplicationUri("urn:" + HostnameUtil.getHostname() + ":" + Config.SERVER_PORT + "/" + Config.SERVER_NAME);
+        builder.setApplicationUri(
+                "urn:" + HostnameUtil.getHostname() + ":" + Config.SERVER_PORT + "/" + Config.SERVER_NAME);
         builder.setBuildInfo(new BuildInfo("", "", "", "", "", new DateTime()));
         builder.setCertificateManager(new DefaultCertificateManager());
-        
+
         builder.setCertificateValidator(new ServerCertificateValidator() {
             @Override
-            public void validateCertificateChain(List<X509Certificate> list, String s) throws UaException {}
-            
+            public void validateCertificateChain(List<X509Certificate> list, String s) throws UaException {
+            }
+
             @Override
-            public void validateCertificateChain(List<X509Certificate> list) throws UaException {}
+            public void validateCertificateChain(List<X509Certificate> list) throws UaException {
+            }
         });
-        
+
         server = new OpcUaServer(builder.build());
         namespace = new SimpleNamespace(server);
         server.getAddressSpaceManager().register(namespace);
-        
+        namespace.registerGraphConfig();
+
         server.startup().get();
-        
+
         System.out.println("✅ OPC-UA Server started on port " + Config.SERVER_PORT);
     }
-    
+
     public static void stop() throws Exception {
         if (server != null) {
             server.shutdown().get();
         }
     }
-    
+
     public static SimpleNamespace getNamespace() {
         return namespace;
     }

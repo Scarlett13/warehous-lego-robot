@@ -8,17 +8,18 @@ import java.util.Map;
 /**
  * AGENT REGISTRY
  * 
- * Keeps track of all agents (robots, conveyors) in the system and their OPC-UA variables.
-
+ * Keeps track of all agents (robots, conveyors) in the system and their OPC-UA
+ * variables.
+ * 
  */
 public class OpcuaNodeRegistry {
-    
+
     // Stores OPC-UA nodes for each robot
     private static Map<String, RobotNodes> robotMap = new HashMap<>();
-    
+
     // Stores OPC-UA nodes for each conveyor
     private static Map<String, ConveyorNodes> conveyorMap = new HashMap<>();
-    
+
     /**
      * Container for a robot's OPC-UA variable nodes
      */
@@ -30,34 +31,58 @@ public class OpcuaNodeRegistry {
         public UaVariableNode currentSpeed;
         public UaVariableNode currentState;
 
-        public RobotNodes(UaVariableNode curretnBatteryPercentage,
-                          UaVariableNode currentWorkId,
-                          UaVariableNode currentPath,
-                          UaVariableNode targetPath,
-                          UaVariableNode currentSpeed,
-                          UaVariableNode currentState) {
-            this.currentBatteryPercentage = curretnBatteryPercentage;
+        public UaVariableNode ultrasonicSensorReading;
+        public UaVariableNode posX;
+        public UaVariableNode posY;
+        public UaVariableNode yawAngle;
+        public UaVariableNode robotName;
+        public UaVariableNode currentTrajectory;
+        public UaVariableNode forceArrival;
+
+        public RobotNodes(UaVariableNode currentBatteryPercentage,
+                UaVariableNode currentWorkId,
+                UaVariableNode currentPath,
+                UaVariableNode targetPath,
+                UaVariableNode currentSpeed,
+                UaVariableNode currentState,
+                UaVariableNode ultrasonicSensorReading,
+                UaVariableNode posX,
+                UaVariableNode posY,
+                UaVariableNode yawAngle,
+                UaVariableNode robotName,
+                UaVariableNode currentTrajectory,
+                UaVariableNode forceArrival) {
+            this.currentBatteryPercentage = currentBatteryPercentage;
             this.currentWorkId = currentWorkId;
             this.currentPath = currentPath;
             this.targetPath = targetPath;
             this.currentSpeed = currentSpeed;
             this.currentState = currentState;
+            this.ultrasonicSensorReading = ultrasonicSensorReading;
+            this.posX = posX;
+            this.posY = posY;
+            this.yawAngle = yawAngle;
+            this.robotName = robotName;
+            this.currentTrajectory = currentTrajectory;
+            this.forceArrival = forceArrival;
         }
     }
-    
+
     /**
      * Container for a conveyor's OPC-UA variable nodes
      */
     public static class ConveyorNodes {
         public UaVariableNode nextitemid;
         public UaVariableNode totalitems;
-        
-        public ConveyorNodes(UaVariableNode nextitemid, UaVariableNode totalitems) {
+        public UaVariableNode conveyorItems;
+
+        public ConveyorNodes(UaVariableNode nextitemid, UaVariableNode totalitems, UaVariableNode conveyorItems) {
             this.nextitemid = nextitemid;
             this.totalitems = totalitems;
+            this.conveyorItems = conveyorItems;
         }
     }
-    
+
     /**
      * Register a new robot in the system
      */
@@ -65,7 +90,7 @@ public class OpcuaNodeRegistry {
         robotMap.put(robotName, nodes);
         System.out.println("✅ Registered robot: " + robotName);
     }
-    
+
     /**
      * Register a new conveyor in the system
      */
@@ -73,49 +98,49 @@ public class OpcuaNodeRegistry {
         conveyorMap.put(conveyorName, nodes);
         System.out.println("✅ Registered conveyor: " + conveyorName);
     }
-    
+
     /**
      * Get OPC-UA nodes for a specific robot
      */
     public static RobotNodes getRobot(String robotName) {
         return robotMap.get(robotName);
     }
-    
+
     /**
      * Get OPC-UA nodes for a specific conveyor
      */
     public static ConveyorNodes getConveyor(String conveyorName) {
         return conveyorMap.get(conveyorName);
     }
-    
+
     /**
      * Check if a robot is registered
      */
     public static boolean hasRobot(String robotName) {
         return robotMap.containsKey(robotName);
     }
-    
+
     /**
      * Check if a conveyor is registered
      */
     public static boolean hasConveyor(String conveyorName) {
         return conveyorMap.containsKey(conveyorName);
     }
-    
+
     /**
      * Get all registered robot names
      */
     public static String[] getAllRobotNames() {
         return robotMap.keySet().toArray(new String[0]);
     }
-    
+
     /**
      * Get all registered conveyor names
      */
     public static String[] getAllConveyorNames() {
         return conveyorMap.keySet().toArray(new String[0]);
     }
-    
+
     /**
      * Clear all registered components (for reset)
      */

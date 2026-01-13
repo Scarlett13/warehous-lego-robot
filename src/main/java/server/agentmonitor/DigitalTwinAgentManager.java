@@ -1,8 +1,6 @@
 package server.agentmonitor;
 
 import jade.lang.acl.ACLMessage;
-import server.ServerMain;
-import server.ui.MonitorUI;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.TickerBehaviour;
@@ -11,13 +9,11 @@ import jade.domain.FIPAAgentManagement.AMSAgentDescription;
 import jade.domain.FIPAAgentManagement.SearchConstraints;
 import jade.wrapper.AgentController;
 import jade.wrapper.ContainerController;
-import server.digitaltwin.DigitalTwinAgent;
+import server.digitaltwin.teletubbies.TeletubbiesDTAgent;
 import shared.messaging.MessagingConstants;
 import shared.messaging.TopicHelper;
 import shared.messaging.acl.Acl;
 
-import javax.swing.*;
-import java.awt.*;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -97,7 +93,7 @@ public class DigitalTwinAgentManager extends Agent {
         // Core JADE system/UI agents
         if (lower.startsWith("ams") || lower.startsWith("df") || lower.startsWith("rma")
                 || lower.startsWith("sniffer") || lower.startsWith("introspector") || lower.startsWith("dt-")
-                || lower.startsWith("conveyor")) {
+                || lower.startsWith("conveyor") || lower.startsWith("fresh") || lower.startsWith("rotten") || lower.startsWith("input") || lower.startsWith("charging")) {
             return false;
         }
 
@@ -108,6 +104,21 @@ public class DigitalTwinAgentManager extends Agent {
         if (n.equals(getLocalName())) return false;
 
         return true;
+    }
+
+    private String dtGroupIdentification(String childLocalName){
+        if(childLocalName.startsWith("T_")){
+            return TeletubbiesDTAgent.class.getName();
+        }
+        else if(childLocalName.startsWith("F_")){
+            return "FUEGO_DT_CLASS";
+        }
+        else if(childLocalName.startsWith("V_")){
+            return "VRL_DT_CLASS";
+        }
+        else{
+            return childLocalName;
+        }
     }
 
     private void onChildJoined(String childLocalName) {
@@ -124,7 +135,7 @@ public class DigitalTwinAgentManager extends Agent {
             Object[] args = new Object[]{ childLocalName };
 
             AgentController twinCtrl =
-                    cc.createNewAgent(twinName, DigitalTwinAgent.class.getName(), args);
+                    cc.createNewAgent(twinName, dtGroupIdentification(childLocalName), args);
 
             twinCtrl.start();
 

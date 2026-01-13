@@ -4,6 +4,8 @@ import jade.core.Agent;
 import jade.core.behaviours.TickerBehaviour;
 import robot.RobotConstants;
 import robot.RobotContext;
+import server.control.UltrasonicPidControl;
+import shared.DistancePidResultDTO;
 import shared.dto.UltrasonicReadingDTO;
 import robot.hardware.UltrasonicHardware;
 import robot.utils.*;
@@ -31,11 +33,12 @@ public class UltrasonicReadingBehaviour extends TickerBehaviour {
                 UltrasonicHardware.readRaw();
 
         UltrasonicReadingDTO ultrasonicReadingDto = new UltrasonicReadingDTO(currentTimestamp, Math.min(distance, 200), dt);
-//        DistancePidResultDTO lastDistancePidResult = ctx.getLastDistancePidResult();
+        DistancePidResultDTO lastDistancePidResult = ctx.getUltrasonicPidResult();
 
-//        lastDistancePidResult = DistancePidControl.computeControl(currentTimestamp, distanceDto.getDistance(), lastDistancePidResult.getForwardTarget(), lastDistancePidResult.isHalted(), ctx.getDistancePid(), dt);
+        DistancePidResultDTO newDistancePidResult = UltrasonicPidControl.computeControl(currentTimestamp, distance, lastDistancePidResult.getForwardTarget(), lastDistancePidResult.isHalted(), ctx.getDistancePid(), dt);
 
         ctx.setLastUltrasonicReading(ultrasonicReadingDto);
+        ctx.setUltrasonicPidResult(newDistancePidResult);
 //        System.out.println("New ultrasonic reading: "+ultrasonicReadingDto.toString());
     }
 

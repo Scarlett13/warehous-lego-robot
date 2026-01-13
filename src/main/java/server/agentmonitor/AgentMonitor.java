@@ -8,13 +8,10 @@ import jade.domain.FIPAAgentManagement.AMSAgentDescription;
 import jade.domain.FIPAAgentManagement.SearchConstraints;
 import jade.wrapper.AgentController;
 import jade.wrapper.ContainerController;
-import robot.agents.TeletubbiesAgent;
-import server.digitaltwin.DigitalTwinAgent;
+import server.digitaltwin.teletubbies.TeletubbiesDTAgent;
 
 import java.util.HashSet;
 import java.util.Set;
-
-import static robot.RobotConstants.ROBOT_NAME;
 
 @Deprecated
 public class AgentMonitor extends Agent {
@@ -75,7 +72,7 @@ public class AgentMonitor extends Agent {
 
     private void addNewAgent(ContainerController cc, String name) throws java.lang.Exception {
         AgentController robot = cc.createNewAgent(name,
-                DigitalTwinAgent.class.getName(), new Object[]{});
+                TeletubbiesDTAgent.class.getName(), new Object[]{});
         robot.start();
     }
 

@@ -12,6 +12,7 @@ import shared.messaging.MessagingConstants;
 import shared.messaging.TopicHelper;
 import shared.utils.JsonUtil;
 
+import static robot.RobotConstants.IS_SIMS;
 import static robot.RobotConstants.ROBOT_NAME;
 
 public class RobotCommandReceiverBehaviour extends CyclicBehaviour {
@@ -24,6 +25,7 @@ public class RobotCommandReceiverBehaviour extends CyclicBehaviour {
         this.ctx = ctx;
 
         AID topic = TopicHelper.topic(a, MessagingConstants.ROBOT_COMMAND_TOPICS);
+        TopicHelper.subscribe(a, topic);
 
         MessageTemplate t = MessageTemplate.MatchTopic(topic);
         t = MessageTemplate.and(t, MessageTemplate.MatchOntology(MessagingConstants.ONTOLOGY));
@@ -35,19 +37,19 @@ public class RobotCommandReceiverBehaviour extends CyclicBehaviour {
 
     @Override
     public void action() {
+        // System.out.println("action - command behaviour");
         ACLMessage msg = this.getAgent().receive(mt);
         if (msg == null || msg.getContent().isEmpty()) {
             block();
             return;
         }
+        System.out.println("message received: " + msg.getContent());
 
         RobotCommandDTO newCommand = JsonUtil.fromJson(msg.getContent(), RobotCommandDTO.class);
-        if (
-                newCommand == null ||
+        if (newCommand == null ||
                 newCommand.getRobotName() == null ||
                 newCommand.getRobotName().isEmpty() ||
-                !newCommand.getRobotName().equals(ROBOT_NAME)
-        ) {
+                !newCommand.getRobotName().equals(ROBOT_NAME)) {
             block();
             return;
         }
@@ -55,14 +57,15 @@ public class RobotCommandReceiverBehaviour extends CyclicBehaviour {
         long currentTimestamp = System.currentTimeMillis();
         long dt = currentTimestamp - prevTimestamp;
 
-        //TODO: apply the variables to the robot
+        // TODO: apply the variables to the robot
         // * 1. apply motor command
         // * 2. set new context
         // *
 
-        MotorHardware.applyCommand(dt, newCommand.getTargetMotorSpeed(), newCommand.getTurnCorrection());
+        if (!IS_SIMS)
+            MotorHardware.applyCommand(dt, newCommand.getTargetMotorSpeed(), newCommand.getTurnCorrection());
 
-        //finally, set new context
+        // finally, set new context
         ctx.setState(newCommand.getRobotState());
         ctx.setWorkId(newCommand.getItemId());
         prevTimestamp = currentTimestamp;

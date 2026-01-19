@@ -15,7 +15,7 @@ public class TrafficManager {
 
     private static TrafficManager instance;
     private final GeometryFactory gf = new GeometryFactory();
-    private static final double SAFETY_ZONE_SIZE = 300.0;
+    private static final double SAFETY_ZONE_SIZE = 600.0;
 
     // Robot Safety Zones: Name -> Safe Polygon (Square)
     private Map<String, Polygon> safetyZones = new ConcurrentHashMap<>();

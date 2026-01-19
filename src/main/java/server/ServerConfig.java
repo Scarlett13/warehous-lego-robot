@@ -14,6 +14,9 @@ public class ServerConfig {
     public static final int SERVER_PORT = 4840;
     public static final String NAMESPACE_URI = "urn:warehouse:mas";
 
+    // Centralized IP Configuration
+    public static final String MAIN_HOST_IP = "192.168.0.157";
+
     // Robot Configuration - Dynamic list
     public static final List<String> ROBOT_NAMES = new ArrayList<String>() {
         {
@@ -31,11 +34,11 @@ public class ServerConfig {
     };
 
     // Location Coordinates (X, Y, Z in mm)
-    public static final double[] LOC_INPUT_CONVEYOR = { 9130, 15182, 0 }; // Was LOC_A
-    public static final double[] LOC_ROTTEN_OUTPUT = { 9159, 1459, 0 }; // Was LOC_B
-    public static final double[] LOC_FRESH_OUTPUT = { 11940, 15440, 0 }; // Was LOC_OUTPUT
-    public static final double[] LOC_CHARGING_STATION_1 = { 11196, 15901, 0 }; // Was LOC_CS1
-    public static final double[] LOC_CHARGING_STATION_2 = { -1187.116, 5050.898, 0 }; // Was LOC_CS2
+    public static final double[] LOC_INPUT_CONVEYOR = { 6530, 14750, 0 }; // Was LOC_A
+    public static final double[] LOC_ROTTEN_OUTPUT = { 12720, 14070, 0 }; // Was LOC_B
+    public static final double[] LOC_FRESH_OUTPUT = { 12600, 15100, 0 }; // Was LOC_OUTPUT
+    public static final double[] LOC_CHARGING_STATION_1 = { 6380, 13720, 0 }; // Was LOC_CS1
+    public static final double[] LOC_CHARGING_STATION_2 = { 5280, 14720, 0 }; // Was LOC_CS2
     public static final double[] LOC_IDLE_AREA = { 1000, 0, 0 }; // Was LOC_IDLE
 
     // Conveyor locations - Dynamic map

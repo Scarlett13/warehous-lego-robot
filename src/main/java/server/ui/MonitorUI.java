@@ -325,8 +325,18 @@ public class MonitorUI extends JFrame {
                     FruitItemDTO[] items = JsonUtil.fromJson(itemsJson, FruitItemDTO[].class);
                     if (items != null) {
                         for (FruitItemDTO item : items) {
-                            sb.append(String.format("[%s] %s (Fresh: %d)\n",
-                                    item.getStatus(), item.getItemId(), item.getFreshness()));
+                            String robotInfo = "";
+                            if (item.getRobotId() != null && !item.getRobotId().isEmpty()) {
+                                try {
+                                    String shortName = item.getRobotId().split("@")[0];
+                                    robotInfo = " [" + shortName + "]";
+                                } catch (Exception e) {
+                                    robotInfo = " [" + item.getRobotId() + "]";
+                                }
+                            }
+
+                            sb.append(String.format("[%s] %s%s (Fresh: %d)\n",
+                                    item.getStatus(), item.getItemId(), robotInfo, item.getFreshness()));
                         }
                     }
                 } else {

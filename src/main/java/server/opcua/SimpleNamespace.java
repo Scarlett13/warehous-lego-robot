@@ -33,7 +33,7 @@ public class SimpleNamespace extends ManagedNamespace {
      */
     public void registerRobot(String robotName, RobotStatusDTO robotStatus) throws Exception {
         if (OpcuaNodeRegistry.hasRobot(robotName)) {
-            System.out.println("⚠️  Robot " + robotName + " already registered");
+            System.out.println("Robot " + robotName + " already registered");
             return;
         }
 
@@ -142,6 +142,47 @@ public class SimpleNamespace extends ManagedNamespace {
     }
 
     /**
+     * Register a new Fuego robot and create its OPC-UA variables
+     */
+    public void registerFuegoRobot(String robotName, String opcuaFolderName) throws Exception {
+        if (OpcuaNodeRegistry.hasFuegoRobot(robotName)) {
+            System.out.println("Fuego Robot " + robotName + " already registered");
+            return;
+        }
+
+        System.out.println(
+                " Creating OPC-UA variables for Fuego Robot: " + robotName + " (Folder: " + opcuaFolderName + ")");
+
+        UaNodeContext context = getNodeContext();
+
+        // Create folder for this robot (Use hardcoded folder name)
+        UaFolderNode robotFolder = new UaFolderNode(
+                context,
+                newNodeId(opcuaFolderName),
+                newQualifiedName(opcuaFolderName),
+                LocalizedText.english(opcuaFolderName));
+
+        // Register folder
+        context.getNodeManager().addNode(robotFolder);
+
+        // Add to Objects folder
+        Optional<UaNode> objectsFolder = context.getServer()
+                .getAddressSpaceManager()
+                .getManagedNode(Identifiers.ObjectsFolder);
+        objectsFolder.ifPresent(node -> ((FolderTypeNode) node).addComponent(robotFolder));
+
+        // Create variables (Nodes will be "FolderName/Points")
+        UaVariableNode points = createVariable(robotFolder, "Points", "[]");
+        UaVariableNode pathId = createVariable(robotFolder, "PathID", "");
+
+        // Register in registry (Key is robotName e.g "Robot1Name")
+        OpcuaNodeRegistry.FuegoNodes nodes = new OpcuaNodeRegistry.FuegoNodes(points, pathId);
+        OpcuaNodeRegistry.registerFuegoRobot(robotName, nodes);
+
+        System.out.println(" " + robotName + " ready (ns=2;s=" + opcuaFolderName + "/*)");
+    }
+
+    /**
      * Register global Graph Configuration node
      */
     public void registerGraphConfig() throws Exception {
@@ -189,7 +230,7 @@ public class SimpleNamespace extends ManagedNamespace {
             getNodeManager().addNode(occupancyState);
             occupancyStateNode = occupancyState;
 
-            System.out.println("✅ Registered Global nodes (GraphConfig, OccupancyState)");
+            System.out.println("Registered Global nodes (GraphConfig, OccupancyState)");
         }
     }
 
@@ -538,6 +579,48 @@ public class SimpleNamespace extends ManagedNamespace {
             }
         }
         return 0.0;
+    }
+
+    // Fuego access methods
+
+    public static void setFuegoPoints(String robotName, String pointsJson) {
+        OpcuaNodeRegistry.FuegoNodes nodes = OpcuaNodeRegistry.getFuegoRobot(robotName);
+        if (nodes != null) {
+            nodes.points.setValue(new DataValue(new Variant(pointsJson)));
+        }
+    }
+
+    public static void setFuegoPathId(String robotName, String pathId) {
+        OpcuaNodeRegistry.FuegoNodes nodes = OpcuaNodeRegistry.getFuegoRobot(robotName);
+        if (nodes != null) {
+            nodes.pathId.setValue(new DataValue(new Variant(pathId)));
+        }
+    }
+
+    public static String getFuegoPoints(String robotName) {
+        OpcuaNodeRegistry.FuegoNodes nodes = OpcuaNodeRegistry.getFuegoRobot(robotName);
+        if (nodes != null) {
+            try {
+                Object v = nodes.points.getValue().getValue().getValue();
+                return v != null ? (String) v : "[]";
+            } catch (Exception e) {
+                return "[]";
+            }
+        }
+        return "[]";
+    }
+
+    public static String getFuegoPathId(String robotName) {
+        OpcuaNodeRegistry.FuegoNodes nodes = OpcuaNodeRegistry.getFuegoRobot(robotName);
+        if (nodes != null) {
+            try {
+                Object v = nodes.pathId.getValue().getValue().getValue();
+                return v != null ? (String) v : "";
+            } catch (Exception e) {
+                return "";
+            }
+        }
+        return "";
     }
 
     @Override

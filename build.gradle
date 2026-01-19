@@ -32,6 +32,7 @@ dependencies {
     implementation('org.json:json:20210307')
     implementation group: 'com.google.code.gson', name: 'gson', version: '2.7'
     implementation 'org.eclipse.milo:sdk-server:0.6.9'
+    implementation 'org.eclipse.milo:sdk-client:0.6.9'
 }
 
 compileJava.options.encoding = 'UTF-8'

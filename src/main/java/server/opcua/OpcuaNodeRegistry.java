@@ -20,6 +20,9 @@ public class OpcuaNodeRegistry {
     // Stores OPC-UA nodes for each conveyor
     private static Map<String, ConveyorNodes> conveyorMap = new HashMap<>();
 
+    // Stores OPC-UA nodes for each fuego robot
+    private static Map<String, FuegoNodes> fuegoMap = new HashMap<>();
+
     /**
      * Container for a robot's OPC-UA variable nodes
      */
@@ -88,7 +91,7 @@ public class OpcuaNodeRegistry {
      */
     public static void registerRobot(String robotName, RobotNodes nodes) {
         robotMap.put(robotName, nodes);
-        System.out.println("✅ Registered robot: " + robotName);
+        System.out.println("Registered robot: " + robotName);
     }
 
     /**
@@ -96,7 +99,7 @@ public class OpcuaNodeRegistry {
      */
     public static void registerConveyor(String conveyorName, ConveyorNodes nodes) {
         conveyorMap.put(conveyorName, nodes);
-        System.out.println("✅ Registered conveyor: " + conveyorName);
+        System.out.println("Registered conveyor: " + conveyorName);
     }
 
     /**
@@ -142,10 +145,53 @@ public class OpcuaNodeRegistry {
     }
 
     /**
+     * Container for a Fuego robot's OPC-UA variable nodes
+     */
+    public static class FuegoNodes {
+        public UaVariableNode points;
+        public UaVariableNode pathId;
+
+        public FuegoNodes(UaVariableNode points, UaVariableNode pathId) {
+            this.points = points;
+            this.pathId = pathId;
+        }
+    }
+
+    /**
+     * Register a new Fuego robot in the system
+     */
+    public static void registerFuegoRobot(String robotName, FuegoNodes nodes) {
+        fuegoMap.put(robotName, nodes);
+        System.out.println("Registered Fuego robot: " + robotName);
+    }
+
+    /**
+     * Get OPC-UA nodes for a specific Fuego robot
+     */
+    public static FuegoNodes getFuegoRobot(String robotName) {
+        return fuegoMap.get(robotName);
+    }
+
+    /**
+     * Check if a Fuego robot is registered
+     */
+    public static boolean hasFuegoRobot(String robotName) {
+        return fuegoMap.containsKey(robotName);
+    }
+
+    /**
+     * Get all registered Fuego robot names
+     */
+    public static String[] getAllFuegoRobotNames() {
+        return fuegoMap.keySet().toArray(new String[0]);
+    }
+
+    /**
      * Clear all registered components (for reset)
      */
     public static void clear() {
         robotMap.clear();
         conveyorMap.clear();
+        fuegoMap.clear();
     }
 }

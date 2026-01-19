@@ -34,7 +34,7 @@ public class ServerMain {
             ProfileImpl profile = new ProfileImpl();
             profile.setParameter(ProfileImpl.MAIN, "true");
             profile.setParameter(Profile.LOCAL_PORT, "1099");
-            profile.setParameter(Profile.LOCAL_HOST, "127.0.0.1");
+            profile.setParameter(Profile.LOCAL_HOST, ServerConfig.MAIN_HOST_IP);
             profile.setParameter(ProfileImpl.GUI, "true"); // Show JADE GUI
             profile.setParameter(Profile.SERVICES,
                     "jade.core.event.NotificationService;jade.core.messaging.TopicManagementService");

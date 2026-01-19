@@ -27,7 +27,7 @@ public class UltrasonicPidControl {
 //        final boolean reachedGoal = (Math.abs(dx) < DEST_GOAL_STOP && Math.abs(dy) < DEST_GOAL_STOP);
         final boolean canResumeObstacle = (obstacleDistCm >= RESUME_DISTANCE);
 
-        System.out.println("mustStopForObstacle: " + mustStopForObstacle + ", washalted: "+ wasHalted +", canResumeObstacle: " + canResumeObstacle);
+//        System.out.println("mustStopForObstacle: " + mustStopForObstacle + ", washalted: "+ wasHalted +", canResumeObstacle: " + canResumeObstacle);
 
         boolean isHalted = mustStopForObstacle
                 || (wasHalted && !canResumeObstacle);
@@ -37,7 +37,7 @@ public class UltrasonicPidControl {
 
         final boolean inObstacleBand =  (obstacleDistCm >= STOP_DISTANCE && obstacleDistCm <= AVOID_DISTANCE);
 
-        System.out.println("inObstacleBand: " + inObstacleBand);
+//        System.out.println("inObstacleBand: " + inObstacleBand);
 
         if (!isHalted && (inObstacleBand)) {
             isAvoiding = true;

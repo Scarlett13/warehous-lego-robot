@@ -6,10 +6,11 @@ import java.io.Serializable;
 
 public class RobotCommandDTO implements Serializable {
     /*
-    * robot command are given by digital twin to physical twin
-    * command can come from digital twin decision or VC analysis
-    * external command was given based on ultrasonic reading, robot position, target location, battery level, and work order
-    * */
+     * robot command are given by digital twin to physical twin
+     * command can come from digital twin decision or VC analysis
+     * external command was given based on ultrasonic reading, robot position,
+     * target location, battery level, and work order
+     */
 
     private String robotName;
     private long timestamp;
@@ -17,14 +18,24 @@ public class RobotCommandDTO implements Serializable {
     private double turnCorrection;
     private RobotState robotState;
     private String itemId;
+    private double targetX;
+    private double targetY;
 
-    public RobotCommandDTO(String robotName, long timestamp, double targetMotorSpeed, double turnCorrection, RobotState robotState, String itemId) {
+    public RobotCommandDTO(String robotName, long timestamp, double targetMotorSpeed, double turnCorrection,
+            RobotState robotState, String itemId, Double targetX, Double targetY) {
         this.robotName = robotName;
         this.timestamp = timestamp;
         this.targetMotorSpeed = targetMotorSpeed;
         this.turnCorrection = turnCorrection;
         this.robotState = robotState;
         this.itemId = itemId;
+        this.targetX = targetX;
+        this.targetY = targetY;
+    }
+
+    public RobotCommandDTO(String robotName, long timestamp, double targetMotorSpeed, double turnCorrection,
+            RobotState robotState, String itemId) {
+        this(robotName, timestamp, targetMotorSpeed, turnCorrection, robotState, itemId, null, null);
     }
 
     public String getRobotName() {
@@ -73,5 +84,21 @@ public class RobotCommandDTO implements Serializable {
 
     public void setItemId(String itemId) {
         this.itemId = itemId;
+    }
+
+    public double getTargetX() {
+        return targetX;
+    }
+
+    public void setTargetX(double targetX) {
+        this.targetX = targetX;
+    }
+
+    public double getTargetY() {
+        return targetY;
+    }
+
+    public void setTargetY(double targetY) {
+        this.targetY = targetY;
     }
 }

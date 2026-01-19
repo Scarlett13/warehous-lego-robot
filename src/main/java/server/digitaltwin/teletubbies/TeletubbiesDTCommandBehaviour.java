@@ -6,6 +6,7 @@ import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import robot.utils.RobotState;
+import server.digitaltwin.TrafficManager;
 import shared.SharedConstants;
 import shared.dto.RobotStatusDTO;
 import shared.dto.RobotCommandDTO;
@@ -94,7 +95,34 @@ public class TeletubbiesDTCommandBehaviour extends CyclicBehaviour {
                 distToTarget = Math.sqrt(dx * dx + dy * dy);
 
                 // Calculate angle to target
-                targetAngle = Math.toDegrees(Math.atan2(dy, dx));
+                double currentAngle = newStatus.getRobotPosition().getAngleDeg();
+
+                // Check Alignment (approximate within 20 degrees)
+                boolean alignedX = (Math.abs(currentAngle % 180) < 20) || (Math.abs(currentAngle % 180) > 160);
+                boolean alignedY = (Math.abs((currentAngle - 90) % 180) < 20)
+                        || (Math.abs((currentAngle - 90) % 180) > 160);
+
+                if (Math.abs(dx) < ARRIVAL_THRESHOLD_MM) {
+                    // X is done, Focus Y
+                    targetAngle = (dy > 0) ? 90.0 : 270.0;
+                } else if (Math.abs(dy) < ARRIVAL_THRESHOLD_MM) {
+                    // Y is done, Focus X
+                    targetAngle = (dx > 0) ? 0.0 : 180.0;
+                } else {
+                    // Both need work. Decide based on Orientation first, then Distance.
+                    if (alignedX) {
+                        targetAngle = (dx > 0) ? 0.0 : 180.0;
+                    } else if (alignedY) {
+                        targetAngle = (dy > 0) ? 90.0 : 270.0;
+                    } else {
+                        // Not aligned to either. Pick the CLOSER one (User preference).
+                        if (Math.abs(dx) < Math.abs(dy)) {
+                            targetAngle = (dx > 0) ? 0.0 : 180.0;
+                        } else {
+                            targetAngle = (dy > 0) ? 90.0 : 270.0;
+                        }
+                    }
+                }
 
                 if (distToTarget < ARRIVAL_THRESHOLD_MM) {
                     arrivedAtPrevDestination = true;
@@ -102,17 +130,20 @@ public class TeletubbiesDTCommandBehaviour extends CyclicBehaviour {
 
                 // Check Force Arrive Signal from UI
                 if (SimpleNamespace.getRobotForceArrival(currentRobotName)) {
-                    System.out.println("⚠️ [DT] Force Arrival Triggered via UI!");
+                    System.out.println("[DT] Force Arrival Triggered via UI!");
                     arrivedAtPrevDestination = true;
                     SimpleNamespace.setRobotForceArrival(currentRobotName, false); // Reset flag
                 }
             }
         }
 
+        boolean hasItem = (agentClass.getAssignedFruitItem() != null
+                && agentClass.getAssignedFruitItem().getStatus() == FruitItemDTO.FruitItemWorkStatusEnum.PICKED_UP);
         RobotState newState = stateUtils.changeRobotState(
                 newStatus.getRobotState(),
                 (int) newStatus.getBatteryPct(),
                 hasWorkId,
+                hasItem,
                 arrivedAtPrevDestination);
 
         // --- CHARGING STATION MANAGEMENT (Centralized) ---
@@ -162,15 +193,14 @@ public class TeletubbiesDTCommandBehaviour extends CyclicBehaviour {
                 break;
             case GOING_TO_CHARGE:
             case BACK_TO_STATION:
+            case STANDBY:
+            case CHARGING:
                 // For GOING_TO_CHARGE, newTarget is already set by the Booking logic above
                 // We fetch it from agentClass to be sure
                 newTarget = agentClass.getAssignedTarget();
                 if (newTarget == null) {
                     newTarget = "Charging Station"; // Fallback (but will resolve to null if blocked)
                 }
-                break;
-            case STANDBY:
-            case CHARGING:
                 break;
         }
 
@@ -188,9 +218,11 @@ public class TeletubbiesDTCommandBehaviour extends CyclicBehaviour {
             }
 
             // Detect Delivery Completion
-            if (newStatus.getRobotState() == RobotState.DELIVERING &&
-                    (newState == RobotState.BACK_TO_STATION || newState == RobotState.GOING_TO_CHARGE
-                            || newState == RobotState.STANDBY)) {
+            // Detect Delivery Completion
+            // BUG FIX: Only mark delivered if we transition to BACK_TO_STATION (Normal
+            // flow)
+            // Do NOT mark delivered if we are interrupted to go charging.
+            if (newStatus.getRobotState() == RobotState.DELIVERING && newState == RobotState.BACK_TO_STATION) {
                 FruitItemDTO item = agentClass.getAssignedFruitItem();
                 if (item != null) {
                     item.setStatus(FruitItemDTO.FruitItemWorkStatusEnum.DELIVERED);
@@ -223,6 +255,12 @@ public class TeletubbiesDTCommandBehaviour extends CyclicBehaviour {
         boolean isMovingState = (newState == RobotState.PICKINGUP || newState == RobotState.DELIVERING ||
                 newState == RobotState.GOING_TO_CHARGE || newState == RobotState.BACK_TO_STATION);
 
+        // Log target logic for debugging
+        if (isMovingState) {
+            System.out.println(
+                    "[DT-Logic] State: " + newState + " -> Target: " + (newTarget != null ? newTarget : "NULL"));
+        }
+
         if (newState != newStatus.getRobotState() || isMovingState) {
 
             // 0. Update Traffic Manager with CURRENT position
@@ -242,9 +280,8 @@ public class TeletubbiesDTCommandBehaviour extends CyclicBehaviour {
                 double nextX = newStatus.getRobotPosition().getX() + Math.cos(currentAngleRad) * lookAheadDist;
                 double nextY = newStatus.getRobotPosition().getY() + Math.sin(currentAngleRad) * lookAheadDist;
 
-                if (!server.digitaltwin.TrafficManager.getInstance().canMoveTo(currentRobotName, nextX, nextY)) {
-                    // System.out.println("🛑 [COLLISION AVOIDANCE] " + currentRobotName + "
-                    // halted.");
+                if (!TrafficManager.getInstance().canMoveTo(currentRobotName, nextX, nextY)) {
+                    System.out.println("🛑 [COLLISION AVOIDANCE] " + currentRobotName + " halted due to traffic.");
                     collisionRisk = true;
                 }
             }
@@ -254,31 +291,19 @@ public class TeletubbiesDTCommandBehaviour extends CyclicBehaviour {
                 // Simple P-Control for Speed or just fixed speeds
                 if (distToTarget > 200) {
                     speed = 400.0; // Standard speed
-                } else {
+                } else if (distToTarget < 200 && distToTarget > 90) {
                     speed = 100.0; // Approaches
+                } else {
+                    speed = 0.0;
                 }
 
-                // Determine Turn Correction
-                // Error = TargetAngle - CurrentAngle
-                double currentAngle = newStatus.getRobotPosition().getAngleDeg();
-                double error = targetAngle - currentAngle;
-
-                // Normalize error to [-180, 180]
-                while (error > 180)
-                    error -= 360;
-                while (error < -180)
-                    error += 360;
-
-                // Simple P-Control for Turn
-                // If error is large, turn hard.
-                // Using a small P gain
-                turn = error * 0.02;
-                // Clamp turn
-                if (turn > 1.0)
-                    turn = 1.0;
-                if (turn < -1.0)
-                    turn = -1.0;
+                // Turn is calculated by Robot locally. DT sends 0.
+                turn = 0.0;
             }
+
+            // EXTRACT TARGET COORDINATES for Robot-Side Navigation
+            Double tx = (targetCoord != null) ? targetCoord.x : null;
+            Double ty = (targetCoord != null) ? targetCoord.y : null;
 
             // Determine Work ID to send
             String idToSend = "";
@@ -291,10 +316,12 @@ public class TeletubbiesDTCommandBehaviour extends CyclicBehaviour {
             RobotCommandDTO cmd = new RobotCommandDTO(
                     currentRobotName,
                     System.currentTimeMillis(),
-                    speed,
-                    turn,
+                    speed, // DT sends Speed
+                    turn, // DT sends 0 Turn
                     newState,
-                    idToSend);
+                    idToSend,
+                    tx, // DT sends Target X
+                    ty); // DT sends Target Y
 
             AID topic = TopicHelper.topic(agentClass, MessagingConstants.ROBOT_COMMAND_TOPICS);
             Acl.publish(this.getAgent(), topic, ROBOT_NAME, JsonUtil.toJson(cmd), "json", ACLMessage.INFORM);

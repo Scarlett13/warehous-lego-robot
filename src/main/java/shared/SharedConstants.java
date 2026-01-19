@@ -15,6 +15,6 @@ public class SharedConstants {
     public static final double MAX_Y = 10000.0;
 
     // Simulation Config
-    public static final boolean IS_SIMS = true;
+    public static final boolean IS_SIMS = false;
     public static final long SIM_DURATION_MS = 10000;
 }

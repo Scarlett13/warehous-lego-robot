@@ -27,20 +27,28 @@ public class RobotStateSenderBehaviour extends TickerBehaviour {
     protected void onTick() {
         long currentTimestamp = System.currentTimeMillis();
 
-        //String.format("%s_%s", MessagingConstants.ROBOT_COMMAND, ROBOT_NAME)
+        // String.format("%s_%s", MessagingConstants.ROBOT_COMMAND, ROBOT_NAME)
         RobotStatusDTO currentStatus = new RobotStatusDTO(
                 currentTimestamp,
                 ctx.getRobotBatteryPercentage(),
                 ctx.getLastPosition(),
                 ctx.getWorkId(),
                 ctx.getLastUltrasonicReading(),
-                ctx.getState()
-                );
+                ctx.getState());
 
-//        String test_json = JsonUtil.toJson("{'test': true}");
+        // String test_json = JsonUtil.toJson("{'test': true}");
+
+        // Acl.publish(this.getAgent(), topic, ROBOT_NAME,
+        // JsonUtil.toJson(currentStatus), "json", ACLMessage.INFORM);
+
+        if (!robot.RobotConstants.IS_SIMS) {
+            System.out.println("State: " + ctx.getState() +
+                    " | Pos: " + ctx.getLastPosition().toString() +
+                    " | Work: " + ctx.getWorkId() +
+                    " | Speed: " + ctx.getTargetSpeed() +
+                    " | Turn: " + ctx.getTurnCorrection());
+        }
 
         Acl.publish(this.getAgent(), topic, ROBOT_NAME, JsonUtil.toJson(currentStatus), "json", ACLMessage.INFORM);
-
-//        System.out.println("Current Status: " + currentStatus);
     }
 }

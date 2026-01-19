@@ -8,6 +8,7 @@ import jade.lang.acl.MessageTemplate;
 import robot.RobotContext;
 import robot.hardware.MotorHardware;
 import shared.dto.RobotCommandDTO;
+import shared.dto.old.PositionDTO;
 import shared.messaging.MessagingConstants;
 import shared.messaging.TopicHelper;
 import shared.utils.JsonUtil;
@@ -62,12 +63,17 @@ public class RobotCommandReceiverBehaviour extends CyclicBehaviour {
         // * 2. set new context
         // *
 
-        if (!IS_SIMS)
-            MotorHardware.applyCommand(dt, newCommand.getTargetMotorSpeed(), newCommand.getTurnCorrection());
+        // if (!IS_SIMS)
+        // MotorHardware.applyCommand(dt, newCommand.getTargetMotorSpeed(),
+        // newCommand.getTurnCorrection());
 
         // finally, set new context
         ctx.setState(newCommand.getRobotState());
         ctx.setWorkId(newCommand.getItemId());
+        ctx.setTargetSpeed(newCommand.getTargetMotorSpeed());
+        ctx.setTurnCorrection(newCommand.getTurnCorrection());
+        ctx.setTargetX(newCommand.getTargetX());
+        ctx.setTargetY(newCommand.getTargetY());
         prevTimestamp = currentTimestamp;
 
     }

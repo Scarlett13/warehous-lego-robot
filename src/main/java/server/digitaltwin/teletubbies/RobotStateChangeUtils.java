@@ -6,13 +6,18 @@ import static shared.SharedConstants.BATTERY_CHARGE_THRESHOLD;
 import static shared.SharedConstants.MAX_BATTERY;
 
 public class RobotStateChangeUtils {
-    public RobotState changeRobotState(RobotState robotState, int batteryPercentage, boolean hasWorkId,
+    public RobotState changeRobotState(RobotState robotState, int batteryPercentage, boolean hasWorkId, boolean hasItem,
             boolean arrivedAtPrevDestination) {
         RobotState newRobotState = robotState;
         switch (robotState) {
             case STANDBY:
                 if (batteryPercentage < BATTERY_CHARGE_THRESHOLD) {
                     newRobotState = RobotState.GOING_TO_CHARGE;
+                    break;
+                }
+
+                if (hasItem) {
+                    newRobotState = RobotState.DELIVERING;
                     break;
                 }
 
@@ -25,7 +30,9 @@ public class RobotStateChangeUtils {
                     break;
                 }
 
-                if (hasWorkId) {
+                if (hasItem) {
+                    newRobotState = RobotState.DELIVERING;
+                } else if (hasWorkId) {
                     newRobotState = RobotState.PICKINGUP;
                 } else {
                     newRobotState = RobotState.STANDBY;

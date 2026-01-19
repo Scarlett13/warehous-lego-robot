@@ -9,7 +9,9 @@ import jade.domain.FIPAAgentManagement.AMSAgentDescription;
 import jade.domain.FIPAAgentManagement.SearchConstraints;
 import jade.wrapper.AgentController;
 import jade.wrapper.ContainerController;
+import server.digitaltwin.fuego.FuegoDTAgent;
 import server.digitaltwin.teletubbies.TeletubbiesDTAgent;
+import server.digitaltwin.vrl.VrlDTAgent;
 import shared.messaging.MessagingConstants;
 import shared.messaging.TopicHelper;
 import shared.messaging.acl.Acl;
@@ -27,7 +29,8 @@ public class DigitalTwinAgentManager extends Agent {
 
     @Override
     protected void setup() {
-        // Prime initial snapshot so you don't create twins for already-running agents (optional)
+        // Prime initial snapshot so you don't create twins for already-running agents
+        // (optional)
         knownChildren.addAll(fetchCurrentChildren());
 
         addBehaviour(new TickerBehaviour(this, 1000) { // 1s tick
@@ -67,12 +70,14 @@ public class DigitalTwinAgentManager extends Agent {
 
             for (AMSAgentDescription d : res) {
                 AID aid = d.getName();
-                if (aid == null) continue;
+                if (aid == null)
+                    continue;
 
                 String local = aid.getLocalName();
 
                 // Filter out JADE system agents and ALSO avoid treating twins as children
-                if (!shouldTrackAsChild(local)) continue;
+                if (!shouldTrackAsChild(local))
+                    continue;
 
                 result.add(local);
             }
@@ -83,40 +88,42 @@ public class DigitalTwinAgentManager extends Agent {
     }
 
     private boolean shouldTrackAsChild(String localName) {
-        if (localName == null) return false;
+        if (localName == null)
+            return false;
 
         String n = localName.trim();
-        if (n.isEmpty()) return false;
+        if (n.isEmpty())
+            return false;
 
         String lower = n.toLowerCase();
 
         // Core JADE system/UI agents
         if (lower.startsWith("ams") || lower.startsWith("df") || lower.startsWith("rma")
                 || lower.startsWith("sniffer") || lower.startsWith("introspector") || lower.startsWith("dt-")
-                || lower.startsWith("conveyor") || lower.startsWith("fresh") || lower.startsWith("rotten") || lower.startsWith("input") || lower.startsWith("charging")) {
+                || lower.startsWith("conveyor") || lower.startsWith("fresh") || lower.startsWith("rotten")
+                || lower.startsWith("input") || lower.startsWith("charging")) {
             return false;
         }
 
         // Avoid recursion: don't create twins of twins
-        if (lower.endsWith("_dt")) return false;
+        if (lower.endsWith("_dt"))
+            return false;
 
         // Avoid tracking yourself
-        if (n.equals(getLocalName())) return false;
+        if (n.equals(getLocalName()))
+            return false;
 
         return true;
     }
 
-    private String dtGroupIdentification(String childLocalName){
-        if(childLocalName.startsWith("T_")){
+    private String dtGroupIdentification(String childLocalName) {
+        if (childLocalName.startsWith("T_")) {
             return TeletubbiesDTAgent.class.getName();
-        }
-        else if(childLocalName.startsWith("F_")){
-            return "FUEGO_DT_CLASS";
-        }
-        else if(childLocalName.startsWith("V_")){
-            return "VRL_DT_CLASS";
-        }
-        else{
+        } else if (childLocalName.startsWith("Robot")) {
+            return FuegoDTAgent.class.getName();
+        } else if (childLocalName.startsWith("PID") || childLocalName.startsWith("Virtual")) {
+            return VrlDTAgent.class.getName();
+        } else {
             return childLocalName;
         }
     }
@@ -124,18 +131,18 @@ public class DigitalTwinAgentManager extends Agent {
     private void onChildJoined(String childLocalName) {
         try {
             // Create a deterministic twin name
-            String twinName =  childLocalName + "_DT";
+            String twinName = childLocalName + "_DT";
 
             // If already exists in map, skip
-            if (twins.containsKey(childLocalName)) return;
+            if (twins.containsKey(childLocalName))
+                return;
 
             ContainerController cc = getContainerController();
 
             // Pass child name as argument to DigitalTwinAgent
-            Object[] args = new Object[]{ childLocalName };
+            Object[] args = new Object[] { childLocalName };
 
-            AgentController twinCtrl =
-                    cc.createNewAgent(twinName, dtGroupIdentification(childLocalName), args);
+            AgentController twinCtrl = cc.createNewAgent(twinName, dtGroupIdentification(childLocalName), args);
 
             twinCtrl.start();
 
@@ -172,7 +179,7 @@ public class DigitalTwinAgentManager extends Agent {
         }
     }
 
-    private void sendUiCommand(String command, String robotName){
+    private void sendUiCommand(String command, String robotName) {
         AID topic = TopicHelper.topic(this, MessagingConstants.UI_TOPICS);
         Acl.publish(this, topic, MessagingConstants.UI_ONTOLOGY, robotName, command, "string", ACLMessage.INFORM);
     }

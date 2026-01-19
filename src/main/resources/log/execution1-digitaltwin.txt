@@ -1,0 +1,502 @@
+[TWIN MANAGER] Child joined: T_TinkyWinky -> started twin: T_TinkyWinky_DT
+✅ Registered robot: T_TinkyWinky
+ T_TinkyWinky ready (ns=2;s=T_TinkyWinky/*)
+[DT] registered topic=robot_state@TOPIC_ robot=T_TinkyWinky
+starting behaviour receiver for topic ( agent-identifier :name robot_state@TOPIC_ ) and robot T_TinkyWinky
+T_TinkyWinky_DT: Requesting item from Input Location
+Input Location: Assigned Item Fruit0 to T_TinkyWinky_DT@192.168.0.157:1099/JADE
+T_TinkyWinky_DT: Assigned Item Fruit0 from Input Location
+RobotPathPlanning: Planning path for T_TinkyWinky from (15901.0,0.0) to Charging Station
+RobotPathPlanning: Trajectory sent (3 points)
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+ [DT] Item PICKED_UP -> Input Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+ [Input Location] Item Picked Up: Fruit0
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+ [DT] Item DELIVERED -> Fresh Output Location
+[DT-Logic] State: BACK_TO_STATION -> Target: Fresh Output Location
+ [Fresh Output Location] Item Delivered: Fruit0
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Input Location
+Input Location: Assigned Item Fruit1 to T_TinkyWinky_DT@192.168.0.157:1099/JADE
+T_TinkyWinky_DT: Assigned Item Fruit1 from Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+ [DT] Item PICKED_UP -> Input Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+ [Input Location] Item Picked Up: Fruit1
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+ [DT] Item DELIVERED -> Fresh Output Location
+[DT-Logic] State: BACK_TO_STATION -> Target: Fresh Output Location
+ [Fresh Output Location] Item Delivered: Fruit1
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Input Location
+Input Location: Assigned Item Fruit9 to T_TinkyWinky_DT@192.168.0.157:1099/JADE
+T_TinkyWinky_DT: Assigned Item Fruit9 from Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+ [DT] Item PICKED_UP -> Input Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+ [Input Location] Item Picked Up: Fruit9
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+ [DT] Item DELIVERED -> Fresh Output Location
+ [Fresh Output Location] Item Delivered: Fruit9
+[DT-Logic] State: BACK_TO_STATION -> Target: Fresh Output Location
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Input Location
+Input Location: Assigned Item Fruit2 to T_TinkyWinky_DT@192.168.0.157:1099/JADE
+T_TinkyWinky_DT: Assigned Item Fruit2 from Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+ [DT] Item PICKED_UP -> Input Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+ [Input Location] Item Picked Up: Fruit2
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+ [DT] Item DELIVERED -> Fresh Output Location
+[DT-Logic] State: BACK_TO_STATION -> Target: Fresh Output Location
+ [Fresh Output Location] Item Delivered: Fruit2
+T_TinkyWinky_DT: Requesting item from Input Location
+Input Location: Assigned Item Fruit3 to T_TinkyWinky_DT@192.168.0.157:1099/JADE
+T_TinkyWinky_DT: Assigned Item Fruit3 from Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+ [DT] Item PICKED_UP -> Input Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+ [Input Location] Item Picked Up: Fruit3
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+ [DT] Item DELIVERED -> Fresh Output Location
+[DT-Logic] State: BACK_TO_STATION -> Target: Fresh Output Location
+ [Fresh Output Location] Item Delivered: Fruit3
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Input Location
+Input Location: Assigned Item Fruit4 to T_TinkyWinky_DT@192.168.0.157:1099/JADE
+T_TinkyWinky_DT: Assigned Item Fruit4 from Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+ [DT] Item PICKED_UP -> Input Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+ [Input Location] Item Picked Up: Fruit4
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+ [DT] Item DELIVERED -> Fresh Output Location
+[DT-Logic] State: BACK_TO_STATION -> Target: Fresh Output Location
+ [Fresh Output Location] Item Delivered: Fruit4
+T_TinkyWinky_DT: Requesting item from Input Location
+Input Location: Assigned Item Fruit5 to T_TinkyWinky_DT@192.168.0.157:1099/JADE
+T_TinkyWinky_DT: Assigned Item Fruit5 from Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+ [DT] Item PICKED_UP -> Input Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+ [Input Location] Item Picked Up: Fruit5
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+ [DT] Item DELIVERED -> Fresh Output Location
+[DT-Logic] State: BACK_TO_STATION -> Target: Fresh Output Location
+ [Fresh Output Location] Item Delivered: Fruit5
+T_TinkyWinky_DT: Requesting item from Input Location
+Input Location: Assigned Item Fruit7 to T_TinkyWinky_DT@192.168.0.157:1099/JADE
+T_TinkyWinky_DT: Assigned Item Fruit7 from Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+ [DT] Item PICKED_UP -> Input Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+ [Input Location] Item Picked Up: Fruit7
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+ [DT] Item DELIVERED -> Fresh Output Location
+[DT-Logic] State: BACK_TO_STATION -> Target: Fresh Output Location
+ [Fresh Output Location] Item Delivered: Fruit7
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Input Location
+Input Location: Assigned Item Fruit8 to T_TinkyWinky_DT@192.168.0.157:1099/JADE
+T_TinkyWinky_DT: Assigned Item Fruit8 from Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+ [DT] Item PICKED_UP -> Input Location
+[DT-Logic] State: DELIVERING -> Target: Rotten Output Location
+ [Input Location] Item Picked Up: Fruit8
+[DT-Logic] State: DELIVERING -> Target: Rotten Output Location
+[DT-Logic] State: DELIVERING -> Target: Rotten Output Location
+ [DT] Item DELIVERED -> Rotten Output Location
+[DT-Logic] State: BACK_TO_STATION -> Target: Rotten Output Location
+ [Rotten Output Location] Item Delivered: Fruit8
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Input Location
+Input Location: Assigned Item Fruit6 to T_TinkyWinky_DT@192.168.0.157:1099/JADE
+T_TinkyWinky_DT: Assigned Item Fruit6 from Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+ [DT] Item PICKED_UP -> Input Location
+[DT-Logic] State: DELIVERING -> Target: Rotten Output Location
+ [Input Location] Item Picked Up: Fruit6
+[DT-Logic] State: DELIVERING -> Target: Rotten Output Location
+[DT-Logic] State: DELIVERING -> Target: Rotten Output Location
+[DT-Logic] State: DELIVERING -> Target: Rotten Output Location
+[DT-Logic] State: DELIVERING -> Target: Rotten Output Location
+ [DT] Item DELIVERED -> Rotten Output Location
+[DT-Logic] State: BACK_TO_STATION -> Target: Rotten Output Location
+ [Rotten Output Location] Item Delivered: Fruit6
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Input Location
+Input Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Input Location
+Input Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Input Location
+Input Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Input Location
+Input Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Input Location
+Input Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Input Location
+Input Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Input Location
+Input Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Input Location
+Input Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Input Location
+Input Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Input Location
+Input Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Input Location
+Input Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Input Location
+Input Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Input Location
+Input Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Input Location
+Input Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Input Location
+Input Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Input Location
+Input Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Input Location
+Input Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Input Location
+Input Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Input Location
+Input Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Input Location
+Input Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Input Location
+Input Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Input Location
+Input Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)

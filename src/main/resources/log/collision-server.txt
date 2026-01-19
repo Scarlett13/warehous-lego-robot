@@ -1,0 +1,531 @@
+T_TinkyWinky registered in Yellow Pages
+[TWIN MANAGER] Child joined: T_TinkyWinky -> started twin: T_TinkyWinky_DT
+ Creating OPC-UA variables for T_TinkyWinky
+✅ Registered robot: T_TinkyWinky
+ T_TinkyWinky ready (ns=2;s=T_TinkyWinky/*)
+[DT] registered topic=robot_state@TOPIC_ robot=T_TinkyWinky
+starting behaviour receiver for topic ( agent-identifier :name robot_state@TOPIC_ ) and robot T_TinkyWinky
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+RobotPathPlanning: Planning path for T_TinkyWinky from (15901.0,0.0) to Charging Station
+RobotPathPlanning: Trajectory sent (3 points)
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+Jan 14, 2026 3:31:06 AM jade.core.PlatformManagerImpl localAddNode
+INFO: Adding node <Container-2> to the platform
+Jan 14, 2026 3:31:06 AM jade.core.PlatformManagerImpl$1 nodeAdded
+INFO: --- Node <Container-2> ALIVE ---
+Jan 14, 2026 3:31:06 AM jade.imtp.leap.NodeSkel executeCommand
+WARNING: Error serving H-Command jade.core.management.AgentManagement/4: jade.core.NameClashException: Name-clash Agent rma@192.168.0.157:1099/JADE already present in the platform
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+[TWIN MANAGER] Child joined: PIDAgent -> started twin: PIDAgent_DT
+ PIDAgent registered in Yellow Pages
+ Creating OPC-UA variables for PIDAgent
+✅ Registered robot: PIDAgent
+ PIDAgent ready (ns=2;s=PIDAgent/*)
+[VRL-DT] Target changed: null -> Standby Point
+[VRL-DT] No robot sender identified yet. Using fallback.
+[VRL-DT] Target changed: null -> Standby Point
+[VRL-DT] No robot sender identified yet. Using fallback.
+Input Location: Assigned Item Fruit4 to PIDAgent_DT@192.168.0.157:1099/JADE
+PIDAgent_DT [VRL]: Assigned Item Fruit4
+[VRL-DT] Target changed: null -> Input Location
+[VRL-DT] No robot sender identified yet. Using fallback.
+[VRL-DT] Target changed: null -> Input Location
+[VRL-DT] No robot sender identified yet. Using fallback.
+[VRL-DT] Target changed: null -> Input Location
+[VRL-DT] No robot sender identified yet. Using fallback.
+[VRL-DT] Target changed: null -> Input Location
+[VRL-DT] No robot sender identified yet. Using fallback.
+[VRL-DT] Target changed: null -> Input Location
+[VRL-DT] No robot sender identified yet. Using fallback.
+[VRL-DT] Received: {"Header":"LOCATION","Location":[7130,13182]}
+[VRL-DT] Target changed: null -> Input Location
+[VRL-DT] Sent Path to Input Location: [[9130,13182],[9130,15182]]
+T_TinkyWinky_DT: Requesting item from Input Location
+Input Location: Assigned Item Fruit8 to T_TinkyWinky_DT@192.168.0.157:1099/JADE
+T_TinkyWinky_DT: Assigned Item Fruit8 from Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[7271,13323]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[7412,13464]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[7553,13605]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[7694,13746]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[7835,13887]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[7976,14028]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[8117,14169]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[8258,14310]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[8399,14451]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[8540,14592]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[8681,14733]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[8822,14874]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[8963,15015]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9104,15156]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9130,15182]}
+[VRL-DT] Received: {"Header":"ARRIVED"}
+[VRL-DT] Target changed: Input Location -> Fresh Output Location
+[VRL-DT] Sent Path to Fresh Output Location: [[11940,15182],[11940,15440]]
+ [Input Location] Item Picked Up: Fruit4
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9329,15200]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9528,15218]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9727,15236]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9926,15254]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[10125,15272]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[10324,15290]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[10523,15308]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[10722,15326]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[10921,15344]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11120,15362]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11319,15380]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11518,15399]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11717,15418]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11916,15437]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11940,15440]}
+[VRL-DT] Received: {"Header":"ARRIVED"}
+[VRL-DT] Target changed: Fresh Output Location -> Standby Point
+[VRL-DT] Sent Path to Standby Point: [[1000,15440],[1000,1000]]
+ [Fresh Output Location] Item Delivered: Fruit4
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11819,15280]}
+Input Location: Assigned Item Fruit3 to PIDAgent_DT@192.168.0.157:1099/JADE
+PIDAgent_DT [VRL]: Assigned Item Fruit3
+[VRL-DT] Target changed: Standby Point -> Input Location
+[VRL-DT] Sent Path to Input Location: [[9130,15280],[9130,15182]]
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11619,15272]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11419,15264]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11219,15256]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11019,15248]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[10819,15241]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[10619,15234]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[10419,15227]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[10219,15220]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[10019,15213]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9819,15206]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9619,15199]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9419,15192]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9219,15185]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9130,15182]}
+[VRL-DT] Received: {"Header":"ARRIVED"}
+[VRL-DT] Target changed: Input Location -> Fresh Output Location
+ [Input Location] Item Picked Up: Fruit3
+[VRL-DT] Sent Path to Fresh Output Location: [[11940,15182],[11940,15440]]
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9329,15200]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9528,15218]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9727,15236]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9926,15254]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[10125,15272]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[10324,15290]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[10523,15308]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[10722,15326]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[10921,15344]}
+ [Input Location] Item Picked Up: Fruit8
+ [DT] Item PICKED_UP -> Input Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11120,15362]}
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11319,15380]}
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11518,15399]}
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11717,15418]}
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11916,15437]}
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11940,15440]}
+[VRL-DT] Received: {"Header":"ARRIVED"}
+[VRL-DT] Target changed: Fresh Output Location -> Standby Point
+ [Fresh Output Location] Item Delivered: Fruit3
+[VRL-DT] Sent Path to Standby Point: [[1000,15440],[1000,1000]]
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11819,15280]}
+Rotten Output Location: Refused request from PIDAgent_DT@192.168.0.157:1099/JADE (No items)
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11698,15120]}
+Fresh Output Location: Refused request from PIDAgent_DT@192.168.0.157:1099/JADE (No items)
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11577,14960]}
+Fresh Output Location: Refused request from PIDAgent_DT@192.168.0.157:1099/JADE (No items)
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11456,14800]}
+Input Location: Assigned Item Fruit1 to PIDAgent_DT@192.168.0.157:1099/JADE
+PIDAgent_DT [VRL]: Assigned Item Fruit1
+[VRL-DT] Target changed: Standby Point -> Input Location
+[VRL-DT] Sent Path to Input Location: [[9130,14800],[9130,15182]]
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11258,14832]}
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11060,14864]}
+ [DT] Item DELIVERED -> Fresh Output Location
+[DT-Logic] State: BACK_TO_STATION -> Target: Fresh Output Location
+ [Fresh Output Location] Item Delivered: Fruit8
+[VRL-DT] Received: {"Header":"LOCATION","Location":[10862,14896]}
+[VRL-DT] Received: {"Header":"LOCATION","Location":[10664,14928]}
+T_TinkyWinky_DT: Requesting item from Input Location
+Input Location: Assigned Item Fruit6 to T_TinkyWinky_DT@192.168.0.157:1099/JADE
+T_TinkyWinky_DT: Assigned Item Fruit6 from Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[10466,14960]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[10268,14992]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[10070,15024]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9872,15057]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9674,15090]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9476,15123]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9278,15156]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9130,15182]}
+[VRL-DT] Received: {"Header":"ARRIVED"}
+[VRL-DT] Target changed: Input Location -> Fresh Output Location
+ [Input Location] Item Picked Up: Fruit1
+[VRL-DT] Sent Path to Fresh Output Location: [[11940,15182],[11940,15440]]
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9329,15200]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9528,15218]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+TrafficManager: T_TinkyWinky blocked by PIDAgent
+🛑 [COLLISION AVOIDANCE] T_TinkyWinky halted due to traffic.
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9727,15236]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+TrafficManager: T_TinkyWinky blocked by PIDAgent
+🛑 [COLLISION AVOIDANCE] T_TinkyWinky halted due to traffic.
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9926,15254]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+TrafficManager: T_TinkyWinky blocked by PIDAgent
+🛑 [COLLISION AVOIDANCE] T_TinkyWinky halted due to traffic.
+[VRL-DT] Received: {"Header":"LOCATION","Location":[10125,15272]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[10324,15290]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[10523,15308]}
+ [DT] Item PICKED_UP -> Input Location
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+ [Input Location] Item Picked Up: Fruit6
+[VRL-DT] Received: {"Header":"LOCATION","Location":[10722,15326]}
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[10921,15344]}
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11120,15362]}
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11319,15380]}
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11518,15399]}
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11717,15418]}
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11916,15437]}
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11940,15440]}
+[VRL-DT] Received: {"Header":"ARRIVED"}
+[VRL-DT] Target changed: Fresh Output Location -> Standby Point
+ [Fresh Output Location] Item Delivered: Fruit1
+[VRL-DT] Sent Path to Standby Point: [[1000,15440],[1000,1000]]
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11819,15280]}
+Fresh Output Location: Refused request from PIDAgent_DT@192.168.0.157:1099/JADE (No items)
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11698,15120]}
+Fresh Output Location: Refused request from PIDAgent_DT@192.168.0.157:1099/JADE (No items)
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+TrafficManager: T_TinkyWinky blocked by PIDAgent
+🛑 [COLLISION AVOIDANCE] T_TinkyWinky halted due to traffic.
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11577,14960]}
+Rotten Output Location: Refused request from PIDAgent_DT@192.168.0.157:1099/JADE (No items)
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+TrafficManager: T_TinkyWinky blocked by PIDAgent
+🛑 [COLLISION AVOIDANCE] T_TinkyWinky halted due to traffic.
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11456,14800]}
+Rotten Output Location: Refused request from PIDAgent_DT@192.168.0.157:1099/JADE (No items)
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+TrafficManager: T_TinkyWinky blocked by PIDAgent
+🛑 [COLLISION AVOIDANCE] T_TinkyWinky halted due to traffic.
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11335,14640]}
+Rotten Output Location: Refused request from PIDAgent_DT@192.168.0.157:1099/JADE (No items)
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11214,14480]}
+Fresh Output Location: Refused request from PIDAgent_DT@192.168.0.157:1099/JADE (No items)
+[DT-Logic] State: DELIVERING -> Target: Fresh Output Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11093,14320]}
+Rotten Output Location: Refused request from PIDAgent_DT@192.168.0.157:1099/JADE (No items)
+ [DT] Item DELIVERED -> Fresh Output Location
+[DT-Logic] State: BACK_TO_STATION -> Target: Fresh Output Location
+ [Fresh Output Location] Item Delivered: Fruit6
+[VRL-DT] Received: {"Header":"LOCATION","Location":[10972,14160]}
+Input Location: Assigned Item Fruit9 to PIDAgent_DT@192.168.0.157:1099/JADE
+PIDAgent_DT [VRL]: Assigned Item Fruit9
+[VRL-DT] Target changed: Standby Point -> Input Location
+[VRL-DT] Sent Path to Input Location: [[9130,14160],[9130,15182]]
+[VRL-DT] Received: {"Header":"LOCATION","Location":[10797,14257]}
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+[VRL-DT] Received: {"Header":"LOCATION","Location":[10622,14354]}
+[VRL-DT] Received: {"Header":"LOCATION","Location":[10447,14451]}
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+[VRL-DT] Received: {"Header":"LOCATION","Location":[10272,14548]}
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+[VRL-DT] Received: {"Header":"LOCATION","Location":[10097,14645]}
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9922,14742]}
+T_TinkyWinky_DT: Requesting item from Input Location
+Input Location: Assigned Item Fruit2 to T_TinkyWinky_DT@192.168.0.157:1099/JADE
+T_TinkyWinky_DT: Assigned Item Fruit2 from Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9747,14839]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9572,14936]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9397,15033]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9222,15130]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9130,15182]}
+[VRL-DT] Received: {"Header":"ARRIVED"}
+[VRL-DT] Target changed: Input Location -> Fresh Output Location
+ [Input Location] Item Picked Up: Fruit9
+[VRL-DT] Sent Path to Fresh Output Location: [[11940,15182],[11940,15440]]
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9329,15200]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9528,15218]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9727,15236]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9926,15254]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+TrafficManager: T_TinkyWinky blocked by PIDAgent
+🛑 [COLLISION AVOIDANCE] T_TinkyWinky halted due to traffic.
+[VRL-DT] Received: {"Header":"LOCATION","Location":[10125,15272]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[10324,15290]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[10523,15308]}
+ [DT] Item PICKED_UP -> Input Location
+[DT-Logic] State: DELIVERING -> Target: Rotten Output Location
+ [Input Location] Item Picked Up: Fruit2
+[VRL-DT] Received: {"Header":"LOCATION","Location":[10722,15326]}
+[DT-Logic] State: DELIVERING -> Target: Rotten Output Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[10921,15344]}
+[DT-Logic] State: DELIVERING -> Target: Rotten Output Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11120,15362]}
+ [DT] Item DELIVERED -> Rotten Output Location
+ [Rotten Output Location] Item Delivered: Fruit2
+[DT-Logic] State: BACK_TO_STATION -> Target: Rotten Output Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11319,15380]}
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11518,15399]}
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11717,15418]}
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11916,15437]}
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11940,15440]}
+[VRL-DT] Received: {"Header":"ARRIVED"}
+[VRL-DT] Target changed: Fresh Output Location -> Standby Point
+ [Fresh Output Location] Item Delivered: Fruit9
+[VRL-DT] Sent Path to Standby Point: [[1000,15440],[1000,1000]]
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11819,15280]}
+Rotten Output Location: Refused request from PIDAgent_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11698,15120]}
+Fresh Output Location: Refused request from PIDAgent_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11577,14960]}
+Input Location: Assigned Item Fruit7 to PIDAgent_DT@192.168.0.157:1099/JADE
+PIDAgent_DT [VRL]: Assigned Item Fruit7
+[VRL-DT] Target changed: Standby Point -> Input Location
+[VRL-DT] Sent Path to Input Location: [[9130,14960],[9130,15182]]
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11377,14978]}
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+[VRL-DT] Received: {"Header":"LOCATION","Location":[11177,14996]}
+T_TinkyWinky_DT: Requesting item from Input Location
+Input Location: Assigned Item Fruit0 to T_TinkyWinky_DT@192.168.0.157:1099/JADE
+T_TinkyWinky_DT: Assigned Item Fruit0 from Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[10977,15014]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[10777,15032]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[10577,15050]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[10377,15068]}
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[10177,15086]}
+ [DT] Item PICKED_UP -> Input Location
+[DT-Logic] State: DELIVERING -> Target: Rotten Output Location
+ [Input Location] Item Picked Up: Fruit0
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9977,15104]}
+[DT-Logic] State: DELIVERING -> Target: Rotten Output Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9777,15122]}
+[DT-Logic] State: DELIVERING -> Target: Rotten Output Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9577,15140]}
+[DT-Logic] State: DELIVERING -> Target: Rotten Output Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9377,15158]}
+ [DT] Item DELIVERED -> Rotten Output Location
+[DT-Logic] State: BACK_TO_STATION -> Target: Rotten Output Location
+ [Rotten Output Location] Item Delivered: Fruit0
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9177,15177]}
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9130,15182]}
+[VRL-DT] Received: {"Header":"ARRIVED"}
+[VRL-DT] Target changed: Input Location -> Rotten Output Location
+ [Input Location] Item Picked Up: Fruit7
+[VRL-DT] Sent Path to Rotten Output Location: [[9159,15182],[9159,14590]]
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9139,14982]}
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9149,14782]}
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9159,14590]}
+[VRL-DT] Received: {"Header":"ARRIVED"}
+[VRL-DT] Target changed: Rotten Output Location -> Standby Point
+ [Rotten Output Location] Item Delivered: Fruit7
+[VRL-DT] Sent Path to Standby Point: [[1000,14590],[1000,1000]]
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+[VRL-DT] Received: {"Header":"LOCATION","Location":[9056,14418]}
+Rotten Output Location: Refused request from PIDAgent_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Input Location
+Input Location: Assigned Item Fruit5 to T_TinkyWinky_DT@192.168.0.157:1099/JADE
+T_TinkyWinky_DT: Assigned Item Fruit5 from Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[8953,14246]}
+Rotten Output Location: Refused request from PIDAgent_DT@192.168.0.157:1099/JADE (No items)
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[8850,14074]}
+Fresh Output Location: Refused request from PIDAgent_DT@192.168.0.157:1099/JADE (No items)
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[8747,13902]}
+Rotten Output Location: Refused request from PIDAgent_DT@192.168.0.157:1099/JADE (No items)
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[8644,13730]}
+Fresh Output Location: Refused request from PIDAgent_DT@192.168.0.157:1099/JADE (No items)
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[8541,13558]}
+Rotten Output Location: Refused request from PIDAgent_DT@192.168.0.157:1099/JADE (No items)
+[DT-Logic] State: PICKINGUP -> Target: Input Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[8438,13386]}
+Rotten Output Location: Refused request from PIDAgent_DT@192.168.0.157:1099/JADE (No items)
+ [DT] Item PICKED_UP -> Input Location
+[DT-Logic] State: DELIVERING -> Target: Rotten Output Location
+ [Input Location] Item Picked Up: Fruit5
+[VRL-DT] Received: {"Header":"LOCATION","Location":[8335,13214]}
+Rotten Output Location: Refused request from PIDAgent_DT@192.168.0.157:1099/JADE (No items)
+[DT-Logic] State: DELIVERING -> Target: Rotten Output Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[8232,13042]}
+Rotten Output Location: Refused request from PIDAgent_DT@192.168.0.157:1099/JADE (No items)
+[DT-Logic] State: DELIVERING -> Target: Rotten Output Location
+[VRL-DT] Received: {"Header":"LOCATION","Location":[8129,12870]}
+Fresh Output Location: Refused request from PIDAgent_DT@192.168.0.157:1099/JADE (No items)
+ [DT] Item DELIVERED -> Rotten Output Location
+[DT-Logic] State: BACK_TO_STATION -> Target: Rotten Output Location
+ [Rotten Output Location] Item Delivered: Fruit5
+[VRL-DT] Received: {"Header":"LOCATION","Location":[8026,12698]}
+Rotten Output Location: Refused request from PIDAgent_DT@192.168.0.157:1099/JADE (No items)
+[VRL-DT] Received: {"Header":"LOCATION","Location":[7923,12526]}
+Fresh Output Location: Refused request from PIDAgent_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+[VRL-DT] Received: {"Header":"LOCATION","Location":[7820,12354]}
+Fresh Output Location: Refused request from PIDAgent_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+[VRL-DT] Received: {"Header":"LOCATION","Location":[7717,12182]}
+Fresh Output Location: Refused request from PIDAgent_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Input Location
+Input Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+[VRL-DT] Received: {"Header":"LOCATION","Location":[7614,12010]}
+Rotten Output Location: Refused request from PIDAgent_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+[VRL-DT] Received: {"Header":"LOCATION","Location":[7511,11838]}
+Fresh Output Location: Refused request from PIDAgent_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+[VRL-DT] Received: {"Header":"LOCATION","Location":[7408,11666]}
+Input Location: Refused request from PIDAgent_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+[VRL-DT] Received: {"Header":"LOCATION","Location":[7305,11494]}
+Input Location: Refused request from PIDAgent_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Input Location
+Input Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+[VRL-DT] Received: {"Header":"LOCATION","Location":[7201,11322]}
+Input Location: Refused request from PIDAgent_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Fresh Output Location
+Fresh Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+[VRL-DT] Received: {"Header":"LOCATION","Location":[7098,11150]}
+Rotten Output Location: Refused request from PIDAgent_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Rotten Output Location
+Rotten Output Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+[VRL-DT] Received: {"Header":"LOCATION","Location":[6995,10978]}
+Rotten Output Location: Refused request from PIDAgent_DT@192.168.0.157:1099/JADE (No items)
+T_TinkyWinky_DT: Requesting item from Input Location
+Input Location: Refused request from T_TinkyWinky_DT@192.168.0.157:1099/JADE (No items)
+[VRL-DT] Received: {"Header":"LOCATION","Location":[6891,10806]}
+Fresh Output Location: Refused request from PIDAgent_DT@192.168.0.157:1099/JADE (No items)
